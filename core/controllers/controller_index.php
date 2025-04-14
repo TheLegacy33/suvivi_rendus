@@ -7,16 +7,11 @@
 	 *
 	 * Gestion des données de la page d'accueil
 	 */
-	// Pour le cache control
-	header("Cache-Control: no-cache, must-revalidate");
 	require_once 'core/views/template/header.phtml';
+
 	switch ($page){
-		case 'main':
+		case 'index':
 			{
-				debug('Accueil');
-				$includedJSScripts = [
-					HTML_PUBLIC_SCRIPTS_DIR . 'connexion-inscription.js'
-				];
 				require_once 'core/views/view_index.phtml';
 				break;
 			}

@@ -1,12 +1,12 @@
 <?php
-
-/**
- * @var User       $userLogged
- * @var string     $page
- * @var string     $section
- */
+	/**
+	 * @var User   $userLogged
+	 * @var string $page
+	 * @var string $section
+	 */
 	require_once 'core/views/template/page_head.phtml';
 ?>
-<header id="page-top">
-
+<header id="header">
+	<div><a href="<?= getUrl('main', 'index', 'view') ?>"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>logo.png" alt="logo"></a></div>
+	<div><p id="titre">Student APP</p></div>
 </header>

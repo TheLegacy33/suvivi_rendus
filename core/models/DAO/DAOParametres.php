@@ -1,5 +1,4 @@
 <?php
-
 	abstract class DAOParametres extends BDD{
 		public static function getByLibelle(string $libelle): ?Parametre{
 			$conn = parent::getConnexion();

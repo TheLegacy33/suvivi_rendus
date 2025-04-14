@@ -4,6 +4,7 @@
 	 * @var string $action
 	 * @var bool   $enableActions
 	 */
+
 	switch ($action){
 		case 'login':
 			{

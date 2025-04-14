@@ -1,5 +1,4 @@
 <?php
-
 	abstract class DAODocument extends BDD{
 		public static function getById(int $id): Document{
 			$conn = parent::getConnexion();

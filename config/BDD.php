@@ -1,9 +1,4 @@
 <?php
-
-	/**
-	 * @var array $config
-	 *
-	 */
 	abstract class BDD{
 		private static string $dsnserveur = 'mysql:host=%MYSQL_HOST%;port=%MYSQL_PORT%;charset=utf8;dbname=%MYSQL_BDD%';
 		private static string $user = '';
@@ -14,9 +9,7 @@
 		}
 
 		protected static function getConnexion(): PDO{
-			/*
-			 * Ouverture de la connexion à la base de données
-			 */ global $config;
+			global $config;
 			self::$dsnserveur = str_replace('%MYSQL_HOST%', $config['DB_HOST'], self::$dsnserveur);
 			self::$dsnserveur = str_replace('%MYSQL_PORT%', $config['DB_PORT'], self::$dsnserveur);
 			self::$dsnserveur = str_replace('%MYSQL_BDD%', $config['DB_NAME'], self::$dsnserveur);

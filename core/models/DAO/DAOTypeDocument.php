@@ -1,5 +1,4 @@
 <?php
-
 	abstract class DAOTypeDocument extends BDD{
 		public static function getByLibelle(string $libelle): TypeDocument{
 			$conn = parent::getConnexion();

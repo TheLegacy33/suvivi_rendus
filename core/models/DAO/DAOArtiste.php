@@ -1,5 +1,4 @@
 <?php
-
 	abstract class DAOArtiste extends BDD{
 		protected static function parseRecord(mixed $SQLRow): Artiste{
 			$unArtiste = new Artiste(html_entity_decode($SQLRow['pseudo'] ?? ''));

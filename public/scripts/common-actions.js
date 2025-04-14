@@ -8,7 +8,6 @@ window.alert = function (message, title = "Informations", btns = buttons.ok, vie
 	if (btns !== buttons.none) {
 		myMsgBox.setButtons(btns, callbackValid);
 	}
-
 	if (viewLoadingImag) {
 		myMsgBox.addLoadingImg();
 	}

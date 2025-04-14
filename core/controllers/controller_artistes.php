@@ -8,8 +8,6 @@
  *
  * Gestion des données
  */
-// Pour le cache control
-header("Cache-Control: no-cache, must-revalidate");
 // Inclusion de CSS additionnel
 $includedCssScripts = [['href' => HTML_PUBLIC_STYLES_DIR . 'fontawesome/css/fontawesome.min.css'], ['href' => HTML_PUBLIC_STYLES_DIR . 'fontawesome/css/solid.min.css'], ['href' => HTML_PUBLIC_LIBS_DIR . 'ps/perfect-scrollbar.css'], ['href' => 'https://cdn.jsdelivr.net/npm/intl-tel-input@' . INTL_TEL_INPUT_VERSION . '/build/css/intlTelInput.css']];
 $idViewer = null;

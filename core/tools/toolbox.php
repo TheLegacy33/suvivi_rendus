@@ -90,7 +90,7 @@
 	 * @param string|null $ipClient
 	 * @return bool
 	 */
-	function isValidCaptcha(string $code, string $ipClient = null): bool{
+	function isValidCaptcha(string $code, ?string $ipClient): bool{
 		if (empty($code)){
 			return false;
 		}
@@ -110,7 +110,7 @@
 			// Si curl n'est pas dispo, un bon vieux file_get_contents
 			$response = file_get_contents($url);
 		}
-		if (empty($response) || is_null($response)){
+		if (empty($response)){
 			return false;
 		}
 		$json = json_decode($response);
@@ -139,91 +139,6 @@
 			}
 		}
 		return $retVal;
-	}
-
-	/**
-	 * Utilisée pour filtrer les oeuvres récentes fonction array_filter
-	 * @param Oeuvre $uneOeuvre
-	 * @param int    $limit
-	 * @return bool
-	 */
-	function estRecente(Oeuvre $uneOeuvre, int $limit = 0): bool{
-		if ($limit == 0)
-			$limit = intval(DAOParametres::getByLibelle('limit-new-oeuvre-maxi')->getValeur());
-		$interval = $uneOeuvre->getDateUpload()->diff(new DateTime('now'))->days;
-		return ($interval<=$limit);
-	}
-
-	/**
-	 * Savoir si un pays est en europe
-	 */
-	function estEnEurope(string $codePays): bool{
-		return DAOPays::isInUE($codePays);
-	}
-
-	/**
-	 * Fonction permettant de récupérer la liste de tous les membre de l'union européenne
-	 * @return array
-	 */
-	function getAllEuropeMembers(): array{
-		return DAOPays::getAllInUE();
-	}
-
-	/**
-	 * Fonction permettant d'envoyer un message par mail
-	 * @param Message $message
-	 * @return bool
-	 */
-	function sendMessageToMailBoxes(Message $message): bool{
-		$mailer = new Mailer();
-		try{
-			if ($mailer->isDefined()){
-				$content = [
-					'connexion_link' => getUrl('utilisateur', 'connexion-inscription'),
-					'objet' => $message->getObjetMessage()->getLibelle(),
-					'contenu' => $message->getContenu()
-				];
-				$mailer->setFrom(DAOParametres::getByLibelle('senderemail-noreply')->getValeur(), $mailer->getSenderApp());
-				$mailer->addAddress(DAOParametres::getByLibelle('destemail-contact')->getValeur(), $mailer->getSenderApp());
-				/**
-				 * @var User $destinataire
-				 */
-				foreach ($message->getDestinataires() as $destinataire){
-//					$mailer->addAddress($destinataire->getEmail(), $destinataire->getFullName());
-					$mailer->addBCC($destinataire->getEmail(), $destinataire->getFullName());
-				}
-				//Content
-				$mailer->isHTML(); // Défini le mail au format HTML
-				$mailer->Subject = $mailer->getSenderApp() . ": Vous avez reçu un message";
-				$mailer->setVariables([
-					'url_image_logo' => 'cid:art_interactivities_logo',
-					'senderapp' => $mailer->getSenderApp(),
-					'connexion_link' => $content['connexion_link'],
-					'sender_object' => $content['objet'],
-					'sender_message' => html_entity_decode($content['contenu']),
-					'sender_name' => DAOUser::getById($message->getIdExpediteur())->getFullName(),
-					'sender_email' => DAOUser::getById($message->getIdExpediteur())->getEmail(),
-					'annee' => date('Y'),
-					'nom_entreprise' => $mailer->getSenderApp()
-				]);
-				$mailer->addEmbeddedImage(PHP_PUBLIC_IMAGES_DIR.'logo.png', 'art_interactivities_logo');
-
-				$mailer->setTemplateHtml('core/views/template/mails/mail_messagerie.phtml');
-				$mailer->Body = $mailer->compileHTML();
-				$mailer->setTemplateText('core/views/template/mails/mail_messagerie.txt');
-				$mailer->AltBody = $mailer->compileText();
-				if ($mailer->send()){
-					return true;
-				}else{
-					return false;
-				}
-			}else{
-				return false;
-			}
-		}catch (Exception $e){
-			debug($e);
-			return false;
-		}
 	}
 
 	/**
@@ -259,7 +174,7 @@
 			}else{
 				$ver = '1';
 			}
-			print('<link rel="stylesheet" href="' . $includedCssScript['href'] . '?ver=' . $ver . '" integrity="' . ($includedCssScript['integrity'] ?? $ver) . '" crossorigin="' . ($includedCssScript['crossorigin'] ?? '') . '" />' . "\r");
+			print('<link rel="stylesheet" href="' . $includedCssScript['href'] . '?ver=' . $ver . '" integrity="' . ($includedCssScript['integrity'] ?? '') . '" crossorigin="' . ($includedCssScript['crossorigin'] ?? '') . '" />' . "\r");
 		}
 	}
 

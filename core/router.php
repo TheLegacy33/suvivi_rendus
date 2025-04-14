@@ -11,9 +11,13 @@
 	 *              _page = page active dans la section correspondante  correspondantes (défaut : main : page d'accueil de la section)
 	 *              _action = action à appliquer (défaut : view : visualisation simple)
 	 */
-	require_once "core/globals.php";
 	require_once 'config/config.php';
+	require_once "core/globals.php";
 	require_once 'core/tools/toolbox.php';
+
+	$section = $_GET['section'] ?? 'main';
+	$page = $_GET['page'] ?? 'index';
+	$action = $_GET['action'] ?? 'view';
 
 	//	ini_set('memory_limit', '4096M');
 	$arr_cookie_options = array('lifetime' => 0, 'path' => '/', 'domain' => '', // leading dot for compatibility or use subdomain
@@ -25,7 +29,7 @@
 	session_set_cookie_params($arr_cookie_options);
 	session_start();
 	Session::initialise(APP_NAME);
-	debug(Session::getActiveSession());
+
 	$userLogged = new User('User', 'Utilisateur');
 	$userLogged->setAuthentified(false);
 	$artisteLogged = null;
@@ -33,26 +37,24 @@
 		$userLogged = DAOUser::getById(Session::getActiveSession()->getUserId());
 		$userLogged->setAuthentified(true);
 	}
-	/**
-	 * Définition des section actives de l'application
-	 */
+
 	CoreApplication::initialise();
 	//	Session::destroy();
-	//	var_dump(password_hash('Artinteractivities1!', PASSWORD_BCRYPT)); // mot de passe luc
 	//	var_dump(password_hash('sat@niKm33', PASSWORD_BCRYPT)); // mot de passe michel
-	//	var_dump(password_hash('Astrid33@aiCom', PASSWORD_BCRYPT)); // mot de passe astrid
-	//	var_dump(password_hash('Theo33@aiCom', PASSWORD_BCRYPT)); // mot de passe theo
-	//	var_dump(password_hash('Beatrice33@aiCom', PASSWORD_BCRYPT)); // mot de passe beatrice
 	// $secret_key = bin2hex(random_bytes(32));
 	// echo "Votre clé secrète est : " . $secret_key;
-	$section = $_GET['section'] ?? 'index';
-	$page = $_GET['page'] ?? 'main';
-	$action = $_GET['action'] ?? 'view';
+
 	/**
 	 * Vérification des droits d'accès
 	 */
-	$pagesNeedAuth = ['index' => [], 'utilisateur' => ['mon-compte', 'mes-coups-de-coeur', 'mes-artistes', 'mes-commandes', 'detail-commande', 'facture', 'detail-livraison-commande', 'probleme-commande', 'evaluer-vendeur', 'commenter-oeuvre', 'retour-oeuvre', 'perso-newsletters', 'perso-notifications', 'messagerie',], 'auth' => [], 'admin' => ['*'], 'api' => []];
-	function authNeeded(string $section, string $page, string $action): bool{
+	$pagesNeedAuth = [
+		'main' => [],
+		'utilisateur' => ['dashboard', 'files'],
+		'auth' => [],
+		'admin' => ['*'],
+		'api' => []
+	];
+	function authNeeded(string $section, string $page): bool{
 		global $pagesNeedAuth;
 		if (array_key_exists($section, $pagesNeedAuth)){
 			if (in_array($page, $pagesNeedAuth[$section]) || (isset($pagesNeedAuth[$section][0]) and $pagesNeedAuth[$section][0] == '*')){
@@ -67,7 +69,7 @@
 
 	function userAuthValid(string $section, string $page, string $action): bool{
 		global $userLogged;
-		if (authNeeded($section, $page, $action)){
+		if (authNeeded($section, $page)){
 			if ($userLogged->isAuthentified()){
 				if ($section == 'admin' && !$userLogged->isAdmin()){
 					return false;
@@ -82,37 +84,35 @@
 		}
 	}
 
-	function getUrl(string $section, string $page = 'main', string $action = 'view', array $otherParams = []): string{
+	function getUrl(string $section = 'main', string $page = 'index', string $action = 'view', array $otherParams = []): string{
 		$tabSections = [
 			'auth',
-			'index',
+			'main',
 			'utilisateur',
-			'connexion',
 			'admin',
-			'api',
-			'gestion'
+			'api'
 		];
 		$url = '/';
 		if (!($section == 'index' and $page == 'main' and $action == 'view')){
 			if (!in_array($section, $tabSections, true)){
-				//				$url .= '?section=index';
-				$url .= 'index';
+//				$url .= '?section=main&page=index&action=view';
+				$url .= 'main';
 			}else{
-				$url .= '?section=' . $section;
-				//				$url .= $section;
+//				$url .= '?section=' . $section;
+				$url .= $section;
 				if (trim($page) === ''){
-					$url .= '&page=main';
-					//					$url .= '/main';
+//					$url .= '&page=main';
+					$url .= '/main';
 				}else{
-					$url .= '&page=' . $page;
-					//					$url .= '/' . $page;
+//					$url .= '&page=' . $page;
+					$url .= '/' . $page;
 				}
 				if (trim($action) === ''){
-					$url .= '&action=view';
-					//					$url .= '/view';
+//					$url .= '&action=view';
+					$url .= '/view';
 				}else{
-					$url .= '&action=' . $action;
-					//					$url .= '/' . $action;
+//					$url .= '&action=' . $action;
+					$url .= '/' . $action;
 				}
 				if (is_array($otherParams) and !empty($otherParams)){
 					foreach ($otherParams as $paramName => $paramValue){
@@ -123,28 +123,25 @@
 		}
 		return $url;
 	}
-
 	if (!DEV_MODE){
 		//ini_set('display_errors', 'off');
 		error_reporting(E_ERROR & ~E_WARNING & ~E_NOTICE);
+
 		if (!userAuthValid($section, $page, $action)){
-			if ($section == 'panier'){
-				header('Location:' . getUrl('panier', 'identification'));
-			}else if ($section == 'admin' && !$userLogged->isAdmin()){
+			if ($section == 'admin' && !$userLogged->isAdmin()){
 				header('Location:' . getUrl('index'));
 			}else{
-				header('Location:' . getUrl('utilisateur', 'connexion-inscription'));
+				header('Location:' . getUrl('utilisateur', 'login'));
 			}
 		}
 	}else{
 		Session::refresh();
 	}
-
 	/**
 	 * Lien vers le controller qui concerne la destination demandée
 	 */
 	switch ($section){
-		case 'index':
+		case 'main':
 			{
 				require_once 'core/controllers/controller_index.php';
 				break;
@@ -157,11 +154,6 @@
 		case 'auth':
 			{
 				require_once 'core/controllers/controller_auth.php';
-				break;
-			}
-		case 'inscription':
-			{
-				require_once 'core/controllers/controller_inscription.php';
 				break;
 			}
 		case 'admin':

@@ -1,55 +1,61 @@
 #outils-ai {
-  margin-bottom: 5rem;
+	margin-bottom: 5rem;
 
-  .titre-section-outils {
-    margin-bottom: 2rem;
-  }
+	.titre-section-outils {
+		margin-bottom: 2rem;
+	}
 
-  #outils-bannieres,
-  #outils-macarons {
-    display: none;
-  }
+	#outils-bannieres,
+	#outils-macarons {
+		display: none;
+	}
 
-  .section-outils {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    &:not(:last-of-type) {
-      margin-bottom: 3rem;
-    }
-    .outils-logos {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      justify-content: flex-start;
-      gap: 2rem;
-      .outils-logo {
-        max-height: fit-content;
-        text-align: center;
-        .image-outils-logo {
-          height: 150px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          img {
-            max-height: 200px;
-            max-width: 300px;
-            width: 200px;
-          }
-        }
-      }
-    }
-    &.section-certificat {
-      .outils-logo {
-        .image-outils-logo {
-          img {
-            max-width: 100px;
-            width: 100px;
-            max-width: 100px;
-          }
-        }
-      }
-    }
-  }
+	.section-outils {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+
+		&:not(:last-of-type) {
+			margin-bottom: 3rem;
+		}
+
+		.outils-logos {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-start;
+			justify-content: flex-start;
+			gap: 2rem;
+
+			.outils-logo {
+				max-height: fit-content;
+				text-align: center;
+
+				.image-outils-logo {
+					height: 150px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+
+					img {
+						max-height: 200px;
+						max-width: 300px;
+						width: 200px;
+					}
+				}
+			}
+		}
+
+		&.section-certificat {
+			.outils-logo {
+				.image-outils-logo {
+					img {
+						max-width: 100px;
+						width: 100px;
+						max-width: 100px;
+					}
+				}
+			}
+		}
+	}
 }

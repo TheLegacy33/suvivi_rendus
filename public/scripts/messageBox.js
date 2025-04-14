@@ -5,7 +5,6 @@ const buttons = {
 	ouinon: 4,
 	none: 0
 }
-
 class MessageBox{
 	myMessage = null;
 	myTitle = null;

@@ -18,4 +18,5 @@ function logout() {
 }
 
 document.addEventListener('DOMContentLoaded', function (){
+
 })

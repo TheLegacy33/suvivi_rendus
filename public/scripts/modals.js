@@ -15,7 +15,6 @@ function openModal(idModal){
 		return modalElement;
 	}
 }
-
 document.addEventListener('DOMContentLoaded', function () {
 	// Pour la modal d'info au lancement de la page
 	const urlParams = new URLSearchParams(window.location.search);

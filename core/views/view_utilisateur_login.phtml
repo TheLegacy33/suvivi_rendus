@@ -1,0 +1,48 @@
+<!-- Menu Mondrian -->
+<?php
+/**
+
+ */
+?>
+<main class="container" id="login">
+	<form id="formAuth" action="<?= getUrl('auth', 'connexion', 'login') ?>" method="post">
+		<div>
+			<fieldset>
+				<legend>Identifiant</legend>
+				<div>
+					<label for="identifiant"></label>
+					<input type="text" id="identifiant" name="chIdentifiant">
+				</div>
+			</fieldset>
+		</div>
+		<div>
+			<fieldset>
+				<legend class="legend-mdp">Mot de passe
+					<button tabindex="-1" type="button" class="infobulleMdp">
+						<img class="icon-info" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/icon_info.png" alt="icon-info">
+					</button>
+				</legend>
+				<div class="mdp-form-connexion">
+					<label for="mdp"></label>
+					<input type="password" id="mdp" name="chPassword">
+					<a id="oeil-ouvert" class="oeil-ferme"><img class="icon--fixed-xsm" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/eye_close.png" alt="Oeil fermé"></a>
+					<a id="oeil-ferme" class="oeil-ouvert"><img class="icon--fixed-xsm" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/eye.png" alt="Oeil ouvert"></a>
+				</div>
+			</fieldset>
+		</div>
+		<div class="buttons">
+			<button type="submit" class="btn-black-on-white">Connexion</button>
+		</div>
+		<div class="actions">
+			<div class="check">
+				<input type="checkbox" id="keepConnection" name="chKeepConnection">
+				<label for="keepConnection">Se souvenir de moi</label>
+			</div>
+			<div>
+				<p>
+					<a class="a-underline" href="<?= getUrl('utilisateur', 'lost-password', 'ask-renew') ?>"> <span>Mot de passe oublié</span> ?</a>
+				</p>
+			</div>
+		</div>
+	</form>
+</main>

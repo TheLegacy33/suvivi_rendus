@@ -5,6 +5,6 @@
 		"DB_NAME" => getenv('MYSQL_BDD'),
 		"DB_USER" => getenv('MYSQL_USER'),
 		"DB_PASSWORD" => getenv('MYSQL_PASS'),
-		"EXTERNAL_URL" => getenv('EXTERNAL_URL') ?? 'http://studentapp.local.net',
+		"EXTERNAL_URL" => getenv('EXTERNAL_URL') ?? 'https://studentapp.local.net',
 		"DEV_MODE" => getenv('DEV_MODE') == 'true'
 	);

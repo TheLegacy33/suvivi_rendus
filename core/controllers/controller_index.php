@@ -9,14 +9,14 @@
 	 */
 	// Pour le cache control
 	header("Cache-Control: no-cache, must-revalidate");
-
-	debug(Session::getActiveSession());
-
 	require_once 'core/views/template/header.phtml';
 	switch ($page){
 		case 'main':
 			{
 				debug('Accueil');
+				$includedJSScripts = [
+					HTML_PUBLIC_SCRIPTS_DIR . 'connexion-inscription.js'
+				];
 				require_once 'core/views/view_index.phtml';
 				break;
 			}

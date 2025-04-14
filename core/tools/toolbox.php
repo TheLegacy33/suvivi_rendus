@@ -11,7 +11,6 @@
 			'core/models/DAO/admin/',
 			'core/controllers/',
 			'core/controllers/admin/',
-			'core/controllers/shipping/',
 			'core/views/PDF/'
 		];
 
@@ -249,25 +248,35 @@
 	}
 
 	/**
-	 * @param LocaleTrad $defaultLocale
-	 * @param Devises    $defaultCurrency
-	 * @param Unite      $defaultUnit
+	 * Fonction permettant d'intégrer des url pour les fichiers CSS
+	 * @param array $cssScriptsToInclude
 	 * @return void
 	 */
-	function setDefaultCookies(LocaleTrad $defaultLocale, Devises $defaultCurrency, Unite $defaultUnit): void{
-		$arr_cookie_options = array (
-			'expires' => time() + (86400 * 3650),
-			'path' => '/',
-			'domain' => '', // leading dot for compatibility or use subdomain
-			'secure' => true,     // or false
-			'httponly' => true,    // or false
-			'samesite' => 'None' // None || Lax  || Strict
-		);
+	function includeCssScripts(array $cssScriptsToInclude): void{
+		foreach ($cssScriptsToInclude as $includedCssScript){
+			if (file_exists(PHP_PUBLIC_DIR . $includedCssScript['href'])){
+				$ver = hash('sha256', filesize(PHP_PUBLIC_DIR . $includedCssScript['href']));
+			}else{
+				$ver = '1';
+			}
+			print('<link rel="stylesheet" href="' . $includedCssScript['href'] . '?ver=' . $ver . '" integrity="' . ($includedCssScript['integrity'] ?? $ver) . '" crossorigin="' . ($includedCssScript['crossorigin'] ?? '') . '" />' . "\r");
+		}
+	}
 
-		setcookie('userLocale', json_encode($defaultLocale), $arr_cookie_options);
-		setcookie('userLanguage', $defaultLocale->getLibelle(), $arr_cookie_options);
-		setcookie('userCurrency', json_encode($defaultCurrency), $arr_cookie_options);
-		setcookie('userUnit', json_encode($defaultUnit), $arr_cookie_options);
+	/**
+	 * Fonction permettant d'intégrer des url pour les fichiers javascript
+	 * @param array $jsScriptsToInclude
+	 * @return void
+	 */
+	function includeJsScripts(array $jsScriptsToInclude): void{
+		foreach ($jsScriptsToInclude as $includedJSScript){
+			if (file_exists(PHP_PUBLIC_DIR . $includedJSScript)){
+				$ver = hash('sha256', filesize(PHP_PUBLIC_DIR . $includedJSScript));
+			}else{
+				$ver = '1';
+			}
+			print('<script type="text/javascript" src="' . $includedJSScript . '?ver=' . $ver . '"></script>' . "\r");
+		}
 	}
 
 	/**
@@ -316,229 +325,7 @@
 	 */
 	function getPageDescription(): string{
 		global $page, $section, $action, $defaultLanguage;
-		$pageDescription = "ART INTERACTIVITIES est une place de marché internationale qui présente de l'art original et de qualité, sélectionné par des experts amoureux de l'art.";
-		switch ($section){
-			case 'index':{
-				switch ($page){
-					case 'adn':{
-						$pageDescription = "ART INTERACTIVITIES : Notre A.D.N., notre équipe et nos valeurs, tout ce qui nous identifie à l'Art";
-						break;
-					}
-					case 'concept':{
-						$pageDescription = "ART INTERACTIVITIES : un nom, un logo, notre identité, découvre notre concept";
-						break;
-					}
-					case 'mentions-legal':{
-						$pageDescription = "ART INTERACTIVITIES : Nos mentions légales";
-						break;
-					}
-					case 'cgu':{
-						$pageDescription = "ART INTERACTIVITIES : Les conditions générales d'utilisation de notre place de marché internationale";
-						break;
-					}
-					case 'cgv':{
-						$pageDescription = "ART INTERACTIVITIES : Les conditions générale de ventes pour que nos artistes mettent leurs oeuvres à votre disposition";
-						break;
-					}
-					case 'rgpd':{
-						$pageDescription = "ART INTERACTIVITIES : Les conditions générale d'utilisation et protection de vos données personnelles'";
-						break;
-					}
-				}
-				break;
-			}
-			case 'recherche':{
-				$pageDescription = "ART INTERACTIVITIES : Recherchez l'artiste ou l'oeuvre qui saura vous combler";
-				break;
-			}
-			case 'e-carte-cadeaux':{
-				$pageDescription = "ART INTERACTIVITIES : Envie de faire plaisir, effrez une carte cadeau valable 12 mois sur l'intégralité de notre place de marché";
-				break;
-			}
-			case 'messagerie':{
-				switch ($page){
-					case 'contact-us':{
-						$pageDescription = "ART INTERACTIVITIES : Contactez-nous ou consultez notre FAQ, notre équipe vous répond";
-						break;
-					}
-				}
-				break;
-			}
-			case 'faq':{
-				$pageDescription = "ART INTERACTIVITIES : Trouvez les réponses à vos questions";
-				break;
-			}
-			case 'utilisateur':{
-				switch ($page){
-					case 'mes-coups-de-coeur':{
-						$pageDescription = "ART INTERACTIVITIES : Vos coups de coeur pour votre collection";
-						break;
-					}
-					case 'connexion-inscription':{
-						$pageDescription = "ART INTERACTIVITIES : Connectez-vous ou inscrivez-vous";
-						break;
-					}
-				}
-				break;
-			}
-			case 'panier':{
-				$pageDescription = "ART INTERACTIVITIES : Sélectionnez et commandez les oeuvres qui vous combleront chaque jour";
-				break;
-			}
-			case 'inscription':{
-				switch ($page){
-					case 'artiste':{
-						$pageDescription = "ART INTERACTIVITIES : Inscrivez-vous pour commencer à déposer vos oeuvres et les exposer à la vente à travers le monde entier";
-						break;
-					}
-
-					case 'amateur-art':{
-						$pageDescription = "ART INTERACTIVITIES : Inscrivez-vous pour commencer à explorer les oeuvres sélectionnées à travers le monde entier";
-						break;
-					}
-					default:{
-						$pageDescription = "ART INTERACTIVITIES : Inscrivez-vous, explorez et bénéficiez de nos services pour acheter ou vendre des oeuvres d'Art";
-					}
-				}
-				break;
-			}
-			case 'artistes':{
-				switch ($page){
-					case 'galerie':{
-						$pageDescription = "ART INTERACTIVITIES : Découvrez tous nos artistes et leurs réalisations dans leurs domaines artisitiques";
-						break;
-					}
-
-					case 'profil':{
-						$pageDescription = 'Apprenez en plus sur cet artiste';
-						switch ($action){
-							case 'view':{
-								if (isset($_GET['id'])){
-									$artiste = DAOArtiste::getById($_GET['id']);
-									if ($artiste !== false){
-										if ($artiste->afficherPseudo()){
-											$pageDescription .= ' : '.$artiste->getPseudo();
-										}else{
-											$pageDescription.= ' : '.$artiste->getPrenom().' '.$artiste->getNom();
-										}
-
-										if (count($artiste->getMotsClefs()) > 0){
-											$pageDescription .= ' : ';
-											foreach ($artiste->getMotsClefs() as $motsClef){
-												$pageDescription .= $motsClef->getLibelle().', ';
-											}
-											$pageDescription = substr($pageDescription, 0, strlen($pageDescription) - 2);
-										}
-										$pageDescription .= ', sa biographie, son histoire, son atelier, ses oeuvres et séries';
-
-										if (!is_null($artiste->getNationalite())){
-											$pageDescription .= ' - '.(str_starts_with($defaultLanguage, 'fr') ? $artiste->getNationalite()->getNomFr() : $artiste->getNationalite()->getNomEn());
-										}
-									}
-								}
-								break;
-							}
-						}
-						$pageDescription .= ' - ART INTERACTIVITIES';
-					}
-
-					case 'oeuvres':{
-						switch ($action){
-							case 'view':{
-								if (isset($_GET['idartiste'])){
-									$artiste = DAOArtiste::getById($_GET['idartiste']);
-									if ($artiste !== false){
-										if ($artiste->afficherPseudo()){
-											$pageDescription = $artiste->getPseudo();
-										}else{
-											$pageDescription = $artiste->getPrenom().' '.$artiste->getNom();
-										}
-
-										$pageDescription .= ' : Découvrez toutes ses oeuvres';
-									}
-								}
-								break;
-							}
-						}
-						break;
-					}
-				}
-				break;
-			}
-			case 'oeuvres':{
-				switch ($page){
-					case 'presentation':{
-						switch ($action){
-							case 'view':{
-								if (isset($_GET['id'])){
-									$oeuvre = DAOOeuvre::getById($_GET['id']);
-									$artiste = DAOArtiste::getById($oeuvre->getIdArtiste());
-									$pageDescription = $oeuvre->getTitre(true);
-									if ($artiste !== false){
-										$pageDescription .= ' de ';
-										if ($artiste->afficherPseudo()){
-											$pageDescription .= $artiste->getPseudo();
-										}else{
-											$pageDescription .= $artiste->getPrenom().' '.$artiste->getNom();
-										}
-									}
-									$pageDescription .= ' ('.$oeuvre->getAnneeCreation().')';
-									$pageDescription .= ' : ';
-									if (count($oeuvre->getMediums()) > 0){
-										foreach ($oeuvre->getMediums() as $medium){
-											$pageDescription .= $medium->getLibelle().', ';
-										}
-									}
-
-									if (count($oeuvre->getThemes()) > 0){
-										foreach ($oeuvre->getThemes() as $theme){
-											$pageDescription .= $theme->getLibelle().', ';
-										}
-									}
-
-									if (count($oeuvre->getTechniquesFille()) > 0){
-										foreach ($oeuvre->getTechniquesFille() as $technique){
-											$pageDescription .= $technique->getLibelle().', ';
-										}
-									}
-									$pageDescription = substr($pageDescription, 0, strlen($pageDescription) - 2);
-								}
-								break;
-							}
-						}
-						break;
-					}
-					case 'galerie':{
-						$titleFiltre = '';
-						if (isset($_GET['categorie'])){
-							$titleFiltre = 'Explorez la catégorie '.$_GET['categorie'].', ';
-						}elseif (isset($_GET['style'])){
-							$titleFiltre = 'Explorez le style '.$_GET['style'].', ';
-						}elseif (isset($_GET['theme'])){
-							$titleFiltre = 'Explorez le thème '.$_GET['theme'].', ';
-						}
-						$pageDescription = 'ART INTERACTIVITIES : '.$titleFiltre.($titleFiltre == '' ? 'P' : 'p').'arcourez nos collections, choisissez vos coups de coeurs, sélectionnez vos artistes favoris, commandez vos oeuvres';
-						break;
-					}
-					default:{
-						$pageDescription = 'ART INTERACTIVITIES : Parcourez nos collections, choisissez vos coups de coeurs, sélectionnez vos artistes favoris, commandez vos oeuvres';
-					}
-				}
-				break;
-			}
-			case 'culture':{
-				switch ($page){
-					case 'articles':
-						{
-							$pageDescription = 'ART INTERACTIVITIES : Consultez notre blog et découvrez les articles sur la culture';
-							break;
-						}
-				}
-				break;
-			}
-
-		}
-
+		$pageDescription = "Student App : tous les rendus des étudiants";
 		return $pageDescription;
 	}
 
@@ -546,238 +333,19 @@
 	 * Fonctions pour les mots clés des pages
 	 */
 	function getPageKeywords(): string{
-		global $page, $section, $action, $defaultLanguage;
-		return $meta ?? ($nomArtiste ?? '')."artistes, artistes célèbres, artistes célèbres, acheter de l'art en ligne, art abordable, art original, art, artistes, art contemporain, oeuvres, sculpture";
+		return '';
 	}
 
 	function getPageTitle(): string{
 		global $page, $section, $action, $defaultLanguage;
-		$baseTitle = 'ART INTERACTIVITIES';
+		$baseTitle = 'Student App';
 		$pageTitle = '';
 		switch ($section){
-			case 'index':{
-				switch ($page){
-					case 'adn':{
-						$baseTitle = "ART INTERACTIVITIES : Notre A.D.N., notre équipe et nos valeurs";
-						break;
-					}
-					case 'concept':{
-						$baseTitle = "ART INTERACTIVITIES : un nom, un logo, notre identité, notre concept";
-						break;
-					}
-					case 'mentions-legal':{
-						$baseTitle = "ART INTERACTIVITIES : Nos mentions légales";
-						break;
-					}
-					case 'cgu':{
-						$baseTitle = "ART INTERACTIVITIES : Les conditions générales d'utilisation";
-						break;
-					}
-					case 'cgv':{
-						$baseTitle = "ART INTERACTIVITIES : Les conditions générale de ventes";
-						break;
-					}
-					case 'rgpd':{
-						$baseTitle = "ART INTERACTIVITIES : L'utilisation et la protection de vos données personnelles";
-						break;
-					}
-					default:{
-						$baseTitle = "ART INTERACTIVITIES : Votre place de marché internationale d'art en ligne";
-					}
+			case 'index':
+				{
+					$pageTitle = "Student App : tout les rendus des étudiants";
+					break;
 				}
-				break;
-			}
-			case 'recherche':{
-				$baseTitle = "ART INTERACTIVITIES : Cherchez l'artiste ou l'oeuvre qui vous ressemble";
-				break;
-			}
-			case 'e-carte-cadeaux':{
-				$baseTitle = "ART INTERACTIVITIES : Envie de faire plaisir, offrez une carte cadeau";
-				break;
-			}
-			case 'messagerie':{
-				switch ($page){
-					case 'contact-us':{
-						$baseTitle = "ART INTERACTIVITIES : Contactez-nous ou consultez notre FAQ, notre équipe vous répond";
-						break;
-					}
-				}
-				break;
-			}
-			case 'faq':{
-				$baseTitle = "ART INTERACTIVITIES : Trouvez les réponses à vos questions";
-				break;
-			}
-			case 'utilisateur':{
-				switch ($page){
-					case 'mes-coups-de-coeur':{
-						$baseTitle = "ART INTERACTIVITIES : Vos coups de coeur pour votre collection";
-						break;
-					}
-					case 'connexion-inscription':{
-						$baseTitle = "ART INTERACTIVITIES : Connectez-vous ou inscrivez-vous";
-						break;
-					}
-				}
-				break;
-			}
-			case 'panier':{
-				$baseTitle = "ART INTERACTIVITIES : Sélectionnez et commandez vos oeuvres d'art";
-				break;
-			}
-			case 'inscription':{
-				switch ($page){
-					case 'artiste':{
-						$baseTitle = "ART INTERACTIVITIES : Inscrivez-vous pour commencer à déposer vos oeuvres et les exposer à la vente à travers le monde entier";
-						break;
-					}
-
-					case 'amateur-art':{
-						$baseTitle = "ART INTERACTIVITIES : Inscrivez-vous pour commencer à explorer les oeuvres sélectionnées à travers le monde entier";
-						break;
-					}
-					default:{
-						$baseTitle = "ART INTERACTIVITIES : Inscrivez-vous, explorez et bénéficiez de nos services pour acheter ou vendre des oeuvres d'Art";
-					}
-				}
-				break;
-			}
-			case 'artistes':{
-				switch ($page){
-					case 'galerie':{
-						$pageTitle = "ART INTERACTIVITIES : Découvrez tous nos artistes et leurs réalisations dans leurs domaines artisitiques";
-						break;
-					}
-
-					case 'profil':{
-						$pageTitle = 'Découvrez cet artiste';
-
-						switch ($action){
-							case 'view':{
-								if (isset($_GET['id'])){
-									$artiste = DAOArtiste::getById($_GET['id']);
-									if ($artiste !== false){
-										if ($artiste->afficherPseudo()){
-											$pageTitle = $artiste->getPseudo();
-										}else{
-											$pageTitle = $artiste->getPrenom().' '.$artiste->getNom();
-										}
-
-										if (count($artiste->getMotsClefs()) > 0){
-											$pageTitle .= ' : ';
-											foreach ($artiste->getMotsClefs() as $motsClef){
-												$pageTitle .= $motsClef->getLibelle().', ';
-											}
-											$pageTitle = substr($pageTitle, 0, strlen($pageTitle) - 2);
-										}
-										$pageTitle .= ', son histoire, sa biographie et ses oeuvres';
-
-										if (!is_null($artiste->getNationalite())){
-											$pageTitle .= ' - '.(str_starts_with($defaultLanguage, 'fr') ? $artiste->getNationalite()->getNomFr() : $artiste->getNationalite()->getNomEn());
-										}
-									}
-								}
-								break;
-							}
-						}
-						$pageTitle .= ' - ART INTERACTIVITIES';
-					}
-
-					case 'oeuvres':{
-						switch ($action){
-							case 'view':{
-								if (isset($_GET['idartiste'])){
-									$artiste = DAOArtiste::getById($_GET['idartiste']);
-									if ($artiste !== false){
-										if ($artiste->afficherPseudo()){
-											$pageTitle = $artiste->getPseudo();
-										}else{
-											$pageTitle = $artiste->getPrenom().' '.$artiste->getNom();
-										}
-
-										$pageTitle .= ' : Découvrez toutes ses oeuvres';
-									}
-								}
-								break;
-							}
-						}
-						break;
-					}
-				}
-				break;
-			}
-			case 'oeuvres':{
-				switch ($page){
-					case 'presentation':{
-						switch ($action){
-							case 'view':{
-								if (isset($_GET['id'])){
-									$oeuvre = DAOOeuvre::getById($_GET['id']);
-									$artiste = DAOArtiste::getById($oeuvre->getIdArtiste());
-									$pageTitle = $oeuvre->getTitre(true);
-									if ($artiste !== false){
-										$pageTitle .= ' de ';
-										if ($artiste->afficherPseudo()){
-											$pageTitle .= $artiste->getPseudo();
-										}else{
-											$pageTitle .= $artiste->getPrenom().' '.$artiste->getNom();
-										}
-									}
-									$pageTitle .= ' ('.$oeuvre->getAnneeCreation().')';
-									$pageTitle .= ' : ';
-									if (count($oeuvre->getMediums()) > 0){
-										foreach ($oeuvre->getMediums() as $medium){
-											$pageTitle .= $medium->getLibelle().', ';
-										}
-									}
-
-									if (count($oeuvre->getThemes()) > 0){
-										foreach ($oeuvre->getThemes() as $theme){
-											$pageTitle .= $theme->getLibelle().', ';
-										}
-									}
-
-									if (count($oeuvre->getTechniquesFille()) > 0){
-										foreach ($oeuvre->getTechniquesFille() as $technique){
-											$pageTitle .= $technique->getLibelle().', ';
-										}
-									}
-									$pageTitle = substr($pageTitle, 0, strlen($pageTitle) - 2);
-								}
-								break;
-							}
-						}
-						break;
-					}
-					case 'galerie':{
-						$titleFiltre = '';
-						if (isset($_GET['categorie'])){
-							$titleFiltre = 'Explorez la catégorie '.$_GET['categorie'].', ';
-						}elseif (isset($_GET['style'])){
-							$titleFiltre = 'Explorez le style '.$_GET['style'].', ';
-						}elseif (isset($_GET['theme'])){
-							$titleFiltre = 'Explorez le thème '.$_GET['theme'].', ';
-						}
-						$pageTitle = 'ART INTERACTIVITIES : '.$titleFiltre.($titleFiltre == '' ? 'P' : 'p').'arcourez nos collections, choisissez vos coups de coeurs, sélectionnez vos artistes favoris, commandez vos oeuvres';
-						break;
-					}
-					default:{
-						$baseTitle = 'ART INTERACTIVITIES : Explorez et commandez vos oeuvres favorites';
-					}
-				}
-				break;
-			}
-			case 'culture':{
-				switch ($page){
-					case 'articles':
-						{
-							$baseTitle = "ART INTERACTIVITIES : Consultez notre blog et découvrez l'art";
-							break;
-						}
-				}
-				break;
-			}
-
 		}
 
 		return ($pageTitle == '' ? $baseTitle : ($pageTitle.' - '.$baseTitle));

@@ -14,6 +14,7 @@
 	require_once "core/globals.php";
 	require_once 'config/config.php';
 	require_once 'core/tools/toolbox.php';
+
 	//	ini_set('memory_limit', '4096M');
 	$arr_cookie_options = array('lifetime' => 0, 'path' => '/', 'domain' => '', // leading dot for compatibility or use subdomain
 		'secure' => true,     // or false
@@ -24,6 +25,7 @@
 	session_set_cookie_params($arr_cookie_options);
 	session_start();
 	Session::initialise(APP_NAME);
+	debug(Session::getActiveSession());
 	$userLogged = new User('User', 'Utilisateur');
 	$userLogged->setAuthentified(false);
 	$artisteLogged = null;

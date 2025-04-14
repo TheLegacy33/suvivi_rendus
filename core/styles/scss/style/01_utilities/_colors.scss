@@ -1,0 +1,26 @@
+.orange {
+  background-color: $orange;
+}
+
+.text-orange {
+  color:$orange;
+  img {
+    fill: $orange;
+  }
+}
+
+.link-orange {
+  color: $orange!important;
+  img {
+    fill: $orange;
+  }
+}
+
+.bg-black {
+  background-color: black;
+  color: white;
+}
+
+.light-grey {
+  color: $light-grey;
+}

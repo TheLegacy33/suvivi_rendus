@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <clipPath id="clip-vente">
+      <rect width="128" height="128"/>
+    </clipPath>
+  </defs>
+  <g id="vente" clip-path="url(#clip-vente)">
+    <g id="noun-shopping-1203354" transform="translate(36.267 29.867)">
+      <path id="Tracé_12" data-name="Tracé 12" d="M64.318,24.687H53.634v-.821a15.616,15.616,0,0,0-31.232,0v.821H11.716A2.466,2.466,0,0,0,9.25,27.153V66.6a9.041,9.041,0,0,0,9.041,9.041H57.743A9.041,9.041,0,0,0,66.784,66.6V27.153a2.466,2.466,0,0,0-2.466-2.466Zm-36.986-.821a10.685,10.685,0,1,1,21.371,0v.821H27.332ZM61.854,66.6a4.109,4.109,0,0,1-4.109,4.109H18.291A4.109,4.109,0,0,1,14.182,66.6V29.62H22.4v7.4a2.466,2.466,0,0,0,4.932,0v-7.4H48.7v7.4a2.466,2.466,0,0,0,4.932,0v-7.4h8.22Z" transform="translate(-9.25 -8.25)"/>
+    </g>
+  </g>
+</svg>

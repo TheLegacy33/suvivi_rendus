@@ -1,0 +1,18 @@
+.page-item {
+  .page-link-bot {
+    color: black;
+    border: none!important;
+
+    &:hover {
+      color:black;
+      text-decoration: underline;
+    }
+  }
+}
+
+.page-link-active {
+  color: black!important;
+  border: none;
+  background-color: transparent!important;
+  text-decoration: underline;
+}

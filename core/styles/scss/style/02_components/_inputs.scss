@@ -1,0 +1,68 @@
+// SEARCH BAR
+.input_form {
+  padding: 15px;
+  border : 3px solid black;
+
+  input {
+    border: none;
+    background: none;
+
+    &::placeholder {
+      text-transform: uppercase;
+      color: black;
+    }
+  }
+
+  .searchButton {
+    border: none;
+    background: none;
+  }
+}
+
+form, div{
+	input, textarea{
+		&.upper{
+			text-transform: uppercase;
+		}
+
+		&.capitalize{
+			text-transform: capitalize;
+		}
+
+		&.lower{
+			text-transform: lowercase;
+		}
+
+		&[type=text], &[type=email], &[type=url]{
+			&.upper{
+				text-transform: uppercase;
+			}
+
+			&.capitalize{
+				text-transform: capitalize;
+			}
+
+			&.lower{
+				text-transform: lowercase;
+			}
+		}
+
+		& + span{
+			padding-right: 1rem;
+		}
+
+		&:invalid + span::after{
+			position: absolute;
+			content: "✖";
+			padding-left: 5px;
+			color: #8b0000;
+		}
+
+		&:valid + span::after{
+			position: absolute;
+			content: "✓";
+			padding-left: 5px;
+			color: #009000;
+		}
+	}
+}

@@ -1,0 +1,681 @@
+<?php
+
+/**
+ * @var User $userLogged
+ * @var Artiste $profilLogged
+ * @var string $defaultLanguage
+ */
+?>
+<main id="tableau-de-bord">
+	<?php include("core/views/template/breadcrumb.phtml") ?>
+	<div class="titre-tab-bord container">
+		<h2><?= Traducteur::getTraduction('00196', $defaultLanguage) ?> <?= Traducteur::getTraduction('00005', $defaultLanguage) ?></h2>
+	</div>
+	<section class="grid-tab-de-bord">
+		<?php if (!$userLogged->isAdmin()): ?>
+			<!-- BOTON MON COMPTE -->
+			<section class="sect-mon-compte">
+				<a href="<?= getUrl('utilisateur', 'mon-compte') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg viewBox="32.53 27.688 64.453 73.683" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-profile">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="profile" clip-path="url(#clip-profile)">
+									<path id="_" data-name="" d="M47.407-30.12a30.535,30.535,0,0,1,8.751,4.687,30.958,30.958,0,0,1,6.63,6.969A31.773,31.773,0,0,1,66.976-9.8,32.855,32.855,0,0,1,68.438,0H63.875A27.954,27.954,0,0,0,61.79-10.854a26.574,26.574,0,0,0-5.757-8.679,26.574,26.574,0,0,0-8.679-5.757A27.954,27.954,0,0,0,36.5-27.375a27.783,27.783,0,0,0-7.343.962,27.506,27.506,0,0,0-6.576,2.727,26.691,26.691,0,0,0-5.525,4.242,26.691,26.691,0,0,0-4.242,5.525,27.506,27.506,0,0,0-2.727,6.576A27.783,27.783,0,0,0,9.125,0H4.563a32.08,32.08,0,0,1,1.5-9.82A31.766,31.766,0,0,1,10.3-18.428a31.322,31.322,0,0,1,6.648-6.915,32.349,32.349,0,0,1,8.715-4.741,22.414,22.414,0,0,1-4.99-3.636,22.649,22.649,0,0,1-3.76-4.759,23.365,23.365,0,0,1-2.388-5.6,22.457,22.457,0,0,1-.838-6.113,22.308,22.308,0,0,1,1.782-8.893,22.948,22.948,0,0,1,4.883-7.254,22.948,22.948,0,0,1,7.254-4.883A22.308,22.308,0,0,1,36.5-73a22.308,22.308,0,0,1,8.893,1.782,22.948,22.948,0,0,1,7.254,4.883,22.948,22.948,0,0,1,4.883,7.254,22.308,22.308,0,0,1,1.782,8.893,22.266,22.266,0,0,1-.838,6.1,23.113,23.113,0,0,1-2.388,5.561,23.6,23.6,0,0,1-3.743,4.759A22.07,22.07,0,0,1,47.407-30.12ZM18.25-50.187a17.571,17.571,0,0,0,1.444,7.093A18.618,18.618,0,0,0,23.615-37.3a18.618,18.618,0,0,0,5.792,3.921A17.571,17.571,0,0,0,36.5-31.937a17.571,17.571,0,0,0,7.093-1.444A18.618,18.618,0,0,0,49.385-37.3a18.618,18.618,0,0,0,3.921-5.792,17.571,17.571,0,0,0,1.444-7.093,17.571,17.571,0,0,0-1.444-7.093,18.618,18.618,0,0,0-3.921-5.792,18.618,18.618,0,0,0-5.792-3.921A17.571,17.571,0,0,0,36.5-68.437a17.571,17.571,0,0,0-7.093,1.444,18.618,18.618,0,0,0-5.792,3.921,18.618,18.618,0,0,0-3.921,5.792A17.571,17.571,0,0,0,18.25-50.187Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00044', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00197', $defaultLanguage) ?> </p>
+						</div>
+					</div>
+				</a>
+			</section>
+		<?php endif; ?>
+		<?php if ($userLogged->hasRole(DAORoleUser::getByLibelle('Gestionnaire')) || $userLogged->hasRole(DAORoleUser::getByLibelle('Modérateur'))) : ?>
+			<!-- BOTON GESTION ARTISTES -->
+			<section class="sect-les-artistes">
+				<a href="<?= getUrl('gestion', 'listeartistes') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00222', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00223', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<!-- BOTON GESTION OEUVRES -->
+			<section class="sect-les-oeuvres">
+				<a href="<?= getUrl('gestion', 'listeoeuvres') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00224', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00225', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<!-- BOTON GESTION OEUVRES SCANDALE -->
+			<section class="sect-les-oeuvres-scandale">
+				<a href="<?= getUrl('gestion', 'listeoeuvresscandale') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00870', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00871', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<!-- BOTON GESTION ACHETEURS -->
+			<section class="sect-les-acheteurs">
+				<a href="<?= getUrl('gestion', 'listeacheteurs') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00535', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00536', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<!-- BOUTON GESTION CARTE CADEAU -->
+			<section class="sect-les-acheteurs">
+				<a href="<?= getUrl('gestion', 'listecartecadeaux') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4>Gestion des cartes cadeaux</h4>
+							<p>Gérer les cartes cadeaux et leur gestion</p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<!--GESTION NEWSLETTER-->
+			<section class="sect-les-acheteurs">
+				<a href="<?= getUrl('gestion', 'newsletter') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4>Gestion des newsletters</h4>
+							<p>Gérer les newsletters </p>
+						</div>
+					</div>
+				</a>
+			</section>
+		<?php endif; ?>
+		<?php if ($userLogged->hasRole(DAORoleUser::getByLibelle('Gestionnaire')) and $userLogged->isAdmin()) : ?>
+			<section class="sect-les-ventes">
+				<a href="<?= getUrl('admin', 'les-ventes') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>icon_artinteractities/svg/icon-wait-delivery.svg" alt="Image les ventes"></div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00226', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00227', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<?php if (AIApplication::isActive("commande-sur-mesure")) : ?>
+				<section class="sect-les-commandes-sur-mesure">
+					<a href="<?= getUrl('admin', 'les-commandes-sur-mesure') ?>">
+						<div class="flex-contenue-section">
+							<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>icon_artinteractities/svg/icon-wait-delivery.svg" alt="Image les commandes sur mesure"></div>
+							<div>
+								<h4><?= Traducteur::getTraduction('00242', $defaultLanguage) ?></h4>
+								<p><?= Traducteur::getTraduction('00243', $defaultLanguage) ?></p>
+							</div>
+						</div>
+					</a>
+				</section>
+			<?php endif; ?>
+			<?php if (AIApplication::isActive("negociation")) : ?>
+				<section class="sect-les-negociations-oeuvres">
+					<!--					<a data-status="tofinish" href="--><?php //= getUrl('admin', 'les-negociations-oeuvres') 
+																				?><!--">-->
+					<a href="<?= getUrl('admin', 'les-negociations-oeuvres') ?>">
+						<div class="flex-contenue-section">
+							<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>icon_artinteractities/svg/icon-wait-delivery.svg" alt="Image les négociations"></div>
+							<div>
+								<h4><?= Traducteur::getTraduction('00950', $defaultLanguage) ?></h4>
+								<p><?= Traducteur::getTraduction('00951', $defaultLanguage) ?></p>
+							</div>
+						</div>
+					</a>
+				</section>
+			<?php endif; ?>
+		<?php elseif ($userLogged->hasRole(DAORoleUser::getByLibelle('Vendeur'))) : ?>
+			<section class="sect-artiste-favoris">
+				<a href="" data-action="modal" data-modal="modal-complement-profil">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg viewBox="32.53 27.688 64.453 73.683" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-profile">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="profile" clip-path="url(#clip-profile)">
+									<path id="_" data-name="" d="M47.407-30.12a30.535,30.535,0,0,1,8.751,4.687,30.958,30.958,0,0,1,6.63,6.969A31.773,31.773,0,0,1,66.976-9.8,32.855,32.855,0,0,1,68.438,0H63.875A27.954,27.954,0,0,0,61.79-10.854a26.574,26.574,0,0,0-5.757-8.679,26.574,26.574,0,0,0-8.679-5.757A27.954,27.954,0,0,0,36.5-27.375a27.783,27.783,0,0,0-7.343.962,27.506,27.506,0,0,0-6.576,2.727,26.691,26.691,0,0,0-5.525,4.242,26.691,26.691,0,0,0-4.242,5.525,27.506,27.506,0,0,0-2.727,6.576A27.783,27.783,0,0,0,9.125,0H4.563a32.08,32.08,0,0,1,1.5-9.82A31.766,31.766,0,0,1,10.3-18.428a31.322,31.322,0,0,1,6.648-6.915,32.349,32.349,0,0,1,8.715-4.741,22.414,22.414,0,0,1-4.99-3.636,22.649,22.649,0,0,1-3.76-4.759,23.365,23.365,0,0,1-2.388-5.6,22.457,22.457,0,0,1-.838-6.113,22.308,22.308,0,0,1,1.782-8.893,22.948,22.948,0,0,1,4.883-7.254,22.948,22.948,0,0,1,7.254-4.883A22.308,22.308,0,0,1,36.5-73a22.308,22.308,0,0,1,8.893,1.782,22.948,22.948,0,0,1,7.254,4.883,22.948,22.948,0,0,1,4.883,7.254,22.308,22.308,0,0,1,1.782,8.893,22.266,22.266,0,0,1-.838,6.1,23.113,23.113,0,0,1-2.388,5.561,23.6,23.6,0,0,1-3.743,4.759A22.07,22.07,0,0,1,47.407-30.12ZM18.25-50.187a17.571,17.571,0,0,0,1.444,7.093A18.618,18.618,0,0,0,23.615-37.3a18.618,18.618,0,0,0,5.792,3.921A17.571,17.571,0,0,0,36.5-31.937a17.571,17.571,0,0,0,7.093-1.444A18.618,18.618,0,0,0,49.385-37.3a18.618,18.618,0,0,0,3.921-5.792,17.571,17.571,0,0,0,1.444-7.093,17.571,17.571,0,0,0-1.444-7.093,18.618,18.618,0,0,0-3.921-5.792,18.618,18.618,0,0,0-5.792-3.921A17.571,17.571,0,0,0,36.5-68.437a17.571,17.571,0,0,0-7.093,1.444,18.618,18.618,0,0,0-5.792,3.921,18.618,18.618,0,0,0-3.921,5.792A17.571,17.571,0,0,0,18.25-50.187Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00198', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00199', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<section class="sect-ajouter-oeuvre">
+				<a href="<?= getUrl('oeuvres', 'form', 'add') ?>" data-action="modal"><!--data-modal="oeuvre-atelier-modal"-->
+					<div class="flex-contenue-section">
+						<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>new_img/stand-doeuvre.svg" alt="Image ajouter une oeuvre"></div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00200', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00201', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+				<?php if (AIApplication::isActive('atelier')): ?>
+					<dialog id="oeuvre-atelier-modal">
+						<input type="hidden" id="myUserId" value="<?= $userLogged->getId() ?>" name="chMyUserId">
+						<header class="header-ajout-modal-oeuvre">
+							<h3>Art Shop</h3>
+							<span class="modal-close">
+								<svg id="Capa_1" enable-background="new 0 0 413.348 413.348" viewBox="0 0 413.348 413.348" xmlns="http://www.w3.org/2000/svg">
+									<path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z" />
+								</svg>
+							</span>
+						</header>
+						<div class="contenue-de-la-modal">
+
+							<div class="button-modal-oeuvre">
+								<div class="div-button-modal">
+									<a href="<?= getUrl('oeuvres', 'form', 'add') ?>">
+										<div class="flex-contenue-section">
+											<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>new_img/stand-doeuvre.svg" alt="Image ajouter une oeuvre"></div>
+											<div>
+												<h4><?= Traducteur::getTraduction('00200', $defaultLanguage) ?></h4>
+												<p><?= Traducteur::getTraduction('00201', $defaultLanguage) ?></p>
+											</div>
+										</div>
+									</a>
+
+								</div>
+								<div class="div-button-modal">
+									<a href="<?= getUrl('artistes', 'atelier') ?>">
+										<div class="flex-contenue-section">
+											<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>new_img/stand-doeuvre.svg" alt="Image ajouter une oeuvre"></div>
+											<div>
+												<h4>Ajouter des photos de votre atelier</h4>
+												<p>Sélectionner la ou les photos de votre atelier</p>
+											</div>
+										</div>
+									</a>
+
+								</div>
+
+							</div>
+						</div>
+
+					</dialog>
+				<?php endif; ?>
+			</section>
+			<section class="sect-mes-oeuvres">
+				<a href="<?= getUrl('artistes', 'mes-oeuvres-a-vendre') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>new_img/chevalet_2.svg" alt="Image mes oeuvres à vendre"></div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00202', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00203', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<?php if (AIApplication::isActive('series')) : ?>
+				<section class="sect-mes-series">
+					<a href="<?= getUrl('artistes', 'mes-series') ?>">
+						<div class="flex-contenue-section">
+							<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>new_img/chevalet_2.svg" alt="Image mes séries"></div>
+							<div>
+								<h4><?= Traducteur::getTraduction('00231', $defaultLanguage) ?></h4>
+								<p><?= Traducteur::getTraduction('00232', $defaultLanguage) ?></p>
+							</div>
+						</div>
+					</a>
+				</section>
+			<?php endif; ?>
+			<section class="sect-ma-page-artiste">
+				<a href="<?= getUrl('artistes', 'profil', 'view', ['id' => $profilLogged->getId()]) ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>new_img/icon_eye.svg" alt="Image voir le profile"></div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00204', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00205', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<section class="sect-mes-ventes">
+				<a href="<?= getUrl('utilisateur', 'mes-ventes') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>new_img/selection_2.svg" alt="Image mes ventes"></div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00206', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00207', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<?php if (AIApplication::isActive('commande-sur-mesure')): ?>
+				<section class="sect-mes-commandes-mesures">
+					<a href="<?= getUrl('utilisateur', 'mes-commandes-sur-mesures') ?>">
+						<div class="flex-contenue-section">
+							<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>new_img/selection_2.svg" alt="Image mes commandes sur mesure"></div>
+							<div>
+								<h4><?= Traducteur::getTraduction('00339', $defaultLanguage) ?></h4>
+								<p><?= Traducteur::getTraduction('00240', $defaultLanguage) ?></p>
+							</div>
+						</div>
+					</a>
+				</section>
+			<?php endif; ?>
+			<?php if (AIApplication::isActive("artiste-favoris")) : ?>
+				<section class="sect-artiste-favoris">
+					<a href="<?= getUrl('utilisateur', 'mes-artistes') ?>">
+						<div class="flex-contenue-section">
+							<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/picto-plus.svg" alt="Image mes artistes"></div>
+							<div>
+								<h4><?= Traducteur::getTraduction('00045', $defaultLanguage) ?></h4>
+								<p><?= Traducteur::getTraduction('00217', $defaultLanguage) ?></p>
+							</div>
+						</div>
+					</a>
+				</section>
+			<?php endif; ?>
+		<?php endif; //elseif ($userLogged->hasRole(DAORoleUser::getByLibelle('Acheteur'))) : 
+		?>
+		<?php if (AIApplication::isActive("artiste-favoris")) : ?>
+			<section class="sect-artiste-favoris">
+				<a href="<?= getUrl('utilisateur', 'mes-artistes') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/picto-plus.svg" alt="Image mes artistes"></div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00045', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00217', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+		<?php endif; ?>
+		<section class="sect-coups-de-coeur">
+			<a href="<?= getUrl('utilisateur', 'mes-coups-de-coeur') ?>">
+				<div class="flex-contenue-section">
+					<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/icon-heart.svg" alt="Image mes coups de coeur"></div>
+					<div>
+						<h4><?= Traducteur::getTraduction('00218', $defaultLanguage) ?></h4>
+						<p><?= Traducteur::getTraduction('00219', $defaultLanguage) ?></p>
+					</div>
+				</div>
+			</a>
+		</section>
+		<?php if (!$userLogged->hasRole(DAORoleUser::getByLibelle('Gestionnaire'))) : ?>
+			<?php if (AIApplication::isActive("mes-commandes")) : ?>
+				<section class="sect-mes-commandes">
+					<a href="<?= getUrl('utilisateur', 'mes-commandes') ?>">
+						<div class="flex-contenue-section">
+							<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>icon_artinteractities/svg/icon-wait-delivery.svg" alt="Image mes commandes"></div>
+							<div>
+								<h4><?= Traducteur::getTraduction('00220', $defaultLanguage) ?></h4>
+								<p><?= Traducteur::getTraduction('00221', $defaultLanguage) ?></p>
+							</div>
+						</div>
+					</a>
+				</section>
+			<?php endif; ?>
+			<?php if (AIApplication::isActive("commande-sur-mesure")) : ?>
+				<section class="sect-mes-commandes">
+					<a href="<?= getUrl('utilisateur', 'acheteur-mes-commandes-sur-mesures') ?>">
+						<div class="flex-contenue-section">
+							<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>icon_artinteractities/svg/icon-wait-delivery.svg" alt="Image mes commandes sur mesure"></div>
+							<div>
+								<h4><?= Traducteur::getTraduction('00241', $defaultLanguage) ?></h4>
+								<p><?= Traducteur::getTraduction('00221', $defaultLanguage) ?></p>
+							</div>
+						</div>
+					</a>
+				</section>
+			<?php endif; ?>
+			<?php if ($userLogged->hasRole(DAORoleUser::getByLibelle('Vendeur'))) : ?>
+				<?php if (AIApplication::isActive("negociation")) : ?>
+					<section class="sect-les-negociations-oeuvres">
+						<a data-status="tofinish" href="<?= getUrl('artistes', 'mes-negociations-oeuvres') ?>">
+							<!--						<a href="--><?php //= getUrl('artistes', 'mes-negociations-oeuvres') 
+																	?><!--">-->
+							<div class="flex-contenue-section">
+								<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>icon_artinteractities/svg/icon-wait-delivery.svg" alt="Image mes négociations"></div>
+								<div>
+									<h4><?= Traducteur::getTraduction('00948', $defaultLanguage) ?></h4>
+									<p><?= Traducteur::getTraduction('00949', $defaultLanguage) ?></p>
+								</div>
+							</div>
+						</a>
+					</section>
+				<?php endif; ?>
+			<?php elseif ($userLogged->hasRole(DAORoleUser::getByLibelle('Acheteur'))): ?>
+				<?php if (AIApplication::isActive("negociation")) : ?>
+					<section class="sect-les-negociations-oeuvres">
+						<!--						<a data-status="tofinish" href="--><?php //= getUrl('utilisateur', 'mes-negociations-oeuvres') 
+																						?><!--">-->
+						<a href="<?= getUrl('utilisateur', 'mes-negociations-oeuvres') ?>">
+							<div class="flex-contenue-section">
+								<div class="div-image-tab"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>icon_artinteractities/svg/icon-wait-delivery.svg" alt="Image mes négociations"></div>
+								<div>
+									<h4><?= Traducteur::getTraduction('00948', $defaultLanguage) ?></h4>
+									<p><?= Traducteur::getTraduction('00949', $defaultLanguage) ?></p>
+								</div>
+							</div>
+						</a>
+					</section>
+				<?php endif; ?>
+			<?php endif; ?>
+		<?php endif; ?>
+
+		<?php if (!$userLogged->isAdmin()): ?>
+			<?php if (AIApplication::isActive('lstCarteCadeaux')) : ?>
+				<section class="sect-perso-newsletters">
+					<a href="<?= getUrl('utilisateur', 'utilisateur-carte-cadeaux') ?>">
+						<div class="flex-contenue-section">
+							<div class="div-image-tab">
+								<img src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/cadeau.png" alt="Image cartes cadeaux">
+							</div>
+							<div>
+								<h4><?= Traducteur::getTraduction('00872', $defaultLanguage) ?></h4>
+								<p><?= Traducteur::getTraduction('00873', $defaultLanguage) ?></p>
+							</div>
+						</div>
+					</a>
+				</section>
+			<?php endif; ?>
+			<section class="sect-perso-newsletters">
+				<a href="<?= getUrl('utilisateur', 'perso-newsletters') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<img src="<?= HTML_PUBLIC_IMAGES_DIR ?>icon_artinteractities/svg/icon-alarm.svg" alt="Image Personnaliser Newsletter">
+						</div>
+						<div>
+							<h4>Newsletter</h4>
+							<p><?= Traducteur::getTraduction('00208', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<?php if (!$userLogged->hasRole(DAORoleUser::getByLibelle('acheteur'))) : ?>
+				<section class="sect-perso-notifications">
+					<a href="<?= getUrl('utilisateur', 'perso-notifications') ?>">
+						<div class="flex-contenue-section">
+							<div class="div-image-tab">
+								<img src="<?= HTML_PUBLIC_IMAGES_DIR ?>icon_artinteractities/svg/icon-alarm.svg" alt="Image Personnaliser notifications">
+							</div>
+							<div>
+								<h4>Notifications</h4>
+								<p><?= Traducteur::getTraduction('00209', $defaultLanguage) ?></p>
+							</div>
+						</div>
+					</a>
+				</section>
+			<?php endif; ?>
+		<?php endif; ?>
+		<section class="sect-messagerie">
+			<a href="<?= getUrl('utilisateur', 'messagerie') ?>">
+				<div class="flex-contenue-section">
+					<div class="div-image-tab">
+						<svg width="128" height="128" viewBox="27.991 56.587 47.054 30.713" xmlns="http://www.w3.org/2000/svg">
+							<defs>
+								<clipPath id="clip-mail">
+									<rect width="128" height="128"></rect>
+								</clipPath>
+							</defs>
+							<g id="mail" clip-path="url(#clip-mail)">
+								<path id="_" data-name="" d="M 75.128 56.818 C 75.128 57.735 75.128 87.698 75.128 87.315 L 28 87.315 L 28 56.818 L 75.128 56.818 Z M 31.292 59.867 L 51.564 70.374 L 71.835 59.867 L 31.292 59.867 Z M 72.184 84.265 L 72.184 63.109 L 51.564 73.758 L 30.946 63.109 L 30.946 84.265 L 72.184 84.265 Z" style=""></path>
+							</g>
+						</svg>
+					</div>
+					<div>
+						<h4><?= Traducteur::getTraduction('00210', $defaultLanguage) ?></h4>
+						<p><?= Traducteur::getTraduction('00211', $defaultLanguage) ?></p>
+						<?php if (DAOMessagerie::getUnreadMessage($userLogged) > 0) : ?>
+							<div class="voyant voyant-vert voyant-top-right" title="Vous avez des messages non lus"></div>
+						<?php endif; ?>
+					</div>
+				</div>
+			</a>
+		</section>
+		<section class="sect-faq">
+			<?php
+			// Roles : (Acheteur et / ou vendeur) | visiteur
+			$role = '';
+			$titreRole = '';
+			if (!isset($userLogged) or $userLogged->getId() == 0) {
+				$role = 'visiteur';
+			} else {
+				if ($userLogged->hasRole(DAORoleUser::getByLibelle('Gestionnaire'))) {
+					$role = 'gestionnaire';
+				} else {
+					if ($userLogged->hasRole(DAORoleUser::getByLibelle('Vendeur'))) {
+						$titreRole =  Traducteur::getTraduction('00212', $defaultLanguage);
+						$role = 'vendeur';
+					} else {
+						$titreRole = Traducteur::getTraduction('00213', $defaultLanguage);
+						$role = 'acheteur';
+					}
+				}
+			}
+			?>
+			<a href="<?= getUrl('faq', $role) ?>">
+				<div class="flex-contenue-section">
+					<div class="div-image-tab">
+						<img src="<?= HTML_PUBLIC_IMAGES_DIR ?>new_img/help_center.svg" alt="Centre d'aide">
+					</div>
+					<div>
+						<h4>FAQ <?= $titreRole ?></h4>
+						<p><?= Traducteur::getTraduction('00214', $defaultLanguage) ?></p>
+					</div>
+				</div>
+			</a>
+		</section>
+		<?php if (!$userLogged->hasRole(DAORoleUser::getByLibelle('acheteur'))): ?>
+			<section class="sect-outils">
+				<a href="<?= getUrl('utilisateur', 'les-outils-ai') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00215', $defaultLanguage) ?></h4>
+							<p><?= Traducteur::getTraduction('00216', $defaultLanguage) ?></p>
+						</div>
+					</div>
+				</a>
+			</section>
+		<?php endif; ?>
+		<?php if ($userLogged->isAdmin()) : ?>
+			<section class="sect-parametre">
+				<a href="<?= getUrl('admin', 'parametres') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4><?= Traducteur::getTraduction('00230', $defaultLanguage) ?></h4>
+							<p>Gérer les paramètres de la plateforme</p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<section class="sect-textes">
+				<a href="<?= getUrl('admin', 'textes') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4>Textes</h4>
+							<p>Gérer les textes de la plateforme</p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<section class="sect-traductions">
+				<a href="<?= getUrl('admin', 'traductions') ?>" data-status=tofinish>
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4>Traductions</h4>
+							<p>Gérer les traductions de la plateforme</p>
+						</div>
+					</div>
+				</a>
+			</section>
+			<section class="compte-connect">
+				<a href="<?= getUrl('admin', 'compte-connect') ?>">
+					<div class="flex-contenue-section">
+						<div class="div-image-tab">
+							<svg width="128" height="128" viewBox="28.293 28.142 72.624 72.775" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<clipPath id="clip-options">
+										<rect width="128" height="128"></rect>
+									</clipPath>
+								</defs>
+								<g id="options" clip-path="url(#clip-options)">
+									<path id="_" data-name="" d="M63.554-37.783q0,.321.018.642t.018.642q0,.321-.018.642t-.018.642l9.232,5.739L67.119-15.826,56.532-18.25q-.855.927-1.782,1.782L57.174-5.881,43.522-.214,37.783-9.446q-.321,0-.642.018T36.5-9.41q-.321,0-.642-.018t-.642-.018L29.478-.214,15.826-5.881,18.25-16.468q-.927-.855-1.782-1.782L5.881-15.826.214-29.478l9.232-5.739q0-.321-.018-.642T9.41-36.5q0-.321.018-.642t.018-.642L.214-43.522,5.881-57.174,16.468-54.75q.855-.927,1.782-1.782L15.826-67.119l13.652-5.667,5.739,9.232q.321,0,.642-.018t.642-.018q.321,0,.642.018t.642.018l5.739-9.232,13.652,5.667L54.75-56.532q.927.855,1.782,1.782l10.586-2.424,5.667,13.652Zm-4.17,4.634q.071-.855.143-1.693t.071-1.693q0-.82-.071-1.675t-.143-1.675l8.412-5.24L64.73-52.54l-9.66,2.246a30.972,30.972,0,0,0-2.263-2.5q-1.158-1.141-2.513-2.281l2.246-9.66L45.126-67.8l-5.275,8.412q-.82-.071-1.675-.143T36.5-59.6q-.855,0-1.693.071l-1.693.143L27.874-67.8,20.46-64.73l2.246,9.66a30.971,30.971,0,0,0-2.5,2.263q-1.141,1.158-2.281,2.513L8.27-52.54,5.2-45.126l8.412,5.275q-.071.855-.143,1.693T13.4-36.464q0,.82.071,1.675t.143,1.675L5.2-27.874,8.27-20.46l9.66-2.246a30.97,30.97,0,0,0,2.263,2.5q1.158,1.141,2.513,2.281L20.46-8.27,27.874-5.2l5.275-8.412q.82.071,1.675.143T36.5-13.4q.855,0,1.693-.071l1.693-.143L45.126-5.2,52.54-8.27l-2.246-9.66a30.971,30.971,0,0,0,2.5-2.263q1.141-1.158,2.281-2.513l9.66,2.246L67.8-27.874ZM36.5-49.9a13.06,13.06,0,0,1,5.222,1.052,13.524,13.524,0,0,1,4.26,2.869,13.524,13.524,0,0,1,2.869,4.26A13.06,13.06,0,0,1,49.9-36.5a13.06,13.06,0,0,1-1.052,5.222,13.524,13.524,0,0,1-2.869,4.26,13.524,13.524,0,0,1-4.26,2.869A13.06,13.06,0,0,1,36.5-23.1a13.06,13.06,0,0,1-5.222-1.052,13.524,13.524,0,0,1-4.26-2.869,13.524,13.524,0,0,1-2.869-4.26A13.06,13.06,0,0,1,23.1-36.5a13.06,13.06,0,0,1,1.052-5.222,13.524,13.524,0,0,1,2.869-4.26,13.524,13.524,0,0,1,4.26-2.869A13.06,13.06,0,0,1,36.5-49.9Zm0,22.813a9.249,9.249,0,0,0,3.671-.731,9.425,9.425,0,0,0,2.994-2.014,9.425,9.425,0,0,0,2.014-2.994A9.249,9.249,0,0,0,45.91-36.5a9.249,9.249,0,0,0-.731-3.671,9.425,9.425,0,0,0-2.014-2.994,9.425,9.425,0,0,0-2.994-2.014A9.249,9.249,0,0,0,36.5-45.91a9.249,9.249,0,0,0-3.671.731,9.425,9.425,0,0,0-2.994,2.014,9.425,9.425,0,0,0-2.014,2.994A9.249,9.249,0,0,0,27.09-36.5a9.248,9.248,0,0,0,.731,3.671,9.425,9.425,0,0,0,2.014,2.994,9.425,9.425,0,0,0,2.994,2.014A9.248,9.248,0,0,0,36.5-27.09Z" transform="translate(28 101)"></path>
+								</g>
+							</svg>
+						</div>
+						<div>
+							<h4>Compte Connect</h4>
+							<p>Gérer les Comptes Connect de la plateforme</p>
+						</div>
+					</div>
+				</a>
+			</section>
+		<?php endif; ?>
+	</section>
+	<?php
+	if ($userLogged->hasRole(DAORoleUser::getByLibelle('Vendeur'))) {
+		require_once 'core/views/partials/modals/modal-complement-profil.phtml';
+	}
+	?>
+</main>

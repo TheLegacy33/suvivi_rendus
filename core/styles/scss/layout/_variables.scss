@@ -1,0 +1,55 @@
+/* -------------------------------- */
+/* ----------  VARIABLES  --------- */
+/* -------------------------------- */
+
+/* Breakpoints horizontaux */
+$break-small: 575px;
+$break-small-tablet: 800px;
+$break-large: 991px;
+$break-xl: 1281px;
+$break-xxl: 1600px;
+
+/* Breakpoints verticaux */
+$break-small-height: 688px;
+$break-large-height: 801px;
+$break-xl-height: 1081px;
+
+/* Typographies */
+$acumin-pro: acumin-pro, sans-serif;
+$acumin-pro-wide: acumin-pro-wide, sans-serif;
+$acumin: acumin-pro-wide, sans-serif;
+// Reross : existent uniquement en 400, normal
+$reross-quadratic: reross-quadratic, sans-serif;
+$reross-rectangular: reross-rectangular, sans-serif;
+// Glegoo : existe uniquement en 400, normal
+//@import url('https://fonts.googleapis.com/css2?family=Glegoo&display=swap');
+//$glegoo : 'Glegoo', serif;
+
+// Brandon Grotesque
+$bg-bold: "BG Bold", sans-serif, serif;
+$bg-bold-italic: "BG Bold Italic", sans-serif, serif;
+$bg-regular: "BG Regular", sans-serif, serif;
+$bg-regular-italic: "BG Regular Italic", sans-serif, serif;
+$bg-medium: "BG Medium", sans-serif, serif;
+$bg-medium-italic: "BG Medium Italic", sans-serif, serif;
+$bg-light: "BG Light", sans-serif, serif;
+$bg-light-italic: "BG Light Italic", sans-serif, serif;
+$reross-quadratic-regular: "Reross Quadratic Regular", sans-serif;
+
+// Roboto
+$roboto-light: "Roboto Light", sans-serif;
+$roboto-medium: "Roboto Medium", sans-serif;
+$roboto-bold: "Roboto Bold", sans-serif;
+
+/* Couleurs */
+$grey: #5f5f5f;
+$gray: #5f5f5f;
+$medium: rgba($gray, 0.2);
+$light: #f7f7f7;
+$orange: #fe9b04;
+$yellow: #ecfc3f;
+$blue: #2c2e71;
+$light-grey: #707070;
+$red: red;
+$border-width-mondrian: 4px;
+$width-mondrian: 930px;

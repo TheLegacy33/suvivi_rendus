@@ -1,0 +1,50 @@
+div#loader.loaderinbutton {
+	margin: 0 !important;
+	padding: 0!important;
+	position: absolute !important;
+	top: calc(50% - 1rem) !important;
+	right: 1rem !important;
+	border: 0.25rem solid lightgrey !important;
+	width: 2rem !important;
+	aspect-ratio: 1;
+	border-top-color: $orange !important;
+	border-radius: 50% !important;
+	animation: chargeur 4s linear infinite !important;
+}
+
+div#loader.loaderinmsgbox {
+	margin: 0 !important;
+	padding: 0!important;
+	border: 0.5rem solid lightgrey !important;
+	width: 3.5rem !important;
+	aspect-ratio: 1;
+	border-top-color: $orange !important;
+	border-radius: 0 !important;
+	animation: chargeur 4s linear infinite !important;
+}
+
+div#loader.loaderindiv {
+	margin: 0 !important;
+	padding: 0!important;
+	border: 0.5rem solid lightgrey !important;
+	width: 3.5rem !important;
+	aspect-ratio: 1;
+	border-top-color: $orange !important;
+	border-radius: 0 !important;
+	animation: chargeur 4s linear infinite !important;
+	position: absolute;
+	top: calc(50% - 1.75rem);
+	left: calc(50% - 1.75rem);
+}
+
+@keyframes chargeur {
+	0%{
+		transform: rotate(0deg) scale(1);
+	}
+	50% {
+		transform: rotate(360deg) scale(1);
+	}
+	100%{
+		transform: rotate(720deg) scale(1);
+	}
+}

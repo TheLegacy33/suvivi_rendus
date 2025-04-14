@@ -1,0 +1,136 @@
+dialog#msgBox{
+	z-index: 1000;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	min-width: max(45vw, 310px);
+	width: fit-content;
+	max-width: max(80vw, 800px);
+	border-width: 0;
+	transition: translate 0.5s ease-out;
+	min-height: min(20vh, 290px);
+	display: flex;
+	flex-direction: column;
+	overflow: visible;
+
+	&::backdrop {
+		background: black;
+		opacity: 0.5;
+	}
+
+	&:not([open]){
+		display: none;
+		animation: myFadeOut 0.3s ease-in normal;
+	}
+
+	&[open] {
+		animation: myFadeIn 0.3s ease-out normal;
+	}
+
+	&>header{
+		position: relative;
+		min-height: 4rem;
+		background-color: black;
+		display: flex;
+		padding: 0 2rem;
+		justify-content: space-between;
+		align-items: center;
+		//margin-bottom: 2rem;
+
+		h4{
+			color: white;
+			text-align: center;
+			line-height: 2rem;
+			flex-grow: 1;
+		}
+
+		span.modal-close {
+			cursor: pointer;
+			float: right;
+			font-size: 3rem;
+			font-weight: 700;
+			line-height: 2rem;
+			color: #fff;
+			text-shadow: none;
+			opacity: .65;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+			height: 100%;
+
+			&>svg{
+				height: 1.6rem;
+				fill: #fff;
+			}
+
+			&:focus, &:hover {
+				text-decoration: none;
+				opacity: .9;
+			}
+		}
+	}
+
+	&>section{
+		position: relative;
+		min-height: 5rem;
+		margin-bottom: 0;
+		padding: 0 3rem;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		flex: 1;
+
+		&>p{
+			text-align: left;
+			padding: 2rem 0 2rem 2rem;
+			width: 100%;
+		}
+
+		&.nobtns{
+			min-height: 10rem;
+			&>p{
+				padding: 0 2rem;
+			}
+		}
+	}
+
+	&>footer{
+		padding: 0 2rem;
+		position: relative;
+
+		&.btn-actions{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			column-gap: 2rem;
+			padding-bottom: 4rem;
+		}
+
+		&.img-loader{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 6rem;
+		}
+	}
+
+	@keyframes myFadeIn{
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes myFadeOut{
+		from {
+			opacity: 1;
+		}
+		to {
+			opacity: 0;
+		}
+	}
+
+}

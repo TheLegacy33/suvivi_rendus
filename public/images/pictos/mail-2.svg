@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="17.3333 32.1248 73 45.625" width="73" height="45.625" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip-mail">
+      <rect width="128" height="128"/>
+    </clipPath>
+  </defs>
+  <g id="mail" clip-path="url(#clip-mail)" transform="matrix(1, 0, 0, 1, -10.666666984558105, -9.563218116760254)">
+    <path id="_" data-name="" d="M73-59.312v45.625H0V-59.312ZM5.1-54.75,36.5-39.031,67.9-54.75Zm63.34,36.5V-49.9L36.5-33.969,4.563-49.9V-18.25Z" transform="translate(28 101)"/>
+  </g>
+</svg>

@@ -1,0 +1,34 @@
+<!-- Script JS -->
+<?php
+	if (isset($includedJSScriptsFirst) and is_array($includedJSScriptsFirst) and !empty($includedJSScriptsFirst)){
+		foreach ($includedJSScriptsFirst as $includedJSScript){
+			$ver = hash('sha256', filesize(PHP_PUBLIC_DIR . $includedJSScript));
+			print('<script type="text/javascript" src="' . $includedJSScript . '?ver=' . $ver . '"></script>' . "\r");
+		}
+	}
+	// Inclusion de tous les scripts communs
+	$includedJSCommonScripts = [HTML_PUBLIC_SCRIPTS_DIR . "common-actions.js", HTML_PUBLIC_SCRIPTS_DIR . "scripts.js", HTML_PUBLIC_SCRIPTS_DIR . "modals.js", HTML_PUBLIC_SCRIPTS_DIR . "messageBox.js"];
+	foreach ($includedJSCommonScripts as $includedJSCommonScript){
+		if (file_exists(PHP_PUBLIC_DIR . $includedJSCommonScript)){
+			$ver = hash('sha256', filesize(PHP_PUBLIC_DIR . $includedJSCommonScript));
+		}else{
+			$ver = '1';
+		}
+		print('<script type="text/javascript" src="' . $includedJSCommonScript . '?ver=' . $ver . '"></script>' . "\r");
+	}
+?>
+<?php
+	if (isset($includedJSScripts) and is_array($includedJSScripts) and !empty($includedJSScripts)){
+		foreach ($includedJSScripts as $includedJSScript){
+			if (file_exists(PHP_PUBLIC_DIR . $includedJSScript)){
+				$ver = hash('sha256', filesize(PHP_PUBLIC_DIR . $includedJSScript));
+			}else{
+				$ver = '1';
+			}
+			print('<script type="text/javascript" src="' . $includedJSScript . '?ver=' . $ver . '"></script>' . "\r");
+		}
+	}
+?>
+</body>
+
+</html>

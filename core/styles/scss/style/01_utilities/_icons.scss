@@ -1,0 +1,111 @@
+
+.icon--fixed-xxs {
+	width: 15px !important;
+	height: 15px !important;
+}
+
+.icon--fixed-xs {
+	width: 20px !important;
+	height: 20px !important;
+}
+
+.icon--fixed-xsm {
+	width: 25px !important;
+	height: 25px !important;
+}
+
+.icon--fixed-sm {
+	width: 32px;
+	height: 32px;
+}
+
+.icon--fixed {
+	width: 40px !important;
+	height: 40px !important;
+}
+
+.icon--fixed-md {
+	width: 50px !important;
+	height: 50px !important;
+}
+
+.icon--fixed-lg {
+	width: 60px !important;
+	height: 60px !important;
+}
+
+.icon--fixed-xl {
+	width: 80px !important;
+	height: 80px !important;
+}
+
+.icon--fixed-xxl {
+	width: 130px !important;
+	height: 130px !important;
+}
+
+.icon-like {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	left: 10px;
+	padding: 8px;
+	margin-top: -2px;
+	background-color: white;
+	border-radius: 50px;
+}
+
+.icon-info,  .icon-croix{
+	width: 14px;
+	height: 14px;
+
+	@media screen and (min-width: $break-small) and (max-width: $break-large){
+		width: 12px;
+		height: 12px;
+	}
+
+	@media screen and (min-width: $break-large) and (max-width: $break-xl){
+		width: 14px;
+		height: 14px;
+	}
+
+	@media screen and (min-width: $break-xl){
+		width: 18px;
+		height: 18px;
+	}
+}
+
+.icon-info {
+	cursor: help;
+}
+
+.icon-croix{
+	cursor: pointer;
+}
+
+@media (min-width: 575.98px) {
+	.icon-like {
+		left: 8%;
+		margin-top: -1px;
+		margin-left: -125px;
+	}
+}
+
+/*.icon--fixed-md-xs svg {*/
+/*@include media-breakpoint-up(md) {*/
+/*    width: rem(20) !important;*/
+/*    height: rem(20) !important;*/
+/*}*/
+/*}*/
+
+/*.icon--fixed-md-xsm svg {*/
+/*@include media-breakpoint-up(md) {*/
+/*    width: rem(25) !important;*/
+/*    height: rem(25) !important;*/
+/*}*/
+/*}*/
+
+/*.icon-padding {*/
+/*    padding-left: rem(5);*/
+/*    padding-right: 0!important; !* surcharge *!*/
+/*}*/

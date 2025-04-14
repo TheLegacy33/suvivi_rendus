@@ -1,0 +1,1398 @@
+<?php
+
+/**
+ * @var User $userLogged
+ * @var Artiste $profilLogged
+ * @var Adresse $adresseFacturation
+ * @var Adresse $adresseLivraison
+ * @var Devises $defaultCurrency
+ * @var string $defaultLanguage
+ * @var LocaleTrad $defaultLocale
+ *
+ * @var array $lstPays
+ * @var array $lstPaysStared
+ * @var array $lstPaysNotStared
+ * @var array $lstDepartements
+ * @var array $lstRegions
+ * @var array $lstCivilites
+ * @var array $lstStatutsAdresse
+ * @var array $lstCategoriesArtistes
+ * @var array $lstTauxNegociation
+ * @var array $lstMethodesVirement
+ * @var array $lstStatutCompte
+ * @var array $lstTypesCompte
+ * @var array $lstDevises
+ * @var array $lstLocales
+ */
+
+?>
+
+<main id="compte-acheteur-vendeur">
+	<?php include("core/views/template/breadcrumb.phtml") ?>
+	<section class="container acheteur-vendeur">
+		<div class="photo-profil-utilisateur">
+			<div id="divPhoto">
+				<?php if (is_null($userLogged->getPhoto())) : ?>
+					<img id="imgViewAvatar" src="<?= HTML_PUBLIC_IMAGES_DIR . 'pictos/icon_portrait.png' ?>" alt="Portrait">
+				<?php else : ?>
+					<img id="imgViewAvatar" src="<?= $userLogged->getPhotoPublicFile() ?>" alt="Portrait">
+				<?php endif; ?>
+			</div>
+			<div id="divActions">
+				<input autocomplete="off" type="file" data-imgview="imgViewAvatar" id="chInputChangeAvatar" class="file-avatar" name="chChangeAvatar" accept="image/tiff, image/jpeg, image/png, image/jpg">
+				<input autocomplete="off" type="file" data-imgview="imgViewAvatarCam" id="chInputChangeAvatarCam" class="file-avatar" name="chChangeAvatar" accept="image/tiff, image/jpeg, image/png, image/jpg" capture="user">
+				<?php if (is_null($userLogged->getPhoto())) : ?>
+
+					<div class="boutons">
+						<?php if (is_null($userLogged->getPhoto())) : ?>
+							<button id="btnAddPortraitCam" class="btn-camera" title="Prenez-vous en photo"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/icon-camera.svg" alt="Image photo camera"></button>
+							<button id="btnAddPortrait" class="btn-plus" title="Enregistrer votre portrait"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/plus.svg" alt="Image photo"></button>
+
+						<?php endif; ?>
+					</div>
+				<?php else : ?>
+					<div class="boutons ">
+						<button id="btnDelPortrait" title="Supprimer votre portrait"><img src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/moins.svg" alt="Image Supprimer"></button>
+					</div>
+				<?php endif; ?>
+			</div>
+			<dialog id="update-portrait-profil">
+				<header class="">
+					<h4>Recadrez votre photo</h4>
+					<span class="modal-close">
+						<svg id="Capa_1" viewBox="0 0 413.348 413.348" xmlns="http://www.w3.org/2000/svg">
+							<path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z" />
+						</svg>
+					</span>
+				</header>
+				<section class="section-body">
+					<div class="recadrement-image">
+						<div class="background-portrait-modal">
+							<div id="div-portrait-redimension">
+								<img src="" alt="Redimensionner" id="portrait-redimension">
+							</div>
+						</div>
+					</div>
+					<div class="bouton-portrait">
+						<button id="btValidPortrait" type="button" class="btn btn-submit">Valider</button>
+					</div>
+				</section>
+			</dialog>
+		</div>
+		<div class="titre-acheteur-vendeur">
+			<h4><?= Traducteur::getTraduction('00004', $defaultLanguage) ?> <?= $userLogged->getFullName() ?></h4>
+			<h4><?= Traducteur::getTraduction('00044', $defaultLanguage) ?></h4>
+			<p><?= Traducteur::getTraduction('00875', $defaultLanguage) ?> <?= $userLogged->getDateAjout()->format('d/m/Y'); ?></p>
+			<p><?= Traducteur::getTraduction('00876', $defaultLanguage) ?></p>
+		</div>
+		<div class="grid-acheteur-vendeur">
+			<?php if (!$userLogged->hasRole(DAORoleUser::getByLibelle('Vendeur'))) : ?>
+				<div class="vendeur-sur-la-plateforme">
+					<div>
+						<p><a href="<?= getUrl('inscription', 'artiste', 'step-1') ?>">Déposer une candidature pour être vendeur </a></p>
+					</div>
+				</div>
+			<?php elseif (
+				!($userLogged->isAdmin())
+				and !($userLogged->hasRole(DAORoleUser::getByLibelle('Acheteur')))
+				and !($userLogged->hasRole(DAORoleUser::getByLibelle('Modérateur')))
+				and !($userLogged->hasRole(DAORoleUser::getByLibelle('Rédacteur')))
+				and !($userLogged->hasRole(DAORoleUser::getByLibelle('Gestionnaire')))
+			) : ?>
+				<div class="event-ajout-oeuvre">
+					<p>
+						<a href="<?= getUrl('oeuvres', 'form', 'add') ?>"><?= Traducteur::getTraduction('00200', $defaultLanguage) ?> <?php if (AIApplication::isActive('evenement')) print("ou un événement +") ?> * </a>
+					</p>
+					<p>
+						<a href="<?= getUrl('oeuvres', 'form', 'add') ?>"><?= Traducteur::getTraduction('00910', $defaultLanguage) ?></a>
+					</p>
+				</div>
+				<div class="voir-profil-vente">
+					<p><a href="<?= getUrl('artistes', 'profil', 'view', ['id' => $profilLogged->getId()]) ?>"><?= Traducteur::getTraduction('00911', $defaultLanguage) ?> *</a></p>
+					<p><a href="<?= getUrl('artistes', 'profil', 'view', ['id' => $profilLogged->getId()]) ?>"><?= Traducteur::getTraduction('00912', $defaultLanguage) ?></a></p>
+				</div>
+			<?php endif; ?>
+		</div>
+	</section>
+	<?php require_once 'core/views/template/navigation-acheteur-vendeur.php'; ?>
+	<div class="compte-acheteur-vendeur-bienvenue container">
+		<p>
+			<?= Traducteur::getTraduction('00886', $defaultLanguage) ?>.
+			<?php if ($userLogged->hasRole(DAORoleUser::getByLibelle('Vendeur'))) : ?>
+				<?= Traducteur::getTraduction('00913', $defaultLanguage) ?>
+			<?php elseif ($userLogged->hasRole(DAORoleUser::getByLibelle('Acheteur'))) : ?>
+				<?= Traducteur::getTraduction('00887', $defaultLanguage) ?>
+			<?php elseif ($userLogged->hasRole(DAORoleUser::getByLibelle('Modérateur'))) : ?>
+				<?= Traducteur::getTraduction('00888', $defaultLanguage) ?>
+			<?php elseif ($userLogged->hasRole(DAORoleUser::getByLibelle('Rédacteur'))) : ?>
+				<?= Traducteur::getTraduction('00889', $defaultLanguage) ?>
+			<?php elseif ($userLogged->hasRole(DAORoleUser::getByLibelle('Gestionnaire'))) : ?>
+				<?= Traducteur::getTraduction('00890', $defaultLanguage) ?>
+			<?php endif; ?>
+			<?= Traducteur::getTraduction('00891', $defaultLanguage) ?>.
+		</p>
+	</div>
+	<div class="coupure-acheteur-vendeur"></div>
+	<section class=" formulaire-compte-acheteur-vendeur">
+		<div class="info-personnelles">
+			<h4><?= Traducteur::getTraduction('00892', $defaultLanguage) ?></h4>
+		</div>
+		<div class="container coordonnees-acheteur-vendeur">
+			<h4 class="container">1. <?= Traducteur::getTraduction('00893', $defaultLanguage) ?></h4>
+		</div>
+		<div class="paragraphe-avant-form-acheteur-vendeur container">
+			<p><?= Traducteur::getTraduction('00894', $defaultLanguage) ?>.</p>
+		</div>
+		<form action="" id="formCoordonnees">
+			<input type="hidden" id="myUserId" value="<?= $userLogged->getId() ?>" name="chMyUserId">
+			<div class="statut-artiste">
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00454', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="statutArtiste"></label>
+						<select name="statut" id="statutArtiste" required>
+							<option value="0" disabled>Choisissez votre catégorie</option>
+							<?php
+
+							$script = '';
+							/**
+							 * @var CategorieArtiste $Categorie
+							 */
+							foreach ($lstCategoriesArtistes as $categorie) {
+								$selected = '';
+								if (!is_null($profilLogged->getCategorieArtiste()) && $categorie == $profilLogged->getCategorieArtiste()) {
+									$selected = ' selected';
+								}
+								$script .= '<option title="' . $categorie->getDescription() . '" value="' . $categorie->getId() . '" ' . $selected . '>' . (str_starts_with($defaultLanguage, 'fr') ? $categorie->getLibelle() : $categorie->getLibelleEn())  . '</option>';
+							}
+							print($script);
+							?>
+						</select>
+					</div>
+				</fieldset>
+			</div>
+			<div class="champsEntreprise hidden">
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00582', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chRaisonSociale"></label>
+						<input class="upper" type="text" id="chRaisonSociale" name="champRaisonSociale" value="<?= (!is_null($profilLogged->getEntreprise()) ? $profilLogged->getEntreprise()->getRaisonSociale() : '') ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div class="champsEntreprise hidden">
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00583', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chSiretEntreprise"></label>
+						<input type="text" id="chSiretEntreprise" name="champSiretEntreprise" value="<?= (!is_null($profilLogged->getEntreprise()) ? $profilLogged->getEntreprise()->getSiret() : '') ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div class="champsEntreprise hidden champTva">
+				<p><?= Traducteur::getTraduction('00947', $defaultLanguage) ?>* :</p>
+				<div class="tva-assujetti">
+					<?php
+					$assujettiTVAOui = is_null($profilLogged->getAssujettiTVA()) ? null : $profilLogged->isAssujettiTVA();
+					$assujettiTVANon = is_null($profilLogged->getAssujettiTVA()) ? null : !$profilLogged->isAssujettiTVA();
+					?>
+					<div>
+						<input autocomplete="off" type="radio" name="chAssujetti" id="chAssujetti-non" value="non" <?= is_null($assujettiTVANon) ? '' : ($assujettiTVANon ? 'checked' : '') ?>>
+						<label for="chAssujetti-non"><?= Traducteur::getTraduction('00161', $defaultLanguage) ?></label>
+					</div>
+					<div>
+						<input autocomplete="off" type="radio" name="chAssujetti" id="chAssujetti-oui" value="oui" <?= is_null($assujettiTVAOui) ? '' : ($assujettiTVAOui ? 'checked' : '') ?>>
+						<label for="chAssujetti-oui"><?= Traducteur::getTraduction('00160', $defaultLanguage) ?></label>
+					</div>
+				</div>
+				<div class="">
+					<p>Attestation de non assujetissement à la TVA</p>
+					<p>Modèle de non assujetissement à la TVA : <a class="btn" download="modele_attestation" href="<?= HTML_PUBLIC_ASSETS_DIR . DAOParametres::getByLibelle('attestationNonTVA')->getValeur() ?>">Modèle Word</a></p>
+				</div>
+				<div class="">
+					<div class="info-document principal-type">
+						<div class="linkdoc">
+							<?php
+							$attestationTVA = $profilLogged->getAttestationTVA();
+							if (!is_null($attestationTVA)): ?>
+								<span>Le document que vous nous avez transmis : </span>
+								<a id="linkchAttestationTva" class="document" href="<?= $attestationTVA->getCheminPublicFile() ?>" download="<?= $attestationTVA->getNom() ?>" title="Visualiser le document">
+									<?= $attestationTVA->getNom() ?>
+									<img src="<?= HTML_PUBLIC_IMAGES_DIR . 'pictos/new_window.png' ?>" alt="new window">
+								</a>
+								<!--									<a id="delchAttestationTva" data-iddoc="--><?php //= $attestationTVA->getId() 
+																													?><!--" data-idartiste="--><?php //= $profilLogged->getId() 
+																																				?><!--" class="document" title="Supprimer le document">-->
+								<!--										<img src="--><?php //= HTML_PUBLIC_IMAGES_DIR . 'pictos/croix.png' 
+																							?><!--" alt="Supprimer le document">-->
+								<!--									</a>-->
+							<?php endif; ?>
+						</div>
+						<label for="champAttestationTVA"><?= is_null($attestationTVA) ? 'Transmettez nous' : 'Mettez à jour' ?> le document rempli</label>
+						<input autocomplete="off" type="file" name="chAttestationTVA" id="champAttestationTVA">
+					</div>
+				</div>
+
+			</div>
+			<div class="checkbox-coordonne-acheteur-vendeur">
+				<p><?= Traducteur::getTraduction('00142', $defaultLanguage) ?>: *</p>
+				<div class="flex-civilite">
+					<?php
+					$script = '';
+					/**
+					 * @var Civilite $uneCivilite
+					 */
+					foreach ($lstCivilites as $index => $uneCivilite) {
+						if ($index == array_key_first($lstCivilites)) {
+							$required = 'required';
+						} else {
+							$required = '';
+						}
+
+						$checked = ($userLogged->getCivilite()->getId() == $uneCivilite->getId() ? 'checked' : '');
+
+						$script .= '
+								<div>
+									<input type="radio" name="chCivilite" id="civilite-' . $uneCivilite->getLibelle() . '" value="' . $uneCivilite->getId() . '" ' . $required . ' ' . $checked . '>
+									<label for="civilite-' .  $uneCivilite->getLibelle() . '">' . (str_starts_with($defaultLanguage, 'fr') ? $uneCivilite->getLibelle() : $uneCivilite->getLibelleEn()) . '</label>
+								</div>
+								';
+					}
+					print($script);
+					?>
+				</div>
+			</div>
+
+			<div class="naissance-acheteur-vendeur">
+				<p><?= Traducteur::getTraduction('00144', $defaultLanguage) ?> *</p>
+				<div>
+					<fieldset>
+						<label for="jour"></label>
+						<select name="Jour" id="jour">
+							<option value=""></option>
+							<?php
+							$script = '';
+							for ($i = 1; $i <= 31; $i++) {
+								$selected = '';
+								if ($i == intval($userLogged->getDateNaissance()->format('d'))) {
+									$selected = ' selected';
+								}
+								$script .= '<option value="' . sprintf('%02d', $i) . '" ' . $selected . '>' . sprintf('%02d', $i) . '</option>';
+							}
+							print($script);
+							?>
+						</select>
+					</fieldset>
+					<fieldset>
+						<label for="mois"></label>
+						<select name="Mois" id="mois">
+							<option value=""></option>
+							<?php
+							$script = '';
+							for ($i = 1; $i <= 12; $i++) {
+								$selected = '';
+								if ($i == intval($userLogged->getDateNaissance()->format('m'))) {
+									$selected = ' selected';
+								}
+								$script .= '<option value="' . sprintf('%02d', $i) . '" ' . $selected . '>' . sprintf('%02d', $i) . '</option>';
+							}
+							print($script);
+							?>
+						</select>
+					</fieldset>
+					<fieldset>
+						<label for="annee"></label>
+						<select name="Annee" id="annee">
+							<option value=""></option>
+							<?php
+							$script = '';
+							for ($i = (date('Y')); $i >= date('Y') - 120; $i--) {
+								$selected = '';
+								if ($i == intval($userLogged->getDateNaissance()->format('Y'))) {
+									$selected = ' selected';
+								}
+								$script .= '<option value="' . $i . '" ' . $selected . '>' . $i . '</option>';
+							}
+							print($script);
+							?>
+						</select>
+					</fieldset>
+				</div>
+			</div>
+			<div class="choix-afficher-naissance">
+				<p><?= Traducteur::getTraduction('00914', $defaultLanguage) ?> ?
+					<button type="button" tabindex="-1" class="infobulle" aria-label="<?= Traducteur::getTraduction('00915', $defaultLanguage) ?>">
+						<img class="btn-modal-texte-artshop " src=" <?= HTML_PUBLIC_IMAGES_DIR ?>pictos/icon_info.png" alt="picto informations">
+					</button>
+				</p>
+				<div class="input-choix">
+					<?php $afficherNaissance = $profilLogged->afficherNaissance() ?>
+					<div>
+						<input type="radio" name="chChoixNaissance" id="choix-naissance-non" data-value="" value="0" <?= $afficherNaissance ? '' : 'checked' ?>>
+						<label for="choix-naissance-non"><?= Traducteur::getTraduction('00161', $defaultLanguage) ?></label>
+					</div>
+					<div>
+						<input type="radio" name="chChoixNaissance" id="choix-naissance-oui" data-value="" value="1" <?= $afficherNaissance ? 'checked' : '' ?>>
+						<label for="choix-naissance-oui"><?= Traducteur::getTraduction('00160', $defaultLanguage) ?></label>
+					</div>
+				</div>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00916', $defaultLanguage) ?></legend>
+					<div>
+						<label for="chPseudo"></label>
+						<input type="text" id="chPseudo" name="Pseudo-vente" value="<?= $profilLogged->getPseudo() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div class="champsEntreprise hidden">
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00573', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chNomRepresentantEntreprise"></label>
+						<input class="upper" type="text" id="chNomRepresentantEntreprise" name="champNomRepresentantEntreprise" value="<?= (!is_null($profilLogged->getEntreprise()) ? $profilLogged->getEntreprise()->getNomRepresentant() : '') ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div class="champsEntreprise hidden">
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00574', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chPrenomRepresentantEntreprise"></label>
+						<input class="capitalize" type="text" id="chPrenomRepresentantEntreprise" name="champPrenomRepresentantEntreprise" value="<?= (!is_null($profilLogged->getEntreprise()) ? $profilLogged->getEntreprise()->getPrenomRepresentant() : '') ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00140', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chNom"></label>
+						<input class="upper" type="text" id="chNom" name="Nom-Acheteur-Vendeur" translate="no" value="<?= $profilLogged->getNom() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00141', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chPrenom"></label>
+						<input class="capitalize" type="text" id="chPrenom" name="Prenom-Acheteur-Vendeur" value="<?= $profilLogged->getPrenom() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00895', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chLoginIdenfitiant"></label>
+						<input type="text" id="chLoginIdenfitiant" name="champLoginIdenfitiant" value="<?= $userLogged->getLogin() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div class="choix-pseudo-exposer">
+				<p><?= Traducteur::getTraduction('00917', $defaultLanguage) ?> ? </p>
+				<div class="input-choix">
+					<?php $afficherPseudo = $profilLogged->afficherPseudo() ?>
+					<div>
+						<input type="radio" name="chChoixPseudo" id="choix-Name" data-value="" value="0" <?= $afficherPseudo ? '' : 'checked' ?>>
+						<label for="choix-Name"><?= Traducteur::getTraduction('00918', $defaultLanguage) ?></label>
+					</div>
+					<div>
+						<input type="radio" name="chChoixPseudo" id="choix-Pseudo" data-value="" value="1" <?= $afficherPseudo ? 'checked' : '' ?>>
+						<label for="choix-Pseudo"><?= Traducteur::getTraduction('00919', $defaultLanguage) ?></label>
+					</div>
+				</div>
+
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00036', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chEmail"></label>
+						<input type="email" id="chEmail" name="Mail-Acheteur-Vendeur" value="<?= $userLogged->getEmail() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div class="telephone-compte-acheteur-vendeur">
+				<!--				<fieldset>-->
+				<!--					<legend>Téléphone portable *</legend>-->
+				<!--					<div>-->
+				<!--						<label for="telephone-portable-pays"></label>-->
+				<!--						<select name="Telephone-Portable-Pays" id="telephone-portable-pays">-->
+				<!--							<option value="france">France (+33)</option>-->
+				<!--						</select>-->
+				<!--					</div>-->
+				<!--				</fieldset>-->
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00132', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chTelPortable"></label>
+						<input type="tel" id="chTelPortable" name="Tel-Portable-Acheteur-Vendeur" value="<?= $userLogged->getTelPortable() ?>" placeholder="Merci de laisser un numéro où nous pouvons vous joindre en cas de besoin">
+					</div>
+				</fieldset>
+			</div>
+			<div class="telephone-compte-acheteur-vendeur">
+				<!--				<fieldset>-->
+				<!--					<legend>Téléphone fixe</legend>-->
+				<!--					<div>-->
+				<!--						<label for="telephone-pays"></label>-->
+				<!--						<select name="Telephone-pays" id="telephone-pays">-->
+				<!--							<option value="france">France (+33)</option>-->
+				<!--						</select>-->
+				<!--					</div>-->
+				<!--				</fieldset>-->
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00145', $defaultLanguage) ?></legend>
+					<div>
+						<label for="chTelFixe"></label>
+						<input type="tel" id="chTelFixe" name="Tel-Fixe-Acheteur-Vendeur" value="<?= $userLogged->getTelFixe() ?>" placeholder="Merci de laisser un numéro où nous pouvons vous joindre en cas de besoin">
+					</div>
+				</fieldset>
+			</div>
+			<div class="button-compte-acheteur-vendeur">
+				<button type="button" id="commitFormCoordonnees"><?= Traducteur::getTraduction('00490', $defaultLanguage) ?></button>
+				<button type="button" id="resetFormCoordonnees"><?= Traducteur::getTraduction('00896', $defaultLanguage) ?></button>
+			</div>
+		</form>
+
+	</section>
+	<section class="formulaire-compte-acheteur-vendeur gestion-pays-artiste">
+		<div class="container coordonnees-acheteur-vendeur">
+			<h4 class="container ">2. <?= Traducteur::getTraduction('00921', $defaultLanguage) ?></h4>
+		</div>
+		<section class="">
+			<form action="" id="formUserPays">
+				<div class="paysNaissance">
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00920', $defaultLanguage) ?></legend>
+						<div>
+							<label for="nationalite-artiste"></label>
+							<input list="lstPaysNationalite" type="text" class="upper" id="nationalite-artiste" name="chResidence" value="<?= is_null($profilLogged->getNationalite()) ? '' : $profilLogged->getNationalite()->getNomFr() ?>">
+							<datalist id="lstPaysNationalite">
+								<?php
+								$script = '';
+								/**
+								 * @var Pays $pays
+								 */
+								foreach ($lstPays as $pays) {
+									$script .= '<option value="' . (str_starts_with($defaultLanguage, 'fr') ? $pays->getNomFr() : $pays->getNomEn()) . '">';
+								}
+								print($script);
+								?>
+							</datalist>
+							<p>*</p>
+						</div>
+					</fieldset>
+				</div>
+				<div class="paysResidence">
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00922', $defaultLanguage) ?></legend>
+						<div>
+							<label for="residence-artiste"></label>
+							<input list="lstPaysResidence" type="text" class="upper" id="residence-artiste" name="chResidence" value="<?= is_null($profilLogged->getResidence()) ? '' : $profilLogged->getResidence()->getNomFr() ?>">
+							<datalist id="lstPaysResidence">
+								<?php
+								$script = '';
+								/**
+								 * @var Pays $pays
+								 */
+								foreach ($lstPays as $pays) {
+									$script .= '<option value="' . (str_starts_with($defaultLanguage, 'fr') ? $pays->getNomFr() : $pays->getNomEn()) . '">';
+								}
+								print($script);
+								?>
+							</datalist>
+							<p>*</p>
+						</div>
+					</fieldset>
+				</div>
+				<div class="texte-pays-residence">
+					<p><?= Traducteur::getTraduction('00923', $defaultLanguage) ?>.</p>
+				</div>
+				<div class="button-compte-acheteur-vendeur">
+					<button type="button" id="commitFormPays"><?= Traducteur::getTraduction('00490', $defaultLanguage) ?></button>
+					<button type="button" id="resetFormPays"><?= Traducteur::getTraduction('00896', $defaultLanguage) ?></button>
+				</div>
+			</form>
+		</section>
+	</section>
+	<section class="formulaire-compte-acheteur-vendeur">
+		<div class="container coordonnees-acheteur-vendeur">
+			<h4 class="container ">3. <?= Traducteur::getTraduction('00897', $defaultLanguage) ?></h4>
+		</div>
+		<div class="paragraphe-avant-form-acheteur-vendeur container">
+			<p><?= Traducteur::getTraduction('00898', $defaultLanguage) ?>.</p>
+		</div>
+		<div class="container">
+			<h5 class="container adresse-livraison-acheteur-vendeur"><?= Traducteur::getTraduction('00899', $defaultLanguage) ?></h5>
+		</div>
+		<form action="" id="formAdresseFacturation">
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00140', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chNomFacturation"></label>
+						<input class="upper" type="text" id="chNomFacturation" name="champNomFacturation" translate="no" value="<?= $userLogged->getNom() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00141', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chPrenomFacturation"></label>
+						<input class="capitalize" type="text" id="chPrenomFacturation" name="champPrenomFacturation" value="<?= $userLogged->getPrenom() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00148', $defaultLanguage) ?> (<?= Traducteur::getTraduction('00693', $defaultLanguage) ?> 1) *</legend>
+					<div>
+						<label for="chAdresse1Facturation"></label>
+						<input type="text" id="chAdresse1Facturation" name="champAdresse1Facturation" value="<?= is_null($adresseFacturation) ? '' : $adresseFacturation->getAdresse1() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00148', $defaultLanguage) ?> (<?= Traducteur::getTraduction('00693', $defaultLanguage) ?> 2)</legend>
+					<div>
+						<label for="chAdresse2Facturation"></label>
+						<input type="text" id="chAdresse2Facturation" name="champAdresse2Facturation" value="<?= is_null($adresseFacturation) ? '' : $adresseFacturation->getAdresse2() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00149', $defaultLanguage) ?> / <?= Traducteur::getTraduction('00150', $defaultLanguage) ?></legend>
+					<div>
+						<label for="chComplementFacturation"></label>
+						<input type="text" id="chComplementFacturation" name="champComplementFacturation" value="<?= is_null($adresseFacturation) ? '' : $adresseFacturation->getComplementAdresse() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00151', $defaultLanguage) ?></legend>
+					<div>
+						<label for="chRegionFacturation"></label>
+						<input class="upper" type="text" id="chRegionFacturation" name="champRegionFacturation" value="<?= is_null($adresseFacturation) ? '' : (is_null($adresseFacturation->getRegion()) ? '' : $adresseFacturation->getRegion()->getNom()) ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00152', $defaultLanguage) ?></legend>
+					<div>
+						<label for="chDepartementFacturation"></label>
+						<input class="upper" type="text" id="chDepartementFacturation" name="champDepartementFacturation" value="<?= is_null($adresseFacturation) ? '' : (is_null($adresseFacturation->getDepartement()) ? '' : $adresseFacturation->getDepartement()->getNom()) ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00153', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chCodePostalFacturation"></label>
+						<input type="text" id="chCodePostalFacturation" name="champCodePostalFacturation" value="<?= is_null($adresseFacturation) ? '' : $adresseFacturation->getCpVille()->getCodepostal() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00154', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chVilleFacturation"></label>
+						<input class="upper" type="text" id="chVilleFacturation" name="champVilleFacturation" value="<?= is_null($adresseFacturation) ? '' : $adresseFacturation->getCpVille()->getVille() ?>">
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<fieldset>
+					<legend><?= Traducteur::getTraduction('00012', $defaultLanguage) ?> *</legend>
+					<div>
+						<label for="chPaysFacturation"></label>
+						<input class="upper" list="lstPaysFacturation" type="text" id="chPaysFacturation" name="champPaysFacturation" value="<?= is_null($adresseFacturation) ? '' : $adresseFacturation->getPays()->getNomFr() ?>">
+						<datalist id="lstPaysFacturation">
+							<?php
+							$script = '';
+							/**
+							 * @var Pays $pays
+							 */
+							foreach ($lstPays as $pays) {
+								$script .= '<option value="' . (str_starts_with($defaultLanguage, 'fr') ? $pays->getNomFr() : $pays->getNomEn()) . '">';
+							}
+							print($script);
+							?>
+						</datalist>
+					</div>
+				</fieldset>
+			</div>
+			<div class="button-compte-acheteur-vendeur">
+				<button type="button" id="commitFormAdresseFacturation"><?= Traducteur::getTraduction('00490', $defaultLanguage) ?></button>
+				<button type="button" id="resetFormAdresseFacturation"><?= Traducteur::getTraduction('00896', $defaultLanguage) ?></button>
+			</div>
+		</form>
+
+		<div class="container check-compte-acheteur-vendeur">
+			<?php
+			$checked = ($adresseLivraison != null and $adresseLivraison->getAdresse1() != $adresseFacturation->getAdresse1()) ? 'checked' : '';
+			?>
+			<input type="checkbox" name="adresse" id="chkAdresseLivraisonDifferente" <?= $checked ?>>
+			<label for="chkAdresseLivraisonDifferente"><?= Traducteur::getTraduction('00900', $defaultLanguage) ?>.</label>
+		</div>
+		<section id="formulaire-checked-compte-acheteur-vendeur">
+			<div class="container">
+				<h5 class="container adresse-livraison-acheteur-vendeur"><?= Traducteur::getTraduction('00901', $defaultLanguage) ?></h5>
+			</div>
+			<div class="paragraphe-avant-form-acheteur-vendeur container">
+				<p><?= Traducteur::getTraduction('00902', $defaultLanguage) ?>. </p>
+			</div>
+			<form action="" id="formAdresseLivraison">
+				<div class="checkbox-statut">
+					<p><?= Traducteur::getTraduction('00454', $defaultLanguage) ?>: *</p>
+					<?php
+					$script = '';
+					/**
+					 * @var StatutAdresse $unStatutAdresse
+					 */
+					foreach ($lstStatutsAdresse as $index => $unStatutAdresse) {
+						if ($index == array_key_first($lstStatutsAdresse)) {
+							$required = 'required';
+						} else {
+							$required = '';
+						}
+
+						$checked = !is_null($adresseLivraison) ? ($adresseLivraison->getStatutAdresse()->getId() == $unStatutAdresse->getId() ? 'checked' : '') : '';
+
+						$script .= '
+								<div>
+									<input type="radio" name="rdStatutContactLivraison" id="statutadresse-' . $unStatutAdresse->getLibelle() . '" data-value="' . $unStatutAdresse->getLibelle() . '" value="' . $unStatutAdresse->getId() . '" ' . $required . ' ' . $checked . '>
+									<label for="statutadresse-' . $unStatutAdresse->getLibelle() . '">' . (str_starts_with($defaultLanguage, 'fr') ? $unStatutAdresse->getLibelle() : $unStatutAdresse->getLibelleEn()) . '</label>
+								</div>
+								';
+					}
+					print($script);
+					?>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00582', $defaultLanguage) ?> *</legend>
+						<div>
+							<label for="chRaisonSocialeLivraison"></label>
+							<input class="upper" type="text" id="chRaisonSocialeLivraison" name="champRaisonSocialeLivraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getRaisonSociale() ?>">
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00140', $defaultLanguage) ?> *</legend>
+						<div>
+							<label for="chNomLivraison"></label>
+							<input class="upper" type="text" id="chNomLivraison" name="champNomLivraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getNomContact() ?>">
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00141', $defaultLanguage) ?> *</legend>
+						<div>
+							<label for="chPrenomLivraison"></label>
+							<input class="capitalize" type="text" id="chPrenomLivraison" name="champPrenomLivraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getPrenomContact() ?>">
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00148', $defaultLanguage) ?> (<?= Traducteur::getTraduction('00693', $defaultLanguage) ?> 1) *</legend>
+						<div>
+							<label for="chAdresse1Livraison"></label>
+							<input type="text" id="chAdresse1Livraison" name="champAdresse1Livraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getAdresse1() ?>">
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00148', $defaultLanguage) ?> (<?= Traducteur::getTraduction('00693', $defaultLanguage) ?> 2)</legend>
+						<div>
+							<label for="chAdresse2Livraison"></label>
+							<input type="text" id="chAdresse2Livraison" name="champAdresse2Livraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getAdresse2() ?>">
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00149', $defaultLanguage) ?> / <?= Traducteur::getTraduction('00150', $defaultLanguage) ?></legend>
+						<div>
+							<label for="chComplementLivraison"></label>
+							<input type="text" id="chComplementLivraison" name="champComplementLivraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getComplementAdresse() ?>">
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00151', $defaultLanguage) ?></legend>
+						<div>
+							<label for="chRegionLivraison"></label>
+							<input class="upper" type="text" id="chRegionLivraison" name="champRegionLivraison" value="<?= is_null($adresseLivraison) ? '' : (is_null($adresseLivraison->getRegion()) ? '' : $adresseLivraison->getRegion()->getNom()) ?>">
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00152', $defaultLanguage) ?></legend>
+						<div>
+							<label for="chDepartementLivraison"></label>
+							<input class="upper" type="text" id="chDepartementLivraison" name="champDepartementLivraison" value="<?= is_null($adresseLivraison) ? '' : (is_null($adresseLivraison->getDepartement()) ? '' : $adresseLivraison->getDepartement()->getNom()) ?>">
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00153', $defaultLanguage) ?> *</legend>
+						<div>
+							<label for="chCodePostalLivraison"></label>
+							<input type="text" id="chCodePostalLivraison" name="champCodePostalLivraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getCpVille()->getCodepostal() ?>">
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00154', $defaultLanguage) ?> *</legend>
+						<div>
+							<label for="chVilleLivraison"></label>
+							<input class="upper" type="text" id="chVilleLivraison" name="champVilleLivraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getCpVille()->getVille() ?>">
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00012', $defaultLanguage) ?> *</legend>
+						<div>
+							<label for="chPaysLivraison"></label>
+							<input class="upper" list="lstPaysLivraison" type="text" id="chPaysLivraison" name="champPaysLivraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getPays()->getNomFr() ?>">
+							<datalist id="lstPaysLivraison">
+								<?php
+								$script = '';
+								/**
+								 * @var Pays $pays
+								 */
+								foreach ($lstPays as $pays) {
+									$script .= '<option value="' . (str_starts_with($defaultLanguage, 'fr') ? $pays->getNomFr() : $pays->getNomEn()) . '">';
+								}
+								print($script);
+								?>
+							</datalist>
+						</div>
+					</fieldset>
+				</div>
+				<div class="telephone-compte-acheteur-vendeur">
+					<!--					<fieldset>-->
+					<!--						<legend>Téléphone portable *</legend>-->
+					<!--						<div>-->
+					<!--							<label for="telephone-portable-pays"></label>-->
+					<!--							<select name="Telephone-Portable-Pays" id="telephone-portable-pays">-->
+					<!--								<option value="france">France (+33)</option>-->
+					<!--							</select>-->
+					<!--						</div>-->
+					<!--					</fieldset>-->
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00132', $defaultLanguage) ?> *</legend>
+						<div>
+							<label for="chTelPortableLivraison"></label>
+							<input type="tel" id="chTelPortableLivraison" name="champTelPortableLivraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getTelPortable() ?>" placeholder="Merci de laisser un numéro où nous pouvons vous joindre en cas de besoin">
+						</div>
+					</fieldset>
+				</div>
+				<div class="telephone-compte-acheteur-vendeur">
+					<!--					<fieldset>-->
+					<!--						<legend>Téléphone fixe</legend>-->
+					<!--						<div>-->
+					<!--							<label for="telephone-pays"></label>-->
+					<!--							<select name="Telephone-pays" id="telephone-pays">-->
+					<!--								<option value="france">France (+33)</option>-->
+					<!--							</select>-->
+					<!--						</div>-->
+					<!--					</fieldset>-->
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00145', $defaultLanguage) ?></legend>
+						<div>
+							<label for="chTelFixeLivraison"></label>
+							<input type="tel" id="chTelFixeLivraison" name="champTelFixeLivraison" value="<?= is_null($adresseLivraison) ? '' : $adresseLivraison->getTelFixe() ?>" placeholder="Merci de laisser un numéro où nous pouvons vous joindre en cas de besoin">
+						</div>
+					</fieldset>
+				</div>
+				<div class="information-complementaire-compte-acheteur-vendeur">
+					<fieldset>
+						<legend><?= Traducteur::getTraduction('00155', $defaultLanguage) ?></legend>
+						<div>
+							<label for="chInfosComplementLivraison"></label>
+							<textarea name="champInfosComplementLivraison" id="chInfosComplementLivraison" cols="30" rows="3"><?= is_null($adresseLivraison) ? '' : $adresseLivraison->getAdresse2() ?></textarea>
+						</div>
+					</fieldset>
+					<fieldset>
+						<div>
+							<p><?= Traducteur::getTraduction('00701', $defaultLanguage) ?></p>
+						</div>
+					</fieldset>
+				</div>
+				<div class="button-compte-acheteur-vendeur">
+					<button type="button" id="commitFormAdresseLivraison"><?= Traducteur::getTraduction('00490', $defaultLanguage) ?></button>
+					<button type="button" id="resetFormAdresseLivraison"><?= Traducteur::getTraduction('00896', $defaultLanguage) ?></button>
+				</div>
+			</form>
+		</section>
+	</section>
+	<?php if (AIApplication::isActive("carte-compte")) : ?>
+		<section class="formulaire-compte-acheteur-vendeur gestion-carte-paiement">
+			<div class="container coordonnees-acheteur-vendeur">
+				<h4 class="container ">4. <?= Traducteur::getTraduction('00924', $defaultLanguage) ?> </h4>
+				<section>
+					<form action="" id="formCarteBancaire" class="form-carte-bancaire">
+						<section class="moyen-de-paiement">
+							<div class="titre-section-methode">
+								<h5><?= Traducteur::getTraduction('00925', $defaultLanguage) ?></h5>
+							</div>
+							<section class="moyens-de-virement">
+								<div class="titre-virement">
+									<p><?= Traducteur::getTraduction('00926', $defaultLanguage) ?>:</p>
+								</div>
+								<div class="different-virement">
+									<?php foreach ($lstMethodesVirement as $uneMethode) :
+										if (!is_null($userLogged->getInfosBanque()) and $uneMethode->getId() == $userLogged->getInfosBanque()->getMethodeVirement()->getId()) {
+											$checked = ' checked';
+										} else {
+											$checked = '';
+										}
+									?>
+										<div>
+											<input type="radio" name="radioMethodePaiement" id="rdMethodePaye_<?= $uneMethode->getId() ?>" value="<?= $uneMethode->getId() ?>" <?= $checked ?>>
+											<label for="rdMethodePaye_<?= $uneMethode->getId() ?>"><?= (str_starts_with($defaultLanguage, 'fr') ? $uneMethode->getLibelle() : $uneMethode->getLibelleEn())  ?></label>
+										</div>
+									<?php endforeach; ?>
+								</div>
+								<div class="titre-statut">
+									<p><?= Traducteur::getTraduction('00454', $defaultLanguage) ?>:</p>
+								</div>
+								<div class="different-statut">
+									<?php foreach ($lstStatutCompte as $unStatutCompte) :
+										if (!is_null($userLogged->getInfosBanque()) and $unStatutCompte->getId() == $userLogged->getInfosBanque()->getStatutCompte()->getId()) {
+											$checked = ' checked';
+										} else {
+											$checked = '';
+										}
+									?>
+										<div>
+											<input type="radio" name="radioStatutPaiement" id="rdStatutCpt_<?= $unStatutCompte->getId() ?>" value="<?= $unStatutCompte->getId() ?>" <?= $checked ?>>
+											<label for="rdStatutCpt_<?= $unStatutCompte->getId() ?>"><?= (str_starts_with($defaultLanguage, 'fr') ? $unStatutCompte->getLibelle() : $unStatutCompte->getLibelleEn())  ?></label>
+										</div>
+									<?php endforeach; ?>
+								</div>
+							</section>
+						</section>
+						<section class="detail-compte-bancaire">
+							<div class="titre-section-detail">
+								<h5><?= Traducteur::getTraduction('00927', $defaultLanguage) ?></h5>
+							</div>
+							<section class="differente-informations">
+								<div class="titre-type">
+									<p><?= Traducteur::getTraduction('00032', $defaultLanguage) ?></p>
+								</div>
+								<div class="different-type">
+									<?php foreach ($lstTypesCompte as $unTypeCompte) :
+										if ($unTypeCompte->isActif()) :
+											if (!is_null($userLogged->getInfosBanque()) and $unTypeCompte->getId() == $userLogged->getInfosBanque()->getTypeCompte()->getId()) {
+												$checked = ' checked';
+											} else {
+												$checked = '';
+											}
+									?>
+											<div>
+												<input type="radio" name="radioTypeCompte" id="rdTypeCpt_<?= $unTypeCompte->getId() ?>" value="<?= $unTypeCompte->getId() ?>" <?= $checked ?> autocomplete="off">
+												<label for="rdTypeCpt_<?= $unTypeCompte->getId() ?>"><?= (str_starts_with($defaultLanguage, 'fr') ? $unTypeCompte->getLibelle() : $unTypeCompte->getLibelleEn())  ?></label>
+											</div>
+									<?php
+										endif;
+									endforeach;
+									?>
+								</div>
+								<div class="titre-type-methode ">
+									<p><?= Traducteur::getTraduction('00928', $defaultLanguage) ?></p>
+								</div>
+								<div class="different-type-methode">
+									<div>
+										<input type="radio" name="radioMethodeBancaire" id="rdMethodeBancaire_1" value="1" checked autocomplete="off">
+										<label for="rdMethodeBancaire_1"><?= (str_starts_with($defaultLanguage, 'fr') ? 'Iban/Bic' : 'Iban/Bic')  ?></label>
+									</div>
+									<div>
+										<input type="radio" name="radioMethodeBancaire" id="rdMethodeBancaire_2" value="2" autocomplete="off">
+										<label for="rdMethodeBancaire_2"><?= (str_starts_with($defaultLanguage, 'fr') ? 'Autre type de document' : 'Other type of document')  ?></label>
+									</div>
+
+								</div>
+								<div class="titre-rib principal-type">
+									<p>Nom apparaissant <br>sur le RIB <button type="button" tabindex="-1" class="infobulle" aria-label="RIB = Relevé d'identité bancaire ou nom du compte.">
+											<img class="icon-info" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/icon_info.png" alt="icon-info">
+										</button></p>
+								</div>
+								<div class="info-rib principal-type">
+									<div>
+										<label for="chTitulaireCompte"></label>
+										<input class="upper" type="text" name="champTitulaireCompte" id="chTitulaireCompte" value="<?= !is_null($userLogged->getInfosBanque()) ? $userLogged->getInfosBanque()->getTitulaire() : '' ?>" placeholder="ex: Mr John Dupont">
+									</div>
+								</div>
+								<div class="titre-banque principal-type marge-banque">
+									<p>Nom de votre banque</p>
+								</div>
+								<div class="info-banque principal-type marge-banque">
+									<div>
+										<label for="chNomBanque"></label>
+										<input class="upper" type="text" name="champNomBanque" id="chNomBanque" value="<?= !is_null($userLogged->getInfosBanque()) ? $userLogged->getInfosBanque()->getNomBanque() : '' ?>" placeholder="ex: BNP Paribas">
+									</div>
+								</div>
+								<div class="adresse-banque-1 principal-type marge-banque">
+									<p>Adresse postale <br> de la banque </p>
+								</div>
+								<div class="info-adresse-banque-1 principal-type marge-banque">
+									<div>
+										<label for="chAdresseBanque1"></label>
+										<input type="text" name="champAdresseBanque1" id="chAdresseBanque1" value="<?= !is_null($userLogged->getInfosBanque()) ? $userLogged->getInfosBanque()->getAdresseBanque1() : '' ?>" placeholder="ex: 147 Bd Saint-Germain">
+									</div>
+								</div>
+								<div class="adresse-banque-2 principal-type marge-banque">
+
+								</div>
+								<div class="info-adresse-banque-2 principal-type marge-banque">
+									<div>
+										<label for="chAdresseBanque2"></label>
+										<input type="text" name="champAdresseBanque2" id="chAdresseBanque2" value="<?= !is_null($userLogged->getInfosBanque()) ? $userLogged->getInfosBanque()->getAdresseBanque2() : '' ?>" placeholder="ex: suite 001 ">
+									</div>
+								</div>
+								<div class="code-postal-banque principal-type marge-banque">
+									<p>Code postal / Z.I.P </p>
+								</div>
+								<div class="info-code-postal-banque principal-type marge-banque">
+									<div>
+										<label for="chCodePostalBanque"></label>
+										<input type="text" name="champCodePostalBanque" id="chCodePostalBanque" value="<?= !is_null($userLogged->getInfosBanque()) ? (!is_null($userLogged->getInfosBanque()->getCpVilleBanque()) ? $userLogged->getInfosBanque()->getCpVilleBanque()->getCodepostal() : '') : '' ?>" placeholder="ex: 75001">
+									</div>
+								</div>
+								<div class="ville-banque principal-type marge-banque">
+									<p>Ville </p>
+								</div>
+								<div class="info-ville-banque principal-type marge-banque">
+									<div>
+										<label for="chVilleBanque"></label>
+										<input class="upper" type="text" name="champVilleBanque" id="chVilleBanque" value="<?= !is_null($userLogged->getInfosBanque()) ? (!is_null($userLogged->getInfosBanque()->getCpVilleBanque()) ? $userLogged->getInfosBanque()->getCpVilleBanque()->getVille() : '') : '' ?>" placeholder="ex: Paris">
+									</div>
+								</div>
+								<div class="pays-banque principal-type">
+									<p>Pays </p>
+								</div>
+								<div class="info-pays-banque principal-type ">
+									<div class="dropdownfiltre">
+										<label for="residence-artiste-banque"></label>
+										<?php
+										$nomPays = '';
+										if (!is_null($userLogged->getInfosBanque()) and !is_null($userLogged->getInfosBanque()->getPaysBanque())) {
+											if (str_starts_with('fr', $defaultLanguage)) {
+												$nomPays = $userLogged->getInfosBanque()->getPaysBanque()->getNomFr();
+											} else {
+												$nomPays = $userLogged->getInfosBanque()->getPaysBanque()->getNomEn();
+											}
+										}
+										?>
+										<input autocomplete="off" type="text" class="upper textBox" name="chResidenceBanque" id="residence-artiste-banque" readonly placeholder="France" value="<?= $nomPays ?>">
+										<div class="options">
+											<?php
+											$script = '';
+											/**
+											 * @var Pays $pays
+											 */
+											foreach ($lstPaysStared as $pays) {
+												$script .= '<div data-value="' . (str_starts_with($defaultLanguage, 'fr') ? $pays->getNomFr() : $pays->getNomEn()) . '">' . (str_starts_with($defaultLanguage, 'fr') ? $pays->getNomFr() : $pays->getNomEn()) . '</div>';
+											}
+											$script .= '<hr class="separation">';
+											foreach ($lstPaysNotStared as $pays) {
+												$script .= '<div data-value="' . (str_starts_with($defaultLanguage, 'fr') ? $pays->getNomFr() : $pays->getNomEn()) . '">' . (str_starts_with($defaultLanguage, 'fr') ? $pays->getNomFr() : $pays->getNomEn()) . '</div>';
+											}
+											print($script);
+											?>
+										</div>
+
+
+									</div>
+								</div>
+								<div class="titre-iban principal-type">
+									<p>IBAN <button type="button" tabindex="-1" class="infobulle" aria-label="Si vous ne savez pas ce que cela signifie rapprochez vous de votre banque elle vous donnera le bon numéro">
+											<img class="icon-info" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/icon_info.png" alt="icon-info">
+										</button></p>
+								</div>
+								<div class="info-iban principal-type">
+									<div>
+										<label for="chIbanCompte"></label>
+										<input class="upper" type="text" name="champIbanCompte" id="chIbanCompte" value="<?= !is_null($userLogged->getInfosBanque()) ? $userLogged->getInfosBanque()->getIban() : '' ?>" placeholder="Veuillez taper le numéro de votre IBAN ici">
+									</div>
+								</div>
+								<div class="div-separation principal-type">
+									<p>ou</p>
+								</div>
+								<div class="titre-numero-compte principal-type">
+									<p>Numéro de compte <br> <span>(ABA+ACCT / Numéro compte chèque / BBAN / ...)</span></p>
+								</div>
+								<div class="info-numero-compte principal-type">
+									<div>
+										<label for="chNumeroCompte"></label>
+										<input class="upper" type="text" name="champNumeroCompte" id="chNumeroCompte" value="<?= !is_null($userLogged->getInfosBanque()) ? $userLogged->getInfosBanque()->getNumeroCompte() : '' ?>" placeholder="Veuillez taper les numéros ici">
+									</div>
+								</div>
+								<div class="titre-bic principal-type">
+									<p>BIC / SWIFT <br>Code <button type="button" tabindex="-1" class="infobulle" aria-label="BIC= Identifiant international de l’établissement">
+											<img class="icon-info" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/icon_info.png" alt="icon-info">
+										</button></p>
+								</div>
+								<div class="info-bic principal-type">
+									<div>
+										<label for="chBicSwift"></label>
+										<input class="upper" type="text" name="champBicSwift" id="chBicSwift" value="<?= !is_null($userLogged->getInfosBanque()) ? $userLogged->getInfosBanque()->getBicSwift() : '' ?>" placeholder="Veuillez taper le code ici">
+									</div>
+								</div>
+								<div class="titre-info-complementaire principal-type">
+									<p>Infos complémentaire</p>
+								</div>
+								<div class="info-complementaire-section principal-type">
+									<div>
+										<label for="idInfoComplementaireBanque"></label><textarea name="chInfoComplementaireBanque" id="idInfoComplementaireBanque" rows="10" placeholder="Si besoin renseigner des informations complementaires"><?= !is_null($userLogged->getInfosBanque()) ? $userLogged->getInfosBanque()->getInfoComplementaire() : '' ?></textarea>
+									</div>
+								</div>
+								<div class="titre-document principal-type">
+									<p>Document bancaire <br> (IBAN, RIB ,BBAN...)</p>
+								</div>
+								<div class="info-document principal-type">
+									<div class="linkdoc">
+										<?php
+										if (!is_null($userLogged->getInfosBanque())):
+											$docBancaire = $userLogged->getInfosBanque()->getDocumentBancaire();
+											if (!is_null($docBancaire)):
+										?>
+												<a id="linkchDocBancaire" class="document" href="<?= $docBancaire->getCheminPublicFile() ?>" target="_blank" title="Visualiser le document">
+													<?= $docBancaire->getNom() ?>
+													<img src="<?= HTML_PUBLIC_IMAGES_DIR . 'pictos/new_window.png' ?>" alt="new window">
+												</a>
+												<a id="delchDocBancaire" data-iddoc="<?= $docBancaire->getId() ?>" data-idinfos="<?= $userLogged->getInfosBanque()->getId() ?>" class="document" title="Supprimer le document">
+													<img src="<?= HTML_PUBLIC_IMAGES_DIR . 'pictos/croix.png' ?>" alt="Supprimer le document">
+												</a>
+										<?php endif;
+										endif; ?>
+									</div>
+									<div>
+										<button id="btnAddDocBancaire" type="button" class="">
+											<svg id="Capa_1" viewBox="0 0 482.239 482.239" xmlns="http://www.w3.org/2000/svg">
+												<path d="m0 447.793h482.239v34.446h-482.239z" />
+												<path d="m396.091 223.863-24.287-24.354-113.462 113.462v-312.971h-34.446v312.971l-113.495-113.496-24.22 24.354 154.938 155.073z" />
+											</svg>Télécharger mon document bancaire
+										</button>
+										<span id="docName"></span>
+										<input autocomplete="off" type="file" id="chDocBancaire" class="file-oeuvre" name="champDocBancaire[]" accept="image/tiff, image/jpeg, image/png, image/jpg, application/pdf">
+									</div>
+								</div>
+								<div class="titre-diff-type other-type">
+									<p>Informations</p>
+								</div>
+								<div class="info-diff-type other-type">
+									<div>
+										<label for="idInfoOther"></label><textarea name="chInfoOther" id="idInfoOther" rows="10" placeholder="Si besoin renseigner des informations complementaires"><?= !is_null($userLogged->getInfosBanqueAutre()) ? $userLogged->getInfosBanqueAutre()->getInfoComplementaire() : '' ?></textarea>
+									</div>
+								</div>
+								<div class="titre-document-diff other-type">
+									<p>Envoyer un <br>document bancaire</p>
+								</div>
+								<div class="info-document-diff other-type">
+									<div class="linkdocs">
+										<?php
+										if (!is_null($userLogged->getInfosBanqueAutre())):
+											$docBancairesAutres = $userLogged->getInfosBanqueAutre()->getDocumentsBancairesAutres();
+											foreach ($docBancairesAutres as $docBancaireAutre):
+												if (!is_null($docBancaireAutre)):
+										?>
+													<div class="linkdoc">
+														<a id="linkchDocBancaireAutre_<?= $docBancaireAutre->getId() ?>" class="document" href="<?= $docBancaireAutre->getCheminPublicFile() ?>" target="_blank" title="Visualiser le document">
+															<?= $docBancaireAutre->getNom() ?>
+															<img src="<?= HTML_PUBLIC_IMAGES_DIR . 'pictos/new_window.png' ?>" alt="new window">
+														</a>
+														<a id="delchDocBancaireAutre_<?= $docBancaireAutre->getId() ?>" data-iddoc="<?= $docBancaireAutre->getId() ?>" data-idinfos="<?= $userLogged->getInfosBanqueAutre()->getId() ?>" class="document" title="Supprimer le document">
+															<img src="<?= HTML_PUBLIC_IMAGES_DIR . 'pictos/croix.png' ?>" alt="Supprimer le document">
+														</a>
+													</div>
+										<?php endif;
+											endforeach;
+										endif;
+										?>
+									</div>
+									<div>
+										<input autocomplete="off" type="file" id="chAutresDocBancaire" class="file-oeuvre" name="champAutresDocBancaires[]" accept="image/tiff, image/jpeg, image/png, image/jpg, application/pdf">
+									</div>
+
+								</div>
+								<div class="votre-identite">
+									<p>Carte d'identité / Passeport</p>
+								</div>
+								<div class="deposer-votre-identite">
+									<div>
+										<div class="linkdoc">
+											<?php
+											if (!is_null($userLogged->getInfosBanque())):
+												$idCardRecto = $userLogged->getInfosBanque()->getIdCardRecto();
+												if (!is_null($idCardRecto)):
+											?>
+													<a id="linkchIdRecto" class="document" href="<?= $idCardRecto->getCheminPublicFile() ?>" target="_blank" title="Visualiser le document">
+														<?= $idCardRecto->getNom() ?>
+														<img src="<?= HTML_PUBLIC_IMAGES_DIR . 'pictos/new_window.png' ?>" alt="new window">
+													</a>
+													<a id="delchIdRecto" data-iddoc="<?= $idCardRecto->getId() ?>" data-idinfos="<?= $userLogged->getInfosBanque()->getId() ?>" class="document" title="Supprimer le document">
+														<img src="<?= HTML_PUBLIC_IMAGES_DIR . 'pictos/croix.png' ?>" alt="Supprimer le document">
+													</a>
+											<?php endif;
+											endif; ?>
+										</div>
+										<label for="chIdRecto"></label>
+										<input autocomplete="off" type="file" name="champIdRecto" id="chIdRecto">
+									</div>
+									<div>
+										<div class="linkdoc">
+											<?php
+											if (!is_null($userLogged->getInfosBanque())):
+												$idCardVerso = $userLogged->getInfosBanque()->getIdCardVerso();
+												if (!is_null($idCardVerso)):
+											?>
+													<a id="linkchIdVerso" class="document" href="<?= $idCardVerso->getCheminPublicFile() ?>" target="_blank" title="Visualiser le document">
+														<?= $idCardVerso->getNom() ?>
+														<img src="<?= HTML_PUBLIC_IMAGES_DIR . 'pictos/new_window.png' ?>" alt="new window">
+													</a>
+													<a id="delchIdVerso" data-iddoc="<?= $idCardVerso->getId() ?>" data-idinfos="<?= $userLogged->getInfosBanque()->getId() ?>" class="document" title="Supprimer le document">
+														<img src="<?= HTML_PUBLIC_IMAGES_DIR . 'pictos/croix.png' ?>" alt="Supprimer le document">
+													</a>
+											<?php endif;
+											endif; ?>
+										</div>
+										<label for="chIdVerso"></label>
+										<input autocomplete="off" type="file" name="champIdVerso" id="chIdVerso">
+									</div>
+								</div>
+							</section>
+						</section>
+					</form>
+				</section>
+			</div>
+
+			<div class="button-compte-acheteur-vendeur-paiement button-compte-acheteur-vendeur-paiement-tel">
+				<button type="button" id="commitFormInfosBancaire">ENREGISTRER</button>
+				<button type="button" id="resetFormInfosBancaire">ANNULER</button>
+			</div>
+		</section>
+	<?php endif; ?>
+	<section class="formulaire-compte-acheteur-vendeur gestion-parametres">
+		<div class="container coordonnees-acheteur-vendeur">
+			<h4 class="container "> <?= AIApplication::isActive("carte-compte") ? "5" : "4" ?>. <?= Traducteur::getTraduction('00904', $defaultLanguage) ?> </h4>
+		</div>
+		<form action="" class="container" id="formParametresUser">
+			<div class="container liste-pays">
+				<p class="container"><?= Traducteur::getTraduction('00022', $defaultLanguage) ?></p>
+				<div class="container-dropdown">
+					<div class="dropdownfiltre">
+						<label for="languePrefCpt"></label>
+						<input type="text" name="droplangue" id="languePrefCpt" value="<?= (str_starts_with($defaultLanguage, 'fr') ? $defaultLocale->getLangue() : $defaultLocale->getLangueEn()) ?>" class="textbox" readonly placeholder="Français" data-userloggedid="<?= $userLogged->getId() ?>">
+
+						<div class="options">
+							<?php
+							$lstLocales = DAOLocale::getAll();
+							$script = '';
+							foreach ($lstLocales as $uneLocale) {
+								if ($uneLocale->getId() === 3 || $uneLocale->getId() === 4 || $uneLocale->getId() === 5) {
+									$script .= '<div class="langue-none" data-idforvalue="' . $uneLocale->getId()  . '" data-value="' . (str_starts_with($defaultLanguage, 'fr') ? $uneLocale->getLangue() : $uneLocale->getLangueEn())  . '">' . (str_starts_with($defaultLanguage, 'fr') ? $uneLocale->getLangue() : $uneLocale->getLangueEn())  . '</div>';
+								} else {
+									$script .= '<div data-idforvalue="' . $uneLocale->getId()  . '" data-value="' . (str_starts_with($defaultLanguage, 'fr') ? $uneLocale->getLangue() : $uneLocale->getLangueEn())  . '">' . (str_starts_with($defaultLanguage, 'fr') ? $uneLocale->getLangue() : $uneLocale->getLangueEn()) . '</div>';
+								}
+							}
+							print($script);
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container liste-devises">
+				<p class="container"><?= Traducteur::getTraduction('00032', $defaultLanguage) ?></p>
+				<div class="container-dropdown">
+					<div class="dropdownfiltre">
+						<label for="devisePrefCpt"></label>
+						<input type="text" name="dropdevise" id="devisePrefCpt" value="<?= $defaultCurrency->getDevisesAbrege() ?>" class="textbox" readonly placeholder="EUR" data-userloggedid="<?= $userLogged->getId() ?>">
+
+						<div class="options">
+							<?php
+							$script = '';
+							foreach ($lstDevises as $uneDevise) {
+								$script .= '<div data-idforvalue="' . $uneDevise->getId()  . '" data-value="' . $uneDevise->getDevisesAbrege()  . '">' . $uneDevise->getDevisesAbrege() . '</div>';
+							}
+							print($script);
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container mot-de-passe actuel">
+				<p><?= Traducteur::getTraduction('00905', $defaultLanguage) ?> </p>
+				<fieldset>
+					<label for="chActualPassword"></label>
+					<input type="password" name="mot-de-passe-compte" id="chActualPassword">
+					<a id="oeil-ouvert-actuel" class="oeil-ouvert"><img class="icon--fixed-xs" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/eye.png" alt="Oeil ouvert"></a>
+					<a id="oeil-ferme-actuel" class="oeil-ferme"><img class="icon--fixed-xs" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/eye_close.png" alt="Oeil fermé"></a>
+				</fieldset>
+			</div>
+			<div class="container mot-de-passe new">
+				<p><?= Traducteur::getTraduction('00906', $defaultLanguage) ?> </p>
+				<fieldset>
+					<label for="chNewPassword"></label>
+					<input type="password" name="nouveau-mot-de-passe-compte" id="chNewPassword">
+					<a id="oeil-ouvert" class="oeil-ouvert"><img class="icon--fixed-xs" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/eye.png" alt="Oeil ouvert"></a>
+					<a id="oeil-ferme" class="oeil-ferme"><img class="icon--fixed-xs" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/eye_close.png" alt="Oeil fermé"></a>
+				</fieldset>
+			</div>
+			<div class="container mot-de-passe confirm">
+				<p><?= Traducteur::getTraduction('00907', $defaultLanguage) ?></p>
+				<fieldset>
+					<label for="chConfirmNewPassword"></label>
+					<input type="password" name="confirmer-mot-de-passe-compte" id="chConfirmNewPassword">
+					<a id="oeil-ouvert-confirmer" class="oeil-ouvert"><img class="icon--fixed-xs" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/eye.png" alt="Oeil ouvert"></a>
+					<a id="oeil-ferme-confirmer" class="oeil-ferme"><img class="icon--fixed-xs" src="<?= HTML_PUBLIC_IMAGES_DIR ?>pictos/eye_close.png" alt="Oeil fermé"></a>
+				</fieldset>
+			</div>
+			<div class="button-compte-acheteur-vendeur-paiement button-compte-acheteur-vendeur-paiement-tel">
+				<button type="button" id="commitFormParametresUser"><?= Traducteur::getTraduction('00490', $defaultLanguage) ?></button>
+				<button type="button" id="resetFormParametresUser"><?= Traducteur::getTraduction('00896', $defaultLanguage) ?></button>
+			</div>
+		</form>
+	</section>
+	<section class="formulaire-compte-acheteur-vendeur gestion-options">
+		<div class="container coordonnees-acheteur-vendeur">
+			<h4 class="container "><?= AIApplication::isActive("carte-compte") ? "6" : "5" ?>. Mes options générales </h4>
+		</div>
+		<section>
+			<form action="" class="container" id="formOptionsUser">
+				<div class="fields">
+					<div class="container checkbox-commande-sur-mesure">
+						<p>Acceptez vous les commandes sur mesures ?</p>
+						<div>
+							<?php
+							$accepteCommande = $profilLogged->accepteCommande();
+							?>
+							<input type="radio" name="rdAccepteCommande" id="rdAccepteCommandeNon" data-value="" value="0" <?= $accepteCommande ? '' : 'checked' ?>><label for="rdAccepteCommandeNon">Non</label>
+							<input type="radio" name="rdAccepteCommande" id="rdAccepteCommandeOui" data-value="" value="1" <?= $accepteCommande ? 'checked' : '' ?>><label for="rdAccepteCommandeOui">Oui</label>
+						</div>
+					</div>
+					<div class="container checkbox-dedicaces">
+						<p>Acceptez vous des demandes de dédicaces pour vos oeuvres vendues ?</p>
+						<div>
+							<?php
+							$accepteDedicace = $profilLogged->accepteDedicace();
+							?>
+							<input type="radio" name="rdAccepteDedicace" id="rdAccepteDedicaceNon" data-value="" value="0" <?= $accepteDedicace ? '' : 'checked' ?>><label for="rdAccepteDedicaceNon">Non</label>
+							<input type="radio" name="rdAccepteDedicace" id="rdAccepteDedicaceOui" data-value="" value="1" <?= $accepteDedicace ? 'checked' : '' ?>><label for="rdAccepteDedicaceOui">Oui</label>
+						</div>
+					</div>
+					<div class="container checkbox-negociations">
+						<p>Acceptez vous des négociations sur le prix de vos oeuvres à vendre ?</p>
+						<div>
+							<div>
+								<?php
+								$accepteNegociation = $profilLogged->accepteNegociation();
+								?>
+								<input type="radio" name="rdAccepteNegociation" id="rdAccepteNegociationNon" data-value="" value="0" <?= $accepteNegociation ? '' : 'checked' ?>><label for="rdAccepteNegociationNon">Non</label>
+								<input type="radio" name="rdAccepteNegociation" id="rdAccepteNegociationOui" data-value="" value="1" <?= $accepteNegociation ? 'checked' : '' ?>><label for="rdAccepteNegociationOui">Oui</label>
+							</div>
+							<fieldset>
+								<legend>Marge maximale de négociation</legend>
+								<div>
+									<label for="cbTauxNegociation"></label>
+									<select name="cbTauxNegociation" id="cbTauxNegociation" <?= !$accepteNegociation ? 'disabled' : '' ?>>
+										<option value="0">Choisissez le taux</option>
+										<?php
+										$script = '';
+										/**
+										 * @var TauxNegociation $tauxNegociation
+										 */
+										foreach ($lstTauxNegociation as $tauxNegociation) {
+											$selected = '';
+											if (!is_null($profilLogged->getTauxNegociation()) && $tauxNegociation->getId() == $profilLogged->getTauxNegociation()->getId()) {
+												$selected = ' selected';
+											}
+											$script .= '<option value="' . $tauxNegociation->getId() . '" ' . $selected . '>' . $tauxNegociation->getTaux() . ' %</option>';
+										}
+										print($script);
+										?>
+									</select>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+
+				</div>
+				<div class="button-compte-acheteur-vendeur-paiement button-compte-acheteur-vendeur-paiement-tel">
+					<button type="button" id="commitFormOptionsUser">ENREGISTRER</button>
+					<button type="button" id="resetFormOptionsUser">ANNULER</button>
+				</div>
+			</form>
+		</section>
+	</section>
+	<section class="formulaire-compte-acheteur-vendeur gestion-mode-absent">
+		<div class="container coordonnees-acheteur-vendeur">
+			<h4 class="container "><?= AIApplication::isActive("carte-compte") ? "7" : "6" ?>. Mode absent </h4>
+		</div>
+		<section class="">
+			<form action="" class="container" id="formUserAbsent">
+				<div class="fields">
+					<div class="container checkbox-absent">
+						<div class="input-absent">
+							<?php
+							$checkedAbsence = (is_null($profilLogged->getPeriodeAbsence()) ? 0 : $profilLogged->getPeriodeAbsence()->isActive());
+							$dateDebut = $checkedAbsence ? $profilLogged->getPeriodeAbsence()->getDateDebut()->format('Y-m-d') : '';
+							$dateFin = $checkedAbsence ? $profilLogged->getPeriodeAbsence()->getDateFin()->format('Y-m-d') : '';
+							?>
+							<input type="checkbox" name="chAbsent" id="chkAbsent" data-value="" value="0" <?= $checkedAbsence ? 'checked' : '' ?>><label for="chkAbsent">Activer le mode absent</label>
+						</div>
+						<div>
+							<p>Activez le mode absent pendant les périodes où vous serez absent à votre atelier ou dans l'impossibilité d'envoyer vos oeuvres. </p>
+						</div>
+
+						<div class="calendrier-absent <?= $checkedAbsence ? 'date-absent' : '' ?>">
+							<div class="debut-absent">
+								<label for="chDateDebutAbsence">Début de votre absence *</label>
+								<input type="date" name="champDateDebutAbsence" id="chDateDebutAbsence" value="<?= $dateDebut ?>">
+							</div>
+
+							<div class="fin-absent">
+								<label for="chDateFinAbsence">Fin de votre absence *</label>
+								<input type="date" name="champDateFinAbsence" id="chDateFinAbsence" value="<?= $dateFin ?>">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="button-compte-acheteur-vendeur-paiement button-compte-acheteur-vendeur-paiement-tel">
+					<button type="button" id="commitFormUserAbsent">ENREGISTRER</button>
+					<button type="button" id="resetFormUserAbsent">ANNULER</button>
+				</div>
+			</form>
+		</section>
+	</section>
+	<section class="formulaire-compte-acheteur-vendeur gestion-suppression-compte">
+		<form action="" class="container" id="">
+			<h4 class="container">
+				<?= AIApplication::isActive("carte-compte") ? "8" : "7" ?>. <?= Traducteur::getTraduction('00908', $defaultLanguage) ?>
+				<button type="button" id="btnDemandeSuppressionCompte"><?= Traducteur::getTraduction('00909', $defaultLanguage) ?></button>
+			</h4>
+		</form>
+	</section>
+</main>

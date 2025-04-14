@@ -1,0 +1,49 @@
+.p-expand {
+	--min-height: 120px;
+
+	height: var(--min-height);
+
+	&.double{
+		--min-height: 98px;
+	}
+
+	line-height: 25px!important;
+	margin: 0 0 2px 0;
+	text-overflow: ellipsis;
+	position: relative;
+
+
+	overflow: hidden;
+	transition: height 1s;
+
+	@media screen and (min-width: $break-small) and (max-width: $break-large){
+		--min-height: 150px;
+
+		&.double{
+			--min-height: 250px;
+		}
+	}
+
+	@media screen and (min-width: $break-large) and (max-width: $break-xl){
+		--min-height: 150px;
+
+		&.double{
+			--min-height: 220px;
+		}
+	}
+
+	@media screen and (min-width: $break-xl){
+		--min-height: 200px;
+		&.double{
+			--min-height: 350px;
+		}
+	}
+}
+
+.extra {
+	display: none;
+}
+
+.btn-expand{
+	text-align: center;
+}

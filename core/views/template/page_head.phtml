@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<?php
+?>
+<html lang="fr" translate="yes">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0">
+	<meta name="application-name" content="Student Portal"/>
+	<meta name="apple-mobile-web-app-title" content="Student Portal">
+	<?php if (DEV_MODE): ?>
+		<meta name="robots" content="none">
+		<meta name="googlebot" content="noindex">
+		<meta name="googlebot-news" content="noindex">
+		<meta name="AdsBot-Google" content="noindex">
+	<?php endif; ?>
+	<meta http-equiv="content-security-policy" content="
+		default-src 'self' ipapi.co/json; 
+		script-src 'self' 'unsafe-inline' cdn.jsdelivr.net/npm/ cdnjs.cloudflare.com/ajax/ https://www.google.com https://www.gstatic.com  https://js.stripe.com/v3/ https://stats.avalone-fr.com/ ipapi.co/ https://static.linguise.com/script-js/ ; 
+		frame-src 'self' https://www.google.com  https://js.stripe.com/v3/ ; 
+		style-src 'self' 'unsafe-inline' 'unsafe-eval' cdnjs.cloudflare.com/ajax/ cdn.jsdelivr.net/npm/ fonts.googleapis.com/ ; 
+		font-src 'self' fonts.gstatic.com/ data:; 
+		img-src 'self' cdn.jsdelivr.net/npm/ https://stats.avalone-fr.com/ https://static.linguise.com/script-js/ data:; 
+		connect-src 'self' cdn.jsdelivr.net/npm/ cdnjs.cloudflare.com/ajax/ https://www.google.com https://www.gstatic.com  https://js.stripe.com/v3/ https://stats.avalone-fr.com/ ipapi.co/json  https://api.linguise.com/api/  https://translate.linguise.com/;
+	">
+
+	<meta name="description" content="<?= getPageDescription() ?>">
+	<meta name="keywords" content="<?= getPageKeywords() ?>">
+
+	<?php
+		$includedCssCommonScripts = [['href' => HTML_PUBLIC_STYLES_DIR . 'final_layouts.css'], ['href' => HTML_PUBLIC_STYLES_DIR . 'final_components.css'], ['href' => HTML_PUBLIC_STYLES_DIR . 'final_views.css']];
+		foreach ($includedCssCommonScripts as $includedCssCommonScript){
+			if (file_exists(PHP_PUBLIC_DIR . $includedCssCommonScript['href'])){
+				$ver = hash('sha256', filesize(PHP_PUBLIC_DIR . $includedCssCommonScript['href']));
+			}else{
+				$ver = '1';
+			}
+			print('<link rel="stylesheet" href="' . $includedCssCommonScript['href'] . '?ver=' . $ver . '" integrity="' . ($includedCssCommonScript['integrity'] ?? $ver) . '" crossorigin="' . ($includedCssCommonScript['crossorigin'] ?? '') . '" />' . "\r");
+		}
+
+		if (isset($includedCssScripts) and is_array($includedCssScripts) and !empty($includedCssScripts)){
+			foreach ($includedCssScripts as $includedCssScript){
+				if (file_exists(PHP_PUBLIC_DIR . $includedCssScript['href'])){
+					$ver = hash('sha256', filesize(PHP_PUBLIC_DIR . $includedCssScript['href']));
+				}else{
+					$ver = '1';
+				}
+				print('<link rel="stylesheet" href="' . $includedCssScript['href'] . '?ver=' . $ver . '" integrity="' . ($includedCssScript['integrity'] ?? $ver) . '" crossorigin="' . ($includedCssScript['crossorigin'] ?? '') . '" />' . "\r");
+			}
+		}
+	?>
+
+	<script type="text/javascript" src="<?= HTML_PUBLIC_SCRIPTS_DIR ?>mutation_events.js"></script>
+	<script type="text/javascript" src="<?= HTML_PUBLIC_LIBS_DIR ?>jquery-3.7.1.min.js"></script>
+	<script type="text/javascript" src="<?= HTML_PUBLIC_LIBS_DIR ?>js.cookie_3.0.0.min.js" defer></script>
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="<?= EXTERNAL_URL.HTML_PUBLIC_IMAGES_DIR ?>logo_carre.png">
+	<link rel="icon" type="image/x-icon" href="<?= EXTERNAL_URL.HTML_PUBLIC_IMAGES_DIR ?>favicon.ico">
+	<link rel="apple-touch-icon" type="image/png" href="<?= EXTERNAL_URL.HTML_PUBLIC_IMAGES_DIR ?>iphone-icon.png">
+	<link rel="icon" sizes="192x192" type="image/png" href="<?= EXTERNAL_URL.HTML_PUBLIC_IMAGES_DIR ?>logo192.png">
+	<link rel="website icon" type="image/png" href="<?= EXTERNAL_URL.HTML_PUBLIC_IMAGES_DIR ?>logo.png">
+
+	<title><?= getPageTitle() ?></title>
+
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			"url": "<?= EXTERNAL_URL ?>",
+			"logo": "<?= EXTERNAL_URL . HTML_PUBLIC_IMAGES_DIR ?>logo.png"
+		}
+	</script>
+</head>
+<body>

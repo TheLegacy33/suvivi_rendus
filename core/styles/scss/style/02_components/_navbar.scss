@@ -1,0 +1,129 @@
+#pills-tab{
+	padding: 0;
+	margin: 0;
+}
+#pills-tab>li.nav-item{
+	font-size: 11px;
+	line-height: 21px;
+	@media screen and (min-width: $break-xl){
+		font-size: 14px;
+	}
+}
+
+#pills-tab>li.nav-item>.active{
+	border-bottom: solid 1px black;
+	border-bottom: solid 1px black;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	margin-right: 1rem;
+	margin-left: 1rem;
+}
+
+// NAV ARTWORK
+.nav-oeuvre {
+	font-family: $reross-quadratic;
+	text-transform: uppercase;
+	color: black;
+	padding: 0;
+	border-top: 1px solid black;
+
+	max-width: 100%;
+	width: 100%;
+	min-height: 1px;
+	display: none;
+	//font-size: 10px;
+	//@media (min-width: 575.98px) {
+	//	font-size: 18px;
+	//}
+
+	a {
+		color: black;
+
+		&:hover {
+			color: black;
+		}
+	}
+
+	.nav-item {
+		border: 1px solid black;
+
+		&.nav-item-empty{
+			display: none;
+		}
+
+		.nav-link {
+			display: block;
+			&:nth-child(1) {
+				@media (max-width: 1002px) {
+					display: none;
+				}
+			}
+			&:nth-child(2) {
+				@media (min-width: 1002px) and (max-width: 1287px) {
+					border-left: none !important;
+				}
+			}
+
+			@media screen and (min-width: $break-large) and (max-width: $break-xl) {
+				padding: 8px 10px!important;
+				font-size: 12px;
+			}
+			@media (min-width: $break-xl) and (max-width: 1593px) {
+				padding: 8px 10px!important;
+				font-size: 14px;
+			}
+
+			@media (min-width: 1594px) and (max-width: 1733px) {
+				padding: 8px 30px!important;
+				font-size: 14px;
+			}
+
+			@media (min-width: 1734px) and (max-width: 1877px) {
+				padding: 8px 40px!important;
+				font-size: 14px;
+			}
+
+			@media (min-width: 1878px){
+				padding: 8px 50px!important;
+				font-size: 14px;
+			}
+		}
+		@media (min-width: 575.98px) {
+			border-top: none;
+			border-right: none;
+			&.nav-item-empty{
+				display: block!important;
+				width: 200px;
+				border-left: none!important;
+				border-right: none!important;
+			}
+		}
+	}
+
+	@media screen and (min-width: $break-large){
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		justify-content: flex-end;
+
+		flex-wrap: wrap;
+		list-style: none;
+
+		//margin-top: 30px;
+	}
+}
+
+.nav-artwork-2 {
+	.nav-item {
+		border: 5px solid black;
+		border-right: none;
+
+		.nav-link {
+			padding: 5px;
+		}
+	}
+
+	@media screen and (min-width: $break-large){
+		display: none;
+	}
+}

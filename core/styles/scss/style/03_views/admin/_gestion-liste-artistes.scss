@@ -1,0 +1,130 @@
+#gestion-liste-artistes {
+  .nav-scroller-wrapper {
+    &.second {
+      nav {
+        margin-top: 0;
+      }
+    }
+  }
+
+  section.grille-artistes {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 2rem;
+    row-gap: 2rem;
+    margin-bottom: 4rem;
+
+    article.card_artiste {
+      width: 100%;
+      //max-height: 300px;
+      border: solid 1px black;
+      border-radius: 4px;
+
+      header > p,
+      div.miniature-image,
+      section.informations,
+      footer.boutons {
+        padding: 0 5px;
+      }
+
+      header {
+        background-color: rgba(0, 0, 0, 0.3);
+        margin-bottom: 0.5rem;
+        p {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+
+      div.miniature-image {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-bottom: 0.5rem;
+        img {
+          //max-width: 70%;
+          aspect-ratio: 1;
+          height: 200px;
+          border-radius: 50%;
+        }
+      }
+
+      hr {
+        border: none;
+        width: 100%;
+        height: 1px;
+        background-color: black;
+        margin-bottom: 0.5rem;
+      }
+
+      section.informations {
+        margin-bottom: 0.5rem;
+
+        .ligne-infos {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: 0 0 0.5rem;
+
+          span {
+            display: inline-block;
+            white-space: nowrap;
+
+            &.libelle-info {
+              font-size: 0.9rem;
+              font-style: italic;
+            }
+
+            &.valeur-info {
+              font-size: 0.9rem;
+              select {
+                width: 120px;
+              }
+            }
+          }
+
+          &.red {
+            span {
+              font-family: $roboto-bold;
+              font-weight: bold;
+              color: red;
+            }
+          }
+        }
+      }
+
+      footer.boutons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        margin-bottom: 0.5rem;
+
+        button {
+          min-width: 120px;
+          padding: 0.1rem;
+          display: block;
+          height: 30px;
+        }
+      }
+    }
+
+    @media screen and (min-width: $break-small) and (max-width: $break-large) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media screen and (min-width: $break-large) and (max-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media screen and (min-width: 1200px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media screen and (min-width: $break-xxl) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+}

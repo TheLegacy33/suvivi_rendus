@@ -1,0 +1,54 @@
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	color: black!important;
+	border-bottom: 3px solid black;
+	background-color: transparent!important;
+	font-weight: bold;
+}
+
+.nav-pills .nav-link {
+	text-transform: uppercase;
+	color: black !important;
+	background-color: transparent !important;
+	border-radius: 0 !important;
+}
+
+
+/*
+Pour les nav tabs style bootstrap
+ */
+
+.nav-tabs{
+	&+.tab-content{
+		.tab-pane{
+			display: none;
+			-webkit-animation: fadeEffect 1s;
+			animation: fadeEffect 1s;
+
+			&.active{
+				display: block;
+			}
+
+			&.fade{
+				opacity: 0;
+				transition: opacity .15s linear;
+			}
+
+			&.show{
+				opacity: 1;
+			}
+
+			&:not(.show){
+				opacity: 0;
+			}
+		}
+	}
+}
+@-webkit-keyframes fadeEffect {
+	from {opacity: 0;}
+	to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+	from {opacity: 0;}
+	to {opacity: 1;}
+}

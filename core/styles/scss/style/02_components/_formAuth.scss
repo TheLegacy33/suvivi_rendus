@@ -1,0 +1,232 @@
+form#formAuth {
+	width: 100%;
+	margin: 0 auto;
+	@media screen and (min-width: $break-small) {
+		width: 90%;
+	}
+	div {
+		margin: 10px 0;
+		fieldset {
+			margin-top: 10px;
+			border: 1px solid black;
+			height: 60px;
+			padding-top: 0;
+			.legend-mdp {
+				display: flex;
+				.infobulleMdp {
+					margin-left: 0.3rem;
+					&::before {
+						text-align: left;
+						min-width: 400px;
+						left: 690%;
+						bottom: 1.7em;
+						font-size: 12px;
+					}
+					.icon-info {
+						width: 14px;
+						height: 14px;
+					}
+				}
+			}
+			legend {
+				padding: 0 5px;
+				position: relative;
+				bottom: 2px;
+				font-size: 12px;
+				@media screen and (min-width: $break-small) {
+					font-size: 14px;
+				}
+			}
+			div {
+				margin: 0;
+				height: 100%;
+				input {
+					border: 0;
+					height: 100%;
+					width: 100%;
+					&::placeholder {
+						font-size: 12px;
+						@media screen and (min-width: $break-small) {
+							font-size: 14px;
+						}
+					}
+				}
+			}
+
+			@media screen and (min-width: $break-small) {
+				border-color: lightgrey;
+				height: 49px;
+				margin-top: 13px;
+				legend {
+					font-size: 12px;
+				}
+				div {
+					input {
+						&::placeholder {
+							font-size: 12px;
+						}
+					}
+				}
+			}
+		}
+		&:nth-of-type(2) {
+			fieldset {
+				position: relative;
+				top: 0;
+				.mdp-form-connexion {
+					display: flex;
+					input {
+						width: 100%;
+						&::placeholder {
+							color: grey;
+							@media screen and (min-width: $break-small) {
+								color: transparent;
+							}
+						}
+					}
+					input[type="password"] {
+						color: grey;
+					}
+					a {
+						img {
+							width: 100%;
+							@media screen and (min-width: $break-large) and (max-width: $break-xl) {
+								width: 20px;
+								height: 20px;
+							}
+						}
+						&:nth-of-type(2) {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+		&.buttons {
+			margin-top: 2rem;
+			button {
+				width: 100%;
+				font-family: $roboto-medium;
+				letter-spacing: 0.1rem;
+				margin-bottom: 10px;
+				height: 50px;
+				border: 1px solid black;
+				@media screen and (min-width: $break-large) and (max-width: $break-xl) {
+					font-size: 14px;
+				}
+			}
+		}
+		&.actions {
+			display: flex;
+			align-items: flex-end;
+			justify-content: space-between;
+			row-gap: 1rem;
+			.check {
+				display: flex;
+
+				input {
+					transform: scale(1.1);
+					margin-right: 0.5rem;
+					&[type="checkbox"],
+					&[type="radio"] {
+						order: 0;
+						cursor: pointer;
+						outline: none;
+						box-shadow: none;
+						align-self: center;
+						justify-self: center;
+
+						-webkit-appearance: none;
+						appearance: none;
+						background-color: #fff;
+
+						font: inherit;
+						color: $orange;
+						width: 1.1em;
+						height: 1.1em;
+						border: 0.05em solid rgba(0, 0, 0, 0.5);
+						transform: translateY(-0.025em);
+						display: grid;
+						place-content: center;
+
+						&::before {
+							content: "";
+							transform: scale(0);
+							transition: 120ms transform ease-in-out;
+							box-shadow: inset 0.8em 0.8em $orange;
+						}
+
+						&:checked {
+							border-color: $orange;
+							&::before {
+								transform: scale(1);
+							}
+						}
+					}
+
+					&[type="checkbox"] {
+						border-radius: 0.15em;
+
+						&::before {
+							width: 0.65em;
+							height: 0.65em;
+							transform-origin: bottom left;
+							clip-path: polygon(
+											14% 44%,
+											0 65%,
+											50% 100%,
+											100% 16%,
+											80% 0%,
+											43% 62%
+							);
+						}
+					}
+
+					&[type="radio"] {
+						&::before {
+							width: 0.65em;
+							height: 0.65em;
+							clip-path: polygon(
+											14% 44%,
+											0 65%,
+											50% 100%,
+											100% 16%,
+											80% 0%,
+											43% 62%
+							);
+						}
+					}
+
+					&[type="text"],
+					&[type="number"] {
+						order: 1;
+						height: 25px;
+						align-self: center;
+						justify-self: end;
+						//margin-right: 1rem;
+						max-width: 60%;
+						text-align: center;
+						min-height: 100%;
+					}
+				}
+			}
+
+			div {
+				margin: 0;
+			}
+
+			@media screen and (min-width: $break-small) {
+				row-gap: 0.1rem;
+			}
+
+			@media screen and (min-width: $break-small) {
+				flex-direction: row;
+			}
+		}
+		&:last-of-type {
+			p {
+				text-align: left;
+			}
+		}
+	}
+}

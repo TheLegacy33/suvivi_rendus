@@ -1,0 +1,28 @@
+#gestion-parametrages {
+	.all-parametres{
+		.parametre{
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			margin-bottom: 2rem;
+
+			input[type=text]{
+				min-width: 350px;
+				padding: 0.3rem;
+			}
+
+			textarea{
+				min-width: 350px;
+				width: 80%;
+				min-height: 50px;
+				height: fit-content;
+				resize: none;
+				padding: 0.3rem;
+			}
+
+			button{
+
+			}
+		}
+	}
+}

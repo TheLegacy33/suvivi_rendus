@@ -1,0 +1,173 @@
+// ==========================================================================
+// Spacings
+// ==========================================================================
+/*
+ * Useful classes for margins & paddings, taking account media queries.
+ * ex: `.m-a-25` (margins of 25px), `.m-x-25` (horiz. margins of 25px), `.p-y-70` (vertic. paddings of 70px),
+ * `.m-l-md-25` (margin-left 25px, within md media-query), `.p-r-xs-10` (padding-right 10px, within xs media-query)
+*/
+
+//@each $space in $spaces{
+$i: 0;
+@while $i <= 200 {
+
+  // margins
+  .m-a-#{$i} { margin: #{$i}px !important; }
+  .m-y-#{$i} { margin-top: #{$i}px !important; margin-bottom: #{$i}px !important; }
+  .m-x-#{$i} { margin-left: #{$i}px !important; margin-right: #{$i}px !important; }
+  .m-t-#{$i} { margin-top: #{$i}px !important; }
+  .m-b-#{$i} { margin-bottom: #{$i}px !important; }
+  .m-l-#{$i} { margin-left: #{$i}px !important; }
+  .m-r-#{$i} { margin-right: #{$i}px !important; }
+  // paddings
+  .p-a-#{$i} { padding: #{$i}px !important; }
+  .p-y-#{$i} { padding-top: #{$i}px !important; padding-bottom: #{$i}px !important; }
+  .p-x-#{$i} { padding-left: #{$i}px !important; padding-right: #{$i}px !important; }
+  .p-t-#{$i} { padding-top: #{$i}px !important; }
+  .p-b-#{$i} { padding-bottom: #{$i}px !important; }
+  .p-l-#{$i} { padding-left: #{$i}px !important; }
+  .p-r-#{$i} { padding-right: #{$i}px !important; }
+
+  $i: $i + 5;
+}
+.p-10 {
+  padding: 10px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+
+.p-30 {
+  padding: 30px;
+}
+
+.p-80 {
+  padding: 80px;
+}
+
+.line-height-30 {
+  line-height: 30px;
+}
+
+
+.m-b-8 {
+  margin-bottom: 8px;
+}
+
+@media (min-width: 575px) and (max-width: 992px) {
+  .line-height-30 {
+    line-height: 50px;
+  }
+
+}
+
+@media (min-width: 992px) {
+  .m-t-lg-0 {
+    margin-top: 0 !important;
+  }
+
+  .m-l-lg-15 {
+    margin-left: 15px;
+  }
+
+  .m-t-lg-30 {
+    margin-top: 30px!important;
+  }
+
+  .m-t-lg-100 {
+    margin-top: 100px!important;
+  }
+
+  .m-b-lg-0 {
+    margin-bottom: 0!important;
+  }
+  .m-b-lg-30 {
+    margin-bottom: 30px;
+  }
+
+  .m-t-lg-50 {
+    margin-top: 50px!important;
+  }
+
+  .m-b-lg-50 {
+      margin-bottom: 50px;
+  }
+
+  .p-t-lg-50 {
+    padding-top: 50px!important;
+  }
+
+  .p-b-lg-50 {
+    padding-bottom: 50px!important;
+  }
+
+  .p-r-lg-50 {
+    padding-right: 50px!important;
+  }
+
+  .p-r-lg-0 {
+    padding-right: 0!important;
+  }
+
+  .p-r-lg-80 {
+    padding-right: 80px!important;
+  }
+
+  .p-r-lg-100 {
+    padding-right: 100px;
+  }
+
+  .p-l-lg-0 {
+    padding-left: 0!important;
+  }
+
+  .p-lg-15 {
+    padding-left: 15px!important;
+  }
+
+  .m-b-lg-5 {
+    margin-bottom: 5px!important;
+  }
+
+  .m-b-lg-10 {
+    margin-bottom: 10px!important;
+  }
+
+  .m-b-lg-15 {
+    margin-bottom: 15px!important;
+  }
+  .m-b-lg-100 {
+    margin-bottom: 100px!important;
+  }
+
+  .m-r-lg-0 {
+    margin-right: 0!important;
+  }
+
+  .m-r-lg-30 {
+    margin-right: 30px!important;
+  }
+  .m-r-lg-80 {
+    margin-right: 80px;
+  }
+
+  .m-l-lg-80 {
+    margin-left: 80px;
+  }
+
+  .m-t-lg-15 {
+    margin-top: 15px!important;
+  }
+  .m-t-lg-80 {
+    margin-top: 80px!important;
+  }
+}
+
+
+@media (min-width: 1500px) {
+  .p-l-lg-30 {
+    padding-left: 30px;
+  }
+
+}

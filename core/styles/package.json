@@ -1,0 +1,18 @@
+{
+	"scripts": {
+		"refresh_styles_full": "sass main.scss ../../public/styles/main.css --style compressed",
+		"refresh_styles": "sass final_layouts.scss:../../public/styles/final_layouts.css final_components.scss:../../public/styles/final_components.css final_views.scss:../../public/styles/final_views.css final_views_gestion.scss:../../public/styles/final_views_gestion.css --style compressed",
+
+		"watch-full": "nodemon -e scss -x \"sass main.scss ../../public/styles/main.css --style compressed\"",
+		"watch": "nodemon -e scss -x \"sass final_layouts.scss:../../public/styles/final_layouts.css final_components.scss:../../public/styles/final_components.css final_views.scss:../../public/styles/final_views.css final_views_gestion.scss:../../public/styles/final_views_gestion.css --style compressed\""
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.16"
+	},
+	"dependencies": {
+		"sass": "^1.54.4"
+	},
+	"overrides":{
+		"semver": "^7.5.3"
+	}
+}

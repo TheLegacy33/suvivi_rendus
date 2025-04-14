@@ -1,0 +1,127 @@
+/* -------------------------------- */
+/* -----------  MIXINS  ----------- */
+/* -------------------------------- */
+
+/*@mixin scrollbar() {
+  // Pour Firefox
+  scrollbar-color: #e0e0e0 #efefef;
+  scrollbar-width: none; //thin
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+
+  // Pour Chrome, Edge, Opera, Safari
+  &::-webkit-scrollbar {
+    width: 0.25rem;
+    display: none;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #efefef;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $orange; //$orange;
+  }
+}*/
+
+@mixin flex($flexDirection, $justifyContent, $alignItems, $gap) {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: $flexDirection;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+  gap: $gap;
+}
+
+@mixin grid($gridTemplateColumns, $gridTemplateRows, $gap) {
+  display: grid;
+  grid-template-columns: $gridTemplateColumns;
+  grid-template-rows: $gridTemplateRows;
+  gap: $gap;
+}
+
+@mixin filtersColors() {
+  .white-filter {
+    border: 1px solid #ccc;
+    background-color: white;
+  }
+
+  .black-filter {
+    background-color: black;
+  }
+
+  .grey-filter {
+    background-color: grey;
+  }
+
+  .brown-filter {
+    background-color: #5f3401;
+  }
+
+  .red-filter {
+    background-color: #cc0000;
+  }
+
+  .blue-filter {
+    background-color: blue;
+  }
+
+  .pink-filter {
+    background-color: #f29fc5;
+  }
+
+  .gold-filter {
+    background-color: gold;
+  }
+
+  .green-filter {
+    background-color: green;
+  }
+
+  .silver-filter {
+    background-color: silver;
+  }
+
+  .yellow-filter {
+    background-color: #fff15f;
+  }
+
+  .purple-filter {
+    background-color: #5c007b;
+  }
+
+  .orange-filter {
+    background-color: #ff7b00;
+  }
+
+  .beige-filter {
+    background-color: beige;
+  }
+
+  .bronze-filter {
+    background-color: #614e1a;
+  }
+
+  .multicolor-filter {
+    background: linear-gradient(90deg, #5c007b 64.34%, transparent 64.34%) 0 0,
+      linear-gradient(-90deg, #ff7b00 64.34%, transparent 64.34%) 100% 0,
+      linear-gradient(90deg, transparent 35.66%, #fff15f 35.66%) 100% 100%,
+      linear-gradient(-90deg, transparent 35.66%, #0070cc 35.66%) 0 100%,
+      #cc0000 linear-gradient(#339933, #339933) 50% 100%;
+    background: -moz-linear-gradient(90deg, #5c007b 64.34%, transparent 64.34%)
+        0 0,
+      linear-gradient(-90deg, #ff7b00 64.34%, transparent 64.34%) 100% 0,
+      linear-gradient(90deg, transparent 35.66%, #fff15f 35.66%) 100% 100%,
+      linear-gradient(-90deg, transparent 35.66%, #0070cc 35.66%) 0 100%,
+      #cc0000 linear-gradient(#339933, #339933) 50% 100%;
+    background-repeat: no-repeat;
+    background-size: 50% 50%;
+  }
+
+  .white-black-filter {
+    background: linear-gradient(to right, #000000 50%, #ffffff 50%);
+    border: 1px solid #dfdcda;
+  }
+
+  .sepia-filter {
+    background-color: #ae8964;
+  }
+}

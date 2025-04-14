@@ -1,0 +1,15 @@
+.navbar-lateral-blog {
+  display: flex;
+  flex-direction: column;
+  z-index: 8;
+  position: absolute;
+  margin-top: 150px;
+  background-color: white;
+  width: 70px;
+  height: 100vh;
+  text-align: center;
+
+  li {
+    list-style: none;
+  }
+}

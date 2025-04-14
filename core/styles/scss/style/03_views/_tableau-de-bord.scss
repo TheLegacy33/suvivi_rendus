@@ -1,0 +1,219 @@
+#tableau-de-bord {
+  .nav-scroller-wrapper {
+    margin-bottom: 40px;
+
+    @media screen and (max-width: $break-small) {
+      margin-bottom: 20px;
+    }
+    @media screen and (min-width: $break-small) and (max-width: $break-large) {
+      margin-bottom: 20px;
+    }
+    .breadcrumb-nav {
+      margin-bottom: 0;
+    }
+  }
+
+  .titre-tab-bord {
+    margin-bottom: 50px;
+    max-width: 60%;
+    @media screen and (min-width: $break-small) and (max-width: $break-large) {
+      margin-bottom: 30px;
+    }
+    @media screen and (max-width: $break-small) {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    @media screen and (max-width: $break-large) {
+      max-width: 95%;
+    }
+    @media screen and (min-width: $break-small) and (max-width: $break-large) {
+      max-width: 80%;
+    }
+    @media screen and (min-width: 1150px) and (max-width: $break-xxl) {
+      max-width: 80%;
+    }
+
+    @media screen and (min-width: $break-large) and (max-width: 1150px) {
+      max-width: 90%;
+    }
+    h2 {
+      @media screen and (min-width: $break-small) and (max-width: $break-large) {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .grid-tab-de-bord {
+    max-width: 60%;
+    margin: 0 auto 50px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+
+    gap: 2rem 1rem;
+
+    @media screen and (max-width: $break-small) {
+      max-width: 95%;
+      margin: 0 auto 30px;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(9, 1fr);
+      grid-template-areas:
+        "sect-mon-compte"
+        "sect-artiste-favoris"
+        "sect-coups-de-coeur"
+        "sect-messagerie"
+        "sect-mes-commandes"
+        "sect-perso-notification"
+        "sect-parametre"
+        "sect-faq"
+        "sect-outils";
+      gap: 1rem 0;
+    }
+
+    @media screen and (min-width: 1150px) and (max-width: $break-xxl) {
+      max-width: 80%;
+    }
+
+    @media screen and (min-width: $break-large) and (max-width: 1150px) {
+      max-width: 90%;
+    }
+
+    @media screen and (min-width: $break-small) and (max-width: $break-large) {
+      max-width: 80%;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      grid-template-areas:
+        "sect-mon-compte sect-artiste-favoris"
+        "sect-coups-de-coeur sect-messagerie"
+        "sect-mes-commandes sect-perso-notification"
+        "sect-parametre sect-faq"
+        "sect-outils .";
+    }
+
+    section {
+      border: 1px solid lightgrey;
+
+      a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        .flex-contenue-section {
+          display: flex;
+          padding: 1rem;
+          align-items: flex-start; //center;
+          height: 100%;
+          gap: 0 0.7rem;
+          position: relative;
+
+          @media screen and (max-width: $break-large) {
+            gap: 0 2rem;
+            padding: 1rem 2rem;
+          }
+
+          & > .div-image-tab {
+            height: 25px;
+            min-width: 25px;
+
+            @media screen and (max-width: $break-large) {
+              height: 20px;
+              max-width: 20px;
+              min-width: 20px;
+            }
+
+            img,
+            svg {
+              height: 100%;
+              width: 100%;
+            }
+          }
+
+          & > div:not(.div-image-tab) {
+            padding-top: 8px;
+
+            p {
+              font-size: 14px;
+            }
+            @media screen and (min-width: $break-small) and (max-width: $break-large) {
+              padding-top: 0;
+            }
+            @media screen and (max-width: $break-large) {
+              p {
+                font-size: 12px;
+              }
+            }
+          }
+        }
+      }
+      #section-ajout-oeuvre {
+        header {
+          border-bottom: 1px solid #000;
+          background-color: #fff;
+          .modal-close {
+            color: initial;
+            svg {
+              &#Capa_1 {
+                fill: #000;
+              }
+            }
+          }
+        }
+        .modal-body {
+          border: 0;
+          min-height: 3rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          div {
+            border: 1px solid gray;
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            height: 56px;
+            a {
+              height: auto;
+            }
+          }
+        }
+      }
+      #oeuvre-atelier-modal {
+        width: 950px;
+        .header-ajout-modal-oeuvre {
+          border-bottom: 1px solid black;
+          background-color: #fff !important;
+
+          .modal-close {
+            color: initial !important;
+            & > svg {
+              &#Capa_1 {
+                fill: black;
+              }
+            }
+          }
+        }
+        .button-modal-oeuvre {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          padding: 0 20px 20px;
+
+          @media screen and (max-width: $break-small) {
+            flex-direction: column;
+          }
+
+          .div-button-modal {
+            @media screen and (max-width: $break-small) {
+              width: 100%;
+            }
+            a {
+              .flex-contenue-section {
+                border: 1px grey solid;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

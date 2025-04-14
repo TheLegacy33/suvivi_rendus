@@ -1,0 +1,373 @@
+//brandon grotesque bold
+@font-face {
+	font-family: "BG Bold";
+	font-weight: normal;
+	font-style: normal;
+	src: url("./fonts/bg-bold.otf") format('truetype');
+}
+
+//brandon grotesque bold italic
+@font-face {
+	font-family: "BG Bold Italic";
+	font-weight: auto;
+	font-style: italic;
+	src: url("./fonts/bg-bold-italic.otf") format('truetype');
+}
+
+//brandon grotesque regular
+@font-face {
+	font-family: "BG Regular";
+	font-weight: normal;
+	font-style: normal;
+	src: url("./fonts/bg-regular.otf") format('truetype');
+}
+
+//brandon grotesque regular italic
+@font-face {
+	font-family: "BG Regular Italic";
+	font-weight: auto;
+	font-style: italic;
+	src: url("./fonts/bg-regular-italic.otf") format('truetype');
+}
+
+//brandon grotesque medium
+@font-face {
+	font-family: "BG Medium";
+	font-weight: normal;
+	font-style: normal;
+	src: url("./fonts/bg-medium.otf") format('truetype');
+}
+
+//brandon grotesque medium italic
+@font-face {
+	font-family: "BG Medium Italic";
+	font-weight: auto;
+	font-style: italic;
+	src: url("./fonts/bg-medium-italic.otf") format('truetype');
+}
+
+//brandon grotesque light
+@font-face {
+	font-family: "BG Light";
+	font-weight: normal;
+	font-style: normal;
+	src: url("./fonts/bg-light.otf") format('truetype');
+}
+
+//brandon grotesque light italic
+@font-face {
+	font-family: "BG Light Italic";
+	font-weight: auto;
+	font-style: italic;
+	src: url("./fonts/bg-light-italic.otf") format('truetype');
+}
+
+//Reross Quadratic Regular
+@font-face {
+	font-family: "Reross Quadratic Regular";
+	font-weight: auto;
+	font-style: normal;
+	src: url("./fonts/Reross-Quadratic-Regular.otf") format('truetype');
+}
+
+@font-face {
+	font-family: "Roboto Light";
+	font-weight: 300;
+	font-style: normal;
+	src: url("./fonts/Roboto/Roboto-Light.ttf") format('truetype');
+}
+
+@font-face {
+	font-family: "Roboto Medium";
+	font-weight: 300;
+	font-style: normal;
+	src: url("./fonts/Roboto/Roboto-Medium.ttf") format('truetype');
+}
+
+@font-face {
+	font-family: "Roboto Bold";
+	font-weight: 700;
+	src: url("./fonts/Roboto/Roboto-Bold.ttf") format('truetype');
+}
+
+//Reross Quadratic
+//@import url("https://use.typekit.net/ogg7cnr.css");
+.reross {
+	font-family: reross-quadratic, sans-serif;
+}
+
+//Reross Rectangular
+//@import url("https://use.typekit.net/ogg7cnr.css");
+.reross-rectangular {
+	font-family: reross-rectangular, sans-serif;
+}
+
+// Acumin pro wide
+//@import url("https://use.typekit.net/ogg7cnr.css");
+.acumin {
+	font-family: acumin-pro, sans-serif;
+}
+
+// Acumin pro wide bold
+//@import url("https://use.typekit.net/ogg7cnr.css");
+.acumin-semibold {
+	font-family: acumin-pro-wide, sans-serif;
+	font-weight: 700;
+}
+
+
+// Tailles de typos
+.title {
+	font-size: 20px;
+}
+
+.subtitle {
+	font-size: 14px;
+}
+
+* {
+	font-size: 12px;
+}
+
+.mention {
+	font-size: 8px;
+}
+
+@media screen and (min-width: $break-small) and (max-width: $break-xl) {
+	.title {
+		font-size: 20px;
+	}
+
+	.subtitle {
+		font-size: 14px;
+
+	}
+
+	* {
+		font-size: 12px;
+
+	}
+
+	.mention {
+		font-size: 10px;
+	}
+}
+
+@media screen and (min-width: $break-xl) and (max-width: $break-xxl) {
+	.title {
+		font-size: 24px;
+	}
+
+	.subtitle {
+		font-size: 20px;
+
+	}
+
+	* {
+		font-size: 14px;
+
+	}
+
+	.mention {
+		font-size: 10px;
+	}
+}
+
+@media screen and (min-width: $break-xxl) {
+	.title {
+		font-size: 26px;
+	}
+
+	.subtitle {
+		font-size: 22px;
+	}
+
+	* {
+		font-size: 16px;
+	}
+
+	.mention {
+		font-size: 12px;
+	}
+}
+
+.f-10 {
+	font-size: 10px;
+}
+
+.f-12 {
+	font-size: 12px;
+}
+
+.f-14 {
+	font-size: 14px;
+}
+
+.f-16 {
+	font-size: 16px;
+}
+
+.f-18 {
+	font-size: 18px;
+}
+
+.f-20 {
+	font-size: 20px;
+}
+
+.f-24 {
+	font-size: 24px;
+}
+
+.f-28 {
+	font-size: 28px;
+}
+
+.f-30 {
+	font-size: 30px;
+}
+
+.f-40 {
+	font-size: 40px;
+}
+
+.f-50 {
+	font-size: 50px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.underline {
+	text-decoration: underline !important;
+}
+
+p {
+	font-family: $roboto-light; //$acumin;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+
+	&:hover {
+		color: black;
+	}
+}
+
+h1 {
+	font-family: $roboto-medium; //$reross-rectangular;
+	letter-spacing: 0.1rem;
+	text-transform: uppercase;
+	font-size: 12px;
+
+	@media screen and (min-width: $break-small) and (max-width: $break-large) {
+		font-size: 14px;
+	}
+
+	@media screen and (min-width: $break-large) and (max-width: $break-xl) {
+		font-size: 16px;
+	}
+
+	@media screen and (min-width: $break-xl) {
+		font-size: 20px;
+	}
+}
+
+h2 {
+	font-family: $roboto-medium; //$reross-quadratic;
+	letter-spacing: 0.1rem;
+	text-transform: uppercase;
+	font-size: 12px;
+
+	@media screen and (min-width: $break-small) and (max-width: $break-large) {
+		font-size: 12px;
+	}
+
+	@media screen and (min-width: $break-large) and (max-width: $break-xl) {
+		font-size: 14px;
+	}
+
+	@media screen and (min-width: $break-xl) {
+		font-size: 18px;
+	}
+}
+
+h3 {
+	font-family: $roboto-medium; //$reross-quadratic;
+	letter-spacing: 0.1rem;
+	text-transform: uppercase;
+	font-size: 10px;
+
+	@media screen and (min-width: $break-small) and (max-width: $break-large) {
+		font-size: 12px;
+	}
+
+	@media screen and (min-width: $break-large) and (max-width: $break-xl) {
+		font-size: 14px;
+	}
+
+	@media screen and (min-width: $break-xl) {
+		font-size: 16px;
+	}
+}
+
+h4 {
+	font-family: $roboto-medium; //$acumin;
+	letter-spacing: 0.1rem;
+	text-transform: uppercase;
+	font-size: 10px;
+
+	@media screen and (min-width: $break-small) and (max-width: $break-large) {
+		font-size: 12px;
+	}
+
+	@media screen and (min-width: $break-large) and (max-width: $break-xl) {
+		font-size: 12px;
+	}
+
+	@media screen and (min-width: $break-xl) {
+		font-size: 14px;
+	}
+}
+
+@media (min-width: $break-large) and (max-width: $break-xxl) {
+	.f-md-16 {
+		font-size: 16px;
+	}
+}
+
+@media (min-width: $break-large) {
+	.f-lg-14 {
+		font-size: 14px !important;
+	}
+}
+
+.text-uppercase {
+	text-transform: uppercase;
+}
+
+.text-lowercase {
+	text-transform: lowercase;
+}
+
+.text-capitalize {
+	text-transform: capitalize;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-right{
+	text-align: right;
+}
+
+.text-justify {
+	text-align: justify;
+}

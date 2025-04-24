@@ -1,4 +1,5 @@
 <?php
+
 	use Random\RandomException;
 
 	abstract class DAOUser extends BDD{

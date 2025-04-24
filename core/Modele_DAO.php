@@ -1,4 +1,5 @@
 <?php
+
 	abstract class Modele_DAO extends BDD{
 		protected static function parseRecord(mixed $SQLRow): Classe{
 			//			$var = new Class($SQLRow['...']);

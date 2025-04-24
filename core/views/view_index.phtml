@@ -1,21 +1,50 @@
 <?php
-/**
-
- */
+	/**
+	 * @var array $lstEcoles
+	 * @var Ecole $uneEcole
+	 */
 ?>
 <main class="container" id="accueil">
-	<form id="formAuth" action="<?= getUrl('utilisateur', 'files', 'sendfile') ?>" method="post">
-		<div>
+	<form id="formSendFile" action="<?= getUrl('utilisateur', 'files', 'sendfile') ?>" method="post">
+		<div class="field-formulaire">
 			<fieldset>
 				<legend>Ecole</legend>
 				<div>
-					<label for="identifiant"></label>
-					<input type="text" id="identifiant" name="chIdentifiant">
+					<label for="champEcole"></label>
+					<input list="lstEcoles" type="text" class="upper" id="champEcole" name="chEcole" value="">
+					<datalist id="lstEcoles">
+						<?php
+							$script = '';
+							foreach ($lstEcoles as $uneEcole) {
+								$script .= '<option data-idforvalue="'.$uneEcole->getId().'" value="'.$uneEcole->getNom().'">';
+							}
+							print($script);
+						?>
+					</datalist>
 				</div>
 			</fieldset>
 		</div>
-		<div>
-
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Classe / Section</legend>
+				<div>
+					<label for="champClasse"></label>
+					<input list="lstClasses" type="text" class="upper" id="champClasse" name="chClasse" value="">
+					<datalist id="lstClasses">
+					</datalist>
+				</div>
+			</fieldset>
+		</div>
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Etudiant</legend>
+				<div>
+					<label for="champEtudiant"></label>
+					<input list="lstEtudiants" type="text" class="upper" id="champEtudiant" name="chEtudiant" value="">
+					<datalist id="lstEtudiants">
+					</datalist>
+				</div>
+			</fieldset>
 		</div>
 		<div class="buttons">
 			<button type="submit" class="btn-black-on-white">Envoyer</button>

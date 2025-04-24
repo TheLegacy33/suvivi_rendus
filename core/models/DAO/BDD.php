@@ -1,4 +1,5 @@
 <?php
+
 	abstract class BDD{
 		private static string $dsnserveur = 'mysql:host=%MYSQL_HOST%;port=%MYSQL_PORT%;charset=utf8;dbname=%MYSQL_BDD%';
 		private static string $user = '';

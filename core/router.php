@@ -163,7 +163,19 @@
 			}
 		case 'api':
 			{
-				require_once 'core/controllers/api/controller_mainapi.php';
+				switch ($page){
+					case 'mainapi':
+					{
+						require_once 'core/controllers/api/controller_mainapi.php';
+						break;
+					}
+					case 'listapi':
+					{
+						require_once 'core/controllers/api/controller_listapi.php';
+						break;
+					}
+				}
+
 				break;
 			}
 		default:

@@ -116,7 +116,7 @@ picture {
 /* Titres et paragraphes */
 h1,
 .h1 {
-  font-family: $roboto-medium; //$reross-rectangular;
+  font-family: $roboto-medium;
   letter-spacing: 0.1rem;
   font-size: min(4vw, 1.5rem);
   font-weight: normal;
@@ -127,7 +127,7 @@ h1,
 
 h2,
 .h2 {
-  font-family: $roboto-medium; //$reross-rectangular;
+  font-family: $roboto-medium;
   letter-spacing: 0.1rem;
   font-size: min(5.5vw, 1.5rem);
   font-weight: normal;
@@ -137,7 +137,7 @@ h2,
 
 h3,
 .h3 {
-  font-family: $roboto-medium; //$reross-quadratic;
+  font-family: $roboto-medium;
   letter-spacing: 0.1rem;
   font-size: min(5vw, 1.5rem);
   font-weight: normal;
@@ -204,7 +204,7 @@ a {
   }
 
   li {
-    font-family: $reross-quadratic;
+    font-family: $roboto-light;
 
     &:first-child {
       margin-right: 1rem;

@@ -11,6 +11,7 @@
 	 * Redirections des pages ne respectant pas le flux
 	 */
 
+
 	if ($page == 'lost-password'){
 		$referer = $_SERVER['HTTP_REFERER'] ?? '';
 		if (DEV_MODE){

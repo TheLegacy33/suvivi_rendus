@@ -3,15 +3,13 @@
 	abstract class ModelIdLibelle implements JsonSerializable{
 		protected int $id;
 		protected string $libelle;
-		protected string|null $libelleEn;
 
 		/**
 		 * @param string $libelle
 		 */
-		public function __construct(string $libelle = '', ?string $libelleEn = null){
+		public function __construct(string $libelle = ''){
 			$this->libelle = $libelle;
 			$this->id = 0;
-			$this->libelleEn = $libelleEn;
 		}
 
 		/**
@@ -40,20 +38,6 @@
 		 */
 		public function setLibelle(string $libelle): void{
 			$this->libelle = $libelle;
-		}
-
-		/**
-		 * @return string
-		 */
-		public function getLibelleEn(): ?string{
-			return $this->libelleEn;
-		}
-
-		/**
-		 * @param string $libelleEn
-		 */
-		public function setLibelleEn(?string $libelleEn): void{
-			$this->libelleEn = $libelleEn;
 		}
 
 		public function jsonSerialize(): array{

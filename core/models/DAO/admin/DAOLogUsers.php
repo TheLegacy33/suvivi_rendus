@@ -1,5 +1,6 @@
 <?php
 
+
 	abstract class DAOLogUsers extends BDD{
 		protected static function parseRecord(mixed $SQLRow): LogUser{
 			$unLog = new LogUser($SQLRow['id_user'], date_create($SQLRow['date_log']));

@@ -1,103 +1,103 @@
 div.titre-section {
-  height: fit-content;
-  margin-bottom: 1rem;
-  h3 {
-    height: 3rem;
-    line-height: 3rem;
-  }
+	height: fit-content;
+	margin-bottom: 1rem;
+	h3 {
+		height: 3rem;
+		line-height: 3rem;
+	}
 }
 .recherche-admin {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  input {
-    border: 0;
-    border-bottom: 1px solid black;
-    &::placeholder {
-      text-align: center;
-    }
-  }
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	input {
+		border: 0;
+		border-bottom: 1px solid black;
+		&::placeholder {
+			text-align: center;
+		}
+	}
 }
 table {
-  min-width: 90%;
-  border-collapse: collapse;
-  thead {
-    th {
-      cursor: default;
-      &.col-5 {
-        width: 5%;
-      }
-      &.col-10 {
-        width: 10%;
-      }
-      &.col-15 {
-        width: 15%;
-      }
-      &.col-20 {
-        width: 20%;
-      }
-      &.col-25 {
-        width: 25%;
-      }
-      &.col-30 {
-        width: 30%;
-      }
-      &.col-35 {
-        width: 35%;
-      }
-      &.col-40 {
-        width: 40%;
-      }
-      &.col-45 {
-        width: 45%;
-      }
-      &.col-50 {
-        width: 50%;
-      }
-    }
-  }
+	min-width: 90%;
+	border-collapse: collapse;
+	thead {
+		th {
+			cursor: default;
+			&.col-5 {
+				width: 5%;
+			}
+			&.col-10 {
+				width: 10%;
+			}
+			&.col-15 {
+				width: 15%;
+			}
+			&.col-20 {
+				width: 20%;
+			}
+			&.col-25 {
+				width: 25%;
+			}
+			&.col-30 {
+				width: 30%;
+			}
+			&.col-35 {
+				width: 35%;
+			}
+			&.col-40 {
+				width: 40%;
+			}
+			&.col-45 {
+				width: 45%;
+			}
+			&.col-50 {
+				width: 50%;
+			}
+		}
+	}
 
-  tbody {
-    td {
-      border: solid 1px black;
-      cursor: default;
-      min-height: 40px;
-      padding: 0 0.5rem;
+	tbody {
+		td {
+			border: solid 1px black;
+			cursor: default;
+			min-height: 40px;
+			padding: 0 0.5rem;
 
-      input,
-      select {
-        width: 95%;
-        margin: 0.5rem;
-        padding: 0.2rem;
-      }
+			input,
+			select {
+				width: 95%;
+				margin: 0.5rem;
+				padding: 0.2rem;
+			}
 
-      a {
-        &.col-center {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        img {
-          width: 32px;
-          height: 32px;
-        }
-      }
-    }
-  }
+			a {
+				&.col-center {
+					width: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+				img {
+					width: 32px;
+					height: 32px;
+				}
+			}
+		}
+	}
 }
 
 div.sep {
-  width: 100%;
-  height: 0.5rem;
-  @media screen and (min-width: $break-small) {
-    height: 1rem;
-  }
+	width: 100%;
+	height: 0.5rem;
+	@media screen and (min-width: $break-small) {
+		height: 1rem;
+	}
 }
 
 button {
-  &:disabled {
-    color: grey;
-    cursor: not-allowed;
-  }
+	&:disabled {
+		color: grey;
+		cursor: not-allowed;
+	}
 }

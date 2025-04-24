@@ -1,4 +1,6 @@
 <?php
+
+
 	abstract class DAOTypeDocument extends BDD{
 		public static function getByLibelle(string $libelle): TypeDocument{
 			$conn = parent::getConnexion();
@@ -12,7 +14,7 @@
 			$SQLStmt->execute();
 			$SQLRow = $SQLStmt->fetch(PDO::FETCH_ASSOC);
 			$typeDoc = new TypeDocument($SQLRow['libelle']);
-			$typeDoc->setId(intval($SQLRow['id_type_document']));
+			$typeDoc->id = intval($SQLRow['id_type_document']);
 			$SQLStmt->closeCursor();
 			return $typeDoc;
 		}
@@ -29,7 +31,7 @@
 			$SQLStmt->execute();
 			$SQLRow = $SQLStmt->fetch(PDO::FETCH_ASSOC);
 			$typeDoc = new TypeDocument($SQLRow['libelle']);
-			$typeDoc->setId(intval($SQLRow['id_type_document']));
+			$typeDoc->id = intval($SQLRow['id_type_document']);
 			$SQLStmt->closeCursor();
 			return $typeDoc;
 		}

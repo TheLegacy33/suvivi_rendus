@@ -116,48 +116,15 @@ function removeLoadingImage(parentElement) {
 /**
  * Fonction XHR Pour post des données
  * @param section
+ * @param page
  * @param action
  * @param data
  * @param type
  * @returns {Promise<any>}
  */
-async function postSyncData(section = "api", action = "", data = {}, type = 'json') {
-	let url = `?section=${section}&action=${action}`;
-	// let url = `/${section}/${action}`;
-
-	const apiRequest = await fetch(url, {
-		method: 'POST',
-		headers: {
-			// 'Content-type': 'multipart/form-data',
-			// 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-		},
-		body: data
-	});
-	try {
-		if (!apiRequest.ok) {
-			return false;
-		}
-		if (type === 'json') {
-			return await apiRequest.json();
-		} else {
-			return await apiRequest.text();
-		}
-	} catch (err) {
-		throw err;
-	}
-}
-
-/**
- * Fonction XHR Pour post des données
- * @param section
- * @param action
- * @param data
- * @param type
- * @returns {Promise<any>}
- */
-function postData(section = "api", action = "", data = {}, type = 'json') {
-	let url = `?section=${section}&action=${action}`;
-	// let url = `/${section}/${action}`;
+function postData(section = "api", page = "", action = "", data = {}, type = 'json') {
+	let url = `?section=${section}&page=${page}&action=${action}`;
+	// let url = `/${section}/${page}/${action}`;
 
 	return fetch(url, {
 		method: 'POST',
@@ -183,52 +150,15 @@ function postData(section = "api", action = "", data = {}, type = 'json') {
 /**
  * Fonction XHR Pour get des données
  * @param section
+ * @param page
  * @param action
  * @param data
  * @param type
  * @returns {Promise<any>}
  */
-async function fetchSyncData(section = "api", action = "", data = {}, type = 'json') {
-	let url = `?section=${section}&action=${action}`;
-	// let url = `/${section}/${action}`;
-	if (data !== null) {
-		Object.entries(data).forEach(function (param) {
-			url += `&${param[0]}=${param[1]}`;
-		})
-	}
-	const apiRequest = await fetch(url, {
-		method: 'GET',
-		headers: {
-			// 'Content-type': 'multipart/form-data',
-			// 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-		}
-	});
-	if (!apiRequest.ok) {
-		throw Error(apiRequest.message);
-	}
-
-	try {
-		if (type === 'json') {
-			return await apiRequest.json();
-		} else {
-			return await apiRequest.text();
-		}
-	} catch (err) {
-		throw err;
-	}
-}
-
-/**
- * Fonction XHR Pour get des données
- * @param section
- * @param action
- * @param data
- * @param type
- * @returns {Promise<any>}
- */
-function fetchData(section = "api", action = "", data = {}, type = 'json') {
-	let url = `?section=${section}&action=${action}`;
-	// let url = `/${section}/${action}`;
+function fetchData(section = "api", page="mainapi", action = "", data = {}, type = 'json') {
+	let url = `?section=${section}&page=${page}&action=${action}`;
+	// let url = `/${section}/${page}/${action}`;
 	if (data !== null) {
 		Object.entries(data).forEach(function (param) {
 			url += `&${param[0]}=${param[1]}`;
@@ -294,6 +224,25 @@ function updateRequirement(id, valid) {
 			requirement.classList.remove('valid');
 		}
 	}
+}
+
+/**
+ * Fonction de vidage d'une liste
+ */
+function clearList(idList){
+	if (idList && idList.options.length > 1){
+		for (let idx = idList.options.length - 1; idx > 0; idx--){
+			let option = idList.options[idx];
+			if (parseInt(option.value) !== 0){
+				idList.options.remove(idx);
+			}
+		}
+	}
+}
+
+function checkEmail(email) {
+	var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return re.test(email);
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -499,7 +448,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 		document.querySelectorAll(".infobulle").forEach(function (click) {
 			click.addEventListener('click', function () {
 				this.classList.toggle("active")
-
 			})
 		})
 	}
@@ -517,8 +465,36 @@ document.addEventListener('DOMContentLoaded', async function () {
 		});
 	}
 
-	function checkEmail(email) {
-		var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		return re.test(email);
+	/**
+	 * Pour la gestion des datalist
+	 */
+
+	function getIdForValue(inputField, dataList){
+		if (inputField.hasAttribute('data-idforvalue')) inputField.removeAttribute('data-idforvalue');
+		if (valueInList(inputField.value.trim(), dataList)){
+			for (let option of dataList.options){
+				if (option.hasAttribute('data-idforvalue')){
+					if (option.value.trim() === inputField.value.trim()){
+						inputField.setAttribute('data-idforvalue', option.getAttribute('data-idforvalue'));
+					}
+				}
+			}
+		}
+	}
+
+	let dataLists = document.querySelectorAll('datalist[id]');
+	if (dataLists){
+		dataLists.forEach(function (dataList){
+			let inputField = document.querySelector(`input[list=${dataList.id}]`);
+			if (inputField){
+				inputField.addEventListener('input', function (){
+					getIdForValue(inputField, dataList);
+				})
+
+				inputField.addEventListener('blur', function (){
+					getIdForValue(inputField, dataList);
+				})
+			}
+		})
 	}
 });

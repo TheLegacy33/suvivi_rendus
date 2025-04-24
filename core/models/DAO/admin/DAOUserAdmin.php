@@ -1,5 +1,6 @@
 <?php
 
+
 	abstract class DAOUserAdmin extends BDD{
 		public static function getAllAcheteurs(): array{
 			$conn = parent::getConnexion();

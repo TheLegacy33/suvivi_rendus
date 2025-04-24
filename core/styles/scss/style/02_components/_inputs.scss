@@ -1,68 +1,114 @@
-// SEARCH BAR
-.input_form {
-  padding: 15px;
-  border : 3px solid black;
+form{
+	width: 100%;
+	margin: 0 auto;
 
-  input {
-    border: none;
-    background: none;
+	div {
+		margin: 10px 0;
+		fieldset {
+			border: 1px solid lightgrey;
+			padding-top: 0;
+			height: 50px;
+			margin-top: 1rem;
 
-    &::placeholder {
-      text-transform: uppercase;
-      color: black;
-    }
-  }
-
-  .searchButton {
-    border: none;
-    background: none;
-  }
-}
-
-form, div{
-	input, textarea{
-		&.upper{
-			text-transform: uppercase;
-		}
-
-		&.capitalize{
-			text-transform: capitalize;
-		}
-
-		&.lower{
-			text-transform: lowercase;
-		}
-
-		&[type=text], &[type=email], &[type=url]{
-			&.upper{
-				text-transform: uppercase;
+			legend {
+				padding: 0 5px;
+				position: relative;
+				bottom: 2px;
+				font-size: 12px;
+				color: $dark-grey;
 			}
 
-			&.capitalize{
-				text-transform: capitalize;
+			div {
+				margin: 0;
+				height: 100%;
+				input {
+					border: 0;
+					height: 100%;
+					width: 100%;
+
+					&::placeholder {
+						font-size: 1.2rem;
+					}
+
+					&:focus{
+						outline: none;
+						border: none;
+						border-bottom: solid 1px $light-grey;
+					}
+				}
 			}
 
-			&.lower{
-				text-transform: lowercase;
+			input, textarea{
+				&.upper{
+					text-transform: uppercase;
+				}
+
+				&.capitalize{
+					text-transform: capitalize;
+				}
+
+				&.lower{
+					text-transform: lowercase;
+				}
+
+				&[type=text], &[type=email], &[type=url]{
+					&.upper{
+						text-transform: uppercase;
+					}
+
+					&.capitalize{
+						text-transform: capitalize;
+					}
+
+					&.lower{
+						text-transform: lowercase;
+					}
+				}
+
+				& + span{
+					padding-right: 1rem;
+				}
+
+				&:invalid + span::after{
+					position: absolute;
+					content: "✖";
+					padding-left: 5px;
+					color: #8b0000;
+				}
+
+				&:valid + span::after{
+					position: absolute;
+					content: "✓";
+					padding-left: 5px;
+					color: #009000;
+				}
 			}
 		}
 
-		& + span{
-			padding-right: 1rem;
+		&.buttons {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 1rem;
+			margin-top: 2rem;
+			button {
+				min-width: 200px;
+				font-family: $roboto-medium;
+				letter-spacing: 0.1rem;
+				margin-bottom: 10px;
+				height: 50px;
+				border: 1px solid black;
+				@media screen and (min-width: $break-large) and (max-width: $break-xl) {
+					font-size: 14px;
+				}
+			}
 		}
+	}
 
-		&:invalid + span::after{
-			position: absolute;
-			content: "✖";
-			padding-left: 5px;
-			color: #8b0000;
-		}
 
-		&:valid + span::after{
-			position: absolute;
-			content: "✓";
-			padding-left: 5px;
-			color: #009000;
-		}
+
+	@media screen and (min-width: $break-small) {
+		width: 90%;
 	}
 }

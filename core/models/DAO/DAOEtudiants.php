@@ -11,7 +11,7 @@
 		public static function getById(int $id): Etudiant{
 			$conn = parent::getConnexion();
 			$SQLQuery = "
-				SELECT id_etudiant, nom, email, id_classe, mot_de_passe, code_connexion, expiration_code_connexion
+				SELECT id_etudiant, nom, prenom, email, id_classe, mot_de_passe, code_connexion, expiration_code_connexion
 				FROM etudiant
 				WHERE id_etudiant = :id
 			";
@@ -27,7 +27,7 @@
 		public static function getByName(string $nom): Etudiant{
 			$conn = parent::getConnexion();
 			$SQLQuery = "
-				SELECT id_etudiant, nom, email, id_classe, mot_de_passe, code_connexion, expiration_code_connexion
+				SELECT id_etudiant, nom, prenom, email, id_classe, mot_de_passe, code_connexion, expiration_code_connexion
 				FROM etudiant
 				WHERE nom = :nom
 			";
@@ -43,7 +43,7 @@
 		public static function getAll(): array{
 			$conn = parent::getConnexion();
 			$SQLQuery = "
-				SELECT id_etudiant, nom, email, id_classe, mot_de_passe, code_connexion, expiration_code_connexion
+				SELECT id_etudiant, nom, prenom, email, id_classe, mot_de_passe, code_connexion, expiration_code_connexion
 				FROM etudiant
 				ORDER BY nom
 			";
@@ -61,7 +61,7 @@
 		public static function getAllByClasse(Classe $uneClasse): array{
 			$conn = parent::getConnexion();
 			$SQLQuery = "
-				SELECT id_etudiant, nom, email, id_classe, mot_de_passe, code_connexion, expiration_code_connexion
+				SELECT id_etudiant, nom, prenom, email, id_classe, mot_de_passe, code_connexion, expiration_code_connexion
 				FROM etudiant
 				WHERE id_classe = :id_classe
 				ORDER BY nom
@@ -81,8 +81,8 @@
 			// INSERT DANS LA BDD
 			$conn = parent::getConnexion();
 			$SQLQuery = "
-				INSERT INTO etudiant(nom, email, id_classe, mot_de_passe, code_connexion, expiration_code_connexion) 
-				VALUES (:nom, :email, :id_classe, :mot_de_passe, :code_connexion, :expiration_code_connexion)";
+				INSERT INTO etudiant(nom, prenom, email, id_classe, mot_de_passe, code_connexion, expiration_code_connexion) 
+				VALUES (:nom, :prenom, :email, :id_classe, :mot_de_passe, :code_connexion, :expiration_code_connexion)";
 			$SQLStmt = $conn->prepare($SQLQuery);
 			$SQLStmt->bindValue(':nom', $unEtudiant->getNom(), PDO::PARAM_STR);
 			$SQLStmt->bindValue(':id_ecole', $unEtudiant->getIdEcole(), PDO::PARAM_INT);

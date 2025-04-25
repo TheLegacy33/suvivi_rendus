@@ -1,0 +1,11 @@
+Confirmation de votre envoi sur {{nom_application}} !
+
+Bonjour, vous recevez cet email pour vous confirmer que nous avons bien reçu votre fichier mis en pièce jointe si besoin de vérification.
+L'enregistrement de ce fichier est effectif au {{date_heure_envoi}}.
+Tout futur envoi remplacera ce fichier.
+Merci de votre participation et à très bientôt,
+
+{{nom_entreprise}}
+
+Vous recevez cet email automatiquement, si vous n'en êtes pas le demandeur, veuillez ne pas tenir compte de son contenu.
+&copy; {{annee}} {{nom_entreprise}}. Tous droits réservés.

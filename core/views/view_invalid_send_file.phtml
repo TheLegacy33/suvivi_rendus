@@ -1,0 +1,14 @@
+<?php
+	/**
+	 * @var string $message
+	 */
+?>
+<main class="container" id="validEnvoiEvaluation">
+	<h2>Fichier non envoyé</h2>
+	<div>
+		<p class="m-b-10">Votre fichier n'a pas pu être transmis pour la raison suivante :</p>
+		<p class="m-b-10 text-rouge"><?= $message ?? 'Erreur interne au serveur !' ?></p>
+		<p class="m-b-20">Veuillez essayer à nouveau dans quelques instants ou nous contacter si le problème persiste.</p>
+		<a href="<?= getUrl('evaluations', 'files', 'new') ?>" class="btn btn-black-on-white">retour</a>
+	</div>
+</main>

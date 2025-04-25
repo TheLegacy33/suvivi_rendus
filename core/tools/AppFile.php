@@ -1,6 +1,6 @@
 <?php
 
-	class AIFile{
+	class AppFile{
 		private string|null $name, $full_path, $tmp_name, $error, $size, $type;
 		private string $localFilePath;
 
@@ -115,7 +115,7 @@
 			}
 			$extension = pathinfo($this->name, PATHINFO_EXTENSION);
 			$this->name = $fileName.'.'.$extension;
-			$this->full_path = $this->localFilePath.$this->getHashedName();
+			$this->full_path = $this->localFilePath.$this->getName();
 
 			if (move_uploaded_file($this->tmp_name, $this->full_path)){
 				@chmod($this->full_path, 0666);

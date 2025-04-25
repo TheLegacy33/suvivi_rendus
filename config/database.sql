@@ -19,7 +19,7 @@ CREATE TABLE classe (
 )engine=InnoDB;
 
 INSERT INTO classe(id_classe, nom, id_ecole)
-VALUES (1, 'EBP / S02', 1), (2, 'EBP / S04', 1), (3, 'EBP / S12', 1), (4, 'SIO1A / DEV', 6);
+VALUES (1, 'EBP - S02', 1), (2, 'EBP - S04', 1), (3, 'EBP - S12', 1), (4, 'SIO1A - DEV', 6);
 
 
 CREATE TABLE etudiant (
@@ -113,13 +113,36 @@ CREATE TABLE fichier (
     nom_fichier VARCHAR(255) NOT NULL,
     chemin VARCHAR(255) NOT NULL,
     date_envoi DATETIME DEFAULT (CURRENT_DATE),
-    id_classe INT NOT NULL,
     id_etudiant INT NOT NULL,
     id_evaluation INT NOT NULL,
     note FLOAT DEFAULT NULL,
     correction_texte TEXT DEFAULT NULL,
-    FOREIGN KEY (id_classe) REFERENCES classe(id_classe),
     FOREIGN KEY (id_evaluation) REFERENCES evaluation(id_evaluation),
     FOREIGN KEY (id_etudiant) REFERENCES etudiant(id_etudiant)
 )engine=InnoDB;
 
+
+CREATE TABLE parametre (
+  id_parametre int NOT NULL AUTO_INCREMENT,
+  libelle varchar(250) NOT NULL,
+  valeur varchar(250) DEFAULT NULL,
+  description text,
+  date_creation date DEFAULT (curdate()),
+  date_modif date DEFAULT NULL,
+  PRIMARY KEY (id_parametre)
+) ENGINE=InnoDB;
+
+INSERT INTO parametre (libelle,valeur,description,date_creation,date_modif) VALUES
+	 ('smtp-host','mail.devatom.net','Serveur SMTP','2024-02-21',NULL),
+	 ('smtp-port','587','Port SMTP','2024-02-21',NULL),
+	 ('smtp-helo','michel@devatom.net','Helo SMTP','2024-02-21',NULL),
+	 ('smtp-auth','1','SMTP Authentification','2024-02-21',NULL),
+	 ('smtp-user','webmaster','SMTP login','2024-02-21',NULL),
+	 ('smtp-pass','WeBm@steR','SMTP password','2024-02-21',NULL),
+	 ('smtp-senderapp','Devatom.net','SMTP Application name','2024-02-21',NULL),
+	 ('smtp-secure','tls','Méthode d''authentification (tls ou ssl)','2024-05-01',NULL),
+	 ('INTERNAL_SKEY','b4f15b4736d921b5556d229c25b0d1162a74cba7d044e628e0bb7a18ba2edccd','Clé secrète interne pour stockage','2024-05-28',NULL),
+	 ('SHOW_DEBUG','1','Activer le mode debug','2024-09-27',NULL),
+	 ('senderemail-default','no-reply@devatom.net','Email d''expéditeur','2024-02-21',NULL),
+	 ('destemail-support','michel@devatom.net','Mail destinataire support','2024-10-08',NULL),
+	 ('destemail-contact','michel@devatom.net','Mail destinataire contact','2024-10-08',NULL);

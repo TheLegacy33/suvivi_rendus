@@ -8,3 +8,5 @@
 		"EXTERNAL_URL" => getenv('EXTERNAL_URL') ?? 'https://studentapp.local.net',
 		"DEV_MODE" => getenv('DEV_MODE') == 'true'
 	);
+
+	date_default_timezone_set('Europe/Paris');

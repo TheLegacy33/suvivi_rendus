@@ -3,6 +3,8 @@
 		private int $id, $idClasse;
 		private string $nom, $prenom, $email;
 
+		private string|null $password, $codeConnexion;
+		private DateTime|null $dateExpirationCodeConnexion;
 		/**
 		 * @param string $nom
 		 * @param string $prenom
@@ -14,6 +16,9 @@
 			$this->prenom = $prenom;
 			$this->email = $email;
 			$this->id = 0;
+			$this->password = null;
+			$this->codeConnexion = null;
+			$this->dateExpirationCodeConnexion = null;
 		}
 
 		public function getId(): int{
@@ -56,7 +61,37 @@
 			$this->email = $email;
 		}
 
+		public function getPassword(): ?string{
+			return $this->password;
+		}
+
+		public function setPassword(?string $password): void{
+			$this->password = $password;
+		}
+
+		public function getCodeConnexion(): ?string{
+			return $this->codeConnexion;
+		}
+
+		public function setCodeConnexion(?string $codeConnexion): void{
+			$this->codeConnexion = $codeConnexion;
+		}
+
+		public function getDateExpirationCodeConnexion(): ?DateTime{
+			return $this->dateExpirationCodeConnexion;
+		}
+
+		public function setDateExpirationCodeConnexion(?DateTime $dateExpirationCodeConnexion): void{
+			$this->dateExpirationCodeConnexion = $dateExpirationCodeConnexion;
+		}
+
+		public function getFullName(bool $prenomFirst = true): string{
+			return $prenomFirst ? $this->prenom.' '.$this->nom : $this->nom.' '.$this->prenom;
+		}
+
 		public function jsonSerialize(): array{
 			return get_object_vars($this);
 		}
+
+
 	}

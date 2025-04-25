@@ -7,8 +7,6 @@
 	 * Controller pour les appels API
 	 */
 
-	use Random\RandomException;
-
 	header('Access-Control-Allow-Origin: *');
 	header('Content-Type: application/json; charset=utf-8');
 	switch ($action){
@@ -39,6 +37,21 @@
 				}else{
 					http_response_code(404);
 					print(json_encode(['etudiantsFetched' => false, 'content' => [], 'status' => 404, 'result' => 'error']));
+				}
+				break;
+			}
+		case 'getevaluations':
+			{
+				$idClasse = intval($_GET['idclasse'] ?? 0);
+				if ($idClasse > 0){
+					$classe = DAOClasses::getById($idClasse);
+					$lstEvaluations = DAOEvaluations::getAllByClasse($classe);
+					http_response_code(200);
+					print(json_encode(['evaluationsFetched' => true, 'content' => $lstEvaluations, 'status' => 200, 'result' => 'success']));
+
+				}else{
+					http_response_code(404);
+					print(json_encode(['evaluationsFetched' => false, 'content' => [], 'status' => 404, 'result' => 'error']));
 				}
 				break;
 			}

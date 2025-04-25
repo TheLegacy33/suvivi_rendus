@@ -1,0 +1,12 @@
+Votre code de connexion !
+
+Bonjour, vous recevez cet email car vous avez demandé à recevoir votre code de connexion.
+Le code de connecion suivant vous a été attribué automatiquement : {{generated_code}}
+Ce code est valide jusqu'au {{date_validite_code}}
+Passé cette date, vous devrez effectuer une nouvelle demande de code de connexion.
+Merci de votre confiance et à très bientôt,
+
+{{nom_entreprise}}
+
+Vous recevez cet email automatiquement, si vous n'en êtes pas le demandeur, veuillez ne pas tenir compte de son contenu.
+&copy; {{annee}} {{nom_entreprise}}. Tous droits réservés.

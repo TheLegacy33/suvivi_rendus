@@ -5,6 +5,10 @@
 			$retVal = new Etudiant($SQLRow['nom'], $SQLRow['prenom'], $SQLRow['email']);
 			$retVal->setId(intval($SQLRow['id_etudiant']));
 			$retVal->setIdClasse(intval($SQLRow['id_classe']));
+
+			$retVal->setPassword($SQLRow['mot_de_passe']);
+			$retVal->setCodeConnexion($SQLRow['code_connexion']);
+			$retVal->setDateExpirationCodeConnexion(is_null($SQLRow['expiration_code_connexion']) ? null : date_create($SQLRow['expiration_code_connexion']));
 			return $retVal;
 		}
 
@@ -85,7 +89,12 @@
 				VALUES (:nom, :prenom, :email, :id_classe, :mot_de_passe, :code_connexion, :expiration_code_connexion)";
 			$SQLStmt = $conn->prepare($SQLQuery);
 			$SQLStmt->bindValue(':nom', $unEtudiant->getNom(), PDO::PARAM_STR);
-			$SQLStmt->bindValue(':id_ecole', $unEtudiant->getIdEcole(), PDO::PARAM_INT);
+			$SQLStmt->bindValue(':prenom', $unEtudiant->getPrenom(), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':email', $unEtudiant->getEmail(), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':id_classe', $unEtudiant->getIdClasse(), PDO::PARAM_INT);
+			$SQLStmt->bindValue(':mot_de_passe', is_null($unEtudiant->getPassword()) ? null : password_hash($unEtudiant->getPassword(), PASSWORD_BCRYPT), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':code_connexion', $unEtudiant->getCodeConnexion(), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':expiration_code_connexion', $unEtudiant->getDateExpirationCodeConnexion()->format('Y-m-d H:i:s'), PDO::PARAM_STR);
 			if (!$SQLStmt->execute()){
 				return false;
 			}else{
@@ -94,12 +103,27 @@
 			}
 		}
 
-		public static function update(Classe $uneClasse): bool{
+		public static function update(Etudiant $unEtudiant): bool{
 			$conn = parent::getConnexion();
-			$SQLQuery = "UPDATE classe SET nom = :nom WHERE id_classe = :id";
+			$SQLQuery = "
+				UPDATE etudiant 
+				SET nom = :nom,
+				    prenom = :prenom,
+				    email = :email,
+				    id_classe = :id_classe,
+				    mot_de_passe = :mot_de_passe,
+				    code_connexion = :code_connexion,
+				    expiration_code_connexion = :expiration_code_connexion
+				WHERE id_etudiant = :id";
 			$SQLStmt = $conn->prepare($SQLQuery);
-			$SQLStmt->bindValue(':id', $uneClasse->getId(), PDO::PARAM_INT);
-			$SQLStmt->bindValue(':nom', $uneClasse->getNom(), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':id', $unEtudiant->getId(), PDO::PARAM_INT);
+			$SQLStmt->bindValue(':nom', $unEtudiant->getNom(), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':prenom', $unEtudiant->getPrenom(), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':email', $unEtudiant->getEmail(), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':id_classe', $unEtudiant->getIdClasse(), PDO::PARAM_INT);
+			$SQLStmt->bindValue(':mot_de_passe', is_null($unEtudiant->getPassword()) ? null : password_hash($unEtudiant->getPassword(), PASSWORD_BCRYPT), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':code_connexion', $unEtudiant->getCodeConnexion(), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':expiration_code_connexion', $unEtudiant->getDateExpirationCodeConnexion()->format('Y-m-d H:i:s'), PDO::PARAM_STR);
 			if (!$SQLStmt->execute()){
 				return false;
 			}else{
@@ -107,11 +131,11 @@
 			}
 		}
 
-		public static function delete(Classe $uneClasse): bool{
+		public static function delete(Etudiant $unEtudiant): bool{
 			$conn = parent::getConnexion();
-			$SQLQuery = "DELETE FROM classe WHERE id_classe = :id";
+			$SQLQuery = "DELETE FROM etudiant WHERE id_etudiant = :id";
 			$SQLStmt = $conn->prepare($SQLQuery);
-			$SQLStmt->bindValue(':id', $uneClasse->getId(), PDO::PARAM_INT);
+			$SQLStmt->bindValue(':id', $unEtudiant->getId(), PDO::PARAM_INT);
 			if (!$SQLStmt->execute()){
 				return false;
 			}else{

@@ -5,49 +5,8 @@
 	 */
 ?>
 <main class="container" id="accueil">
-	<form id="formSendFile" action="<?= getUrl('utilisateur', 'files', 'sendfile') ?>" method="post">
-		<div class="field-formulaire">
-			<fieldset>
-				<legend>Ecole</legend>
-				<div>
-					<label for="champEcole"></label>
-					<input list="lstEcoles" type="text" class="upper" id="champEcole" name="chEcole" value="">
-					<datalist id="lstEcoles">
-						<?php
-							$script = '';
-							foreach ($lstEcoles as $uneEcole) {
-								$script .= '<option data-idforvalue="'.$uneEcole->getId().'" value="'.$uneEcole->getNom().'">';
-							}
-							print($script);
-						?>
-					</datalist>
-				</div>
-			</fieldset>
-		</div>
-		<div class="field-formulaire">
-			<fieldset>
-				<legend>Classe / Section</legend>
-				<div>
-					<label for="champClasse"></label>
-					<input list="lstClasses" type="text" class="upper" id="champClasse" name="chClasse" value="">
-					<datalist id="lstClasses">
-					</datalist>
-				</div>
-			</fieldset>
-		</div>
-		<div class="field-formulaire">
-			<fieldset>
-				<legend>Etudiant</legend>
-				<div>
-					<label for="champEtudiant"></label>
-					<input list="lstEtudiants" type="text" class="upper" id="champEtudiant" name="chEtudiant" value="">
-					<datalist id="lstEtudiants">
-					</datalist>
-				</div>
-			</fieldset>
-		</div>
-		<div class="buttons">
-			<button type="submit" class="btn-black-on-white">Envoyer</button>
-		</div>
-	</form>
+	<div class="buttons">
+		<a href="<?= getUrl('evaluations', 'view-my-evaluations', 'view') ?>" class="btn btn-black-on-white">Voire mes évaluations</a>
+		<a href="<?= getUrl('evaluations', 'files', 'new') ?>" class="btn btn-black-on-white">Envoyer un fichier</a>
+	</div>
 </main>

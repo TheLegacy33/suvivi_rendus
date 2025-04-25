@@ -1,0 +1,86 @@
+<?php
+	/**
+	 * @var array $lstEcoles
+	 * @var Ecole $uneEcole
+	 */
+?>
+<main class="container" id="formEvaluation">
+	<h2>Envoyer un fichier</h2>
+	<form id="formSendFile" action="" method="post" enctype="multipart/form-data">
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Ecole</legend>
+				<div>
+					<label for="champEcole"></label>
+					<select id="champEcole" name="chEcole">
+						<option value="0">Sélectionner votre école</option>
+						<?php
+							$script = '';
+							foreach ($lstEcoles as $uneEcole) {
+								$script .= '<option value="'.$uneEcole->getId().'">'.$uneEcole->getNom().'</option>';
+							}
+							print($script);
+						?>
+					</select>
+				</div>
+			</fieldset>
+		</div>
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Classe / Section</legend>
+				<div>
+					<label for="champClasse"></label>
+					<select id="champClasse" name="chClasse">
+						<option value="0">Sélectionner votre classe</option>
+					</select>
+				</div>
+			</fieldset>
+		</div>
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Etudiant</legend>
+				<div>
+					<label for="champEtudiant"></label>
+					<select id="champEtudiant" name="chEtudiant">
+						<option value="0">Sélectionner votre nom</option>
+					</select>
+				</div>
+			</fieldset>
+		</div>
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Evaluation</legend>
+				<div>
+					<label for="champEvaluation"></label>
+					<select id="champEvaluation" name="chEvaluation">
+						<option value="0">Sélectionner l'évaluation</option>
+					</select>
+				</div>
+			</fieldset>
+		</div>
+		<div class="buttons">
+			<button type="button" class="btn-black-on-white" id="btnAskForCode">Demander l'acces</button>
+		</div>
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Code de connexion</legend>
+				<div>
+					<label for="champCodeConnexion"></label>
+					<input type="text" id="champCodeConnexion" name="chCodeConnexion" maxlength="6" >
+				</div>
+			</fieldset>
+		</div>
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Fichier</legend>
+				<div>
+					<label for="champFichier"></label>
+					<input type="file" name="chFichier" id="champFichier" accept="image/*,  application/pdf,  application/msword,  application/vnd.openxmlformats-officedocument.wordprocessingml.document,  application/vnd.ms-excel,  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .xlsm,  application/vnd.ms-powerpoint,  application/vnd.openxmlformats-officedocument.presentationml.presentation,  .mdb,  .accdb,  application/vnd.oasis.opendocument.text,  application/vnd.oasis.opendocument.spreadsheet,  application/vnd.oasis.opendocument.presentation ">
+				</div>
+			</fieldset>
+		</div>
+		<div class="buttons">
+			<button type="submit" class="btn-black-on-white" id="btnSubmitFile">Envoyer</button>
+		</div>
+	</form>
+</main>

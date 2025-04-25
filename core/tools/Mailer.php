@@ -21,24 +21,8 @@
 			$this->variables = [];
 			$this->senderApp = '';
 			try{
-				/**
-				 * Informations concernant le serveur SMTP
-				 *
-				 * zoho mail : https://accounts.zoho.eu/signin
-				 *
-				 * art.interactivities@gmail.com
-				 * astridmarie@artinteractivities.com
-				 * Bwi4^bN5
-				 *
-				 * webmaster@artinteractivities.com
-				 * B7qjs.vf
-				 * theo@artinteractivities.com
-				 * sz&Nsf2p
-				 */
-				$this->senderApp = DAOParametres::getByLibelle('smtp-senderapp')->getValeur(); //'Art Interactivities';
-				//Server
+				$this->senderApp = DAOParametres::getByLibelle('smtp-senderapp')->getValeur();
 				$this->setLanguage('fr', 'core/tools/PHPMailer/language/');
-				//			$this->SMTPDebug = SMTP::DEBUG_LOWLEVEL;                                // Active le mode verbeux
 				$this->SMTPDebug = SMTP::DEBUG_OFF;                                    // Désactive le mode verbeux
 				$this->CharSet = 'UTF-8';
 				$this->Encoding = 'base64';

@@ -23,14 +23,12 @@ form{
 				height: 100%;
 				input {
 					border: 0;
-					height: 100%;
-					width: 100%;
 
 					&::placeholder {
 						font-size: 1.2rem;
 					}
 
-					&:focus{
+					&:not([type=file]):focus{
 						outline: none;
 						border: none;
 						border-bottom: solid 1px $light-grey;

@@ -8,12 +8,9 @@
 	 * Gestion des données de la page d'accueil
 	 */
 	require_once 'core/views/template/header.phtml';
-
 	switch ($page){
 		case 'index':
 			{
-				$includedJSScripts = [HTML_PUBLIC_SCRIPTS_DIR . "js-gestion-accueil.js"];
-				$lstEcoles = DAOEcoles::getAll();
 				require_once 'core/views/view_index.phtml';
 				break;
 			}

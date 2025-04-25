@@ -14,11 +14,9 @@
 	require_once 'config/config.php';
 	require_once "core/globals.php";
 	require_once 'core/tools/toolbox.php';
-
 	$section = $_GET['section'] ?? 'main';
 	$page = $_GET['page'] ?? 'index';
 	$action = $_GET['action'] ?? 'view';
-
 	//	ini_set('memory_limit', '4096M');
 	$arr_cookie_options = array('lifetime' => 0, 'path' => '/', 'domain' => '', // leading dot for compatibility or use subdomain
 		'secure' => true,     // or false
@@ -29,7 +27,6 @@
 	session_set_cookie_params($arr_cookie_options);
 	session_start();
 	Session::initialise(APP_NAME);
-
 	$userLogged = new User('User', 'Utilisateur');
 	$userLogged->setAuthentified(false);
 	$artisteLogged = null;
@@ -37,23 +34,15 @@
 		$userLogged = DAOUser::getById(Session::getActiveSession()->getUserId());
 		$userLogged->setAuthentified(true);
 	}
-
 	CoreApplication::initialise();
 	//	Session::destroy();
 	//	var_dump(password_hash('sat@niKm33', PASSWORD_BCRYPT)); // mot de passe michel
 	// $secret_key = bin2hex(random_bytes(32));
 	// echo "Votre clé secrète est : " . $secret_key;
-
 	/**
 	 * Vérification des droits d'accès
 	 */
-	$pagesNeedAuth = [
-		'main' => [],
-		'utilisateur' => ['dashboard', 'files'],
-		'auth' => [],
-		'admin' => ['*'],
-		'api' => []
-	];
+	$pagesNeedAuth = ['main' => [], 'utilisateur' => ['dashboard', 'files'], 'auth' => [], 'admin' => ['*'], 'api' => [], 'evaluations' => []];
 	function authNeeded(string $section, string $page): bool{
 		global $pagesNeedAuth;
 		if (array_key_exists($section, $pagesNeedAuth)){
@@ -85,33 +74,27 @@
 	}
 
 	function getUrl(string $section = 'main', string $page = 'index', string $action = 'view', array $otherParams = []): string{
-		$tabSections = [
-			'auth',
-			'main',
-			'utilisateur',
-			'admin',
-			'api'
-		];
+		$tabSections = ['auth', 'main', 'utilisateur', 'admin', 'api', 'evaluations'];
 		$url = '/';
 		if (!($section == 'index' and $page == 'main' and $action == 'view')){
 			if (!in_array($section, $tabSections, true)){
-//				$url .= '?section=main&page=index&action=view';
+				//				$url .= '?section=main&page=index&action=view';
 				$url .= 'main';
 			}else{
-//				$url .= '?section=' . $section;
+				//				$url .= '?section=' . $section;
 				$url .= $section;
 				if (trim($page) === ''){
-//					$url .= '&page=main';
+					//					$url .= '&page=main';
 					$url .= '/main';
 				}else{
-//					$url .= '&page=' . $page;
+					//					$url .= '&page=' . $page;
 					$url .= '/' . $page;
 				}
 				if (trim($action) === ''){
-//					$url .= '&action=view';
+					//					$url .= '&action=view';
 					$url .= '/view';
 				}else{
-//					$url .= '&action=' . $action;
+					//					$url .= '&action=' . $action;
 					$url .= '/' . $action;
 				}
 				if (is_array($otherParams) and !empty($otherParams)){
@@ -123,10 +106,10 @@
 		}
 		return $url;
 	}
+
 	if (!DEV_MODE){
 		//ini_set('display_errors', 'off');
 		error_reporting(E_ERROR & ~E_WARNING & ~E_NOTICE);
-
 		if (!userAuthValid($section, $page, $action)){
 			if ($section == 'admin' && !$userLogged->isAdmin()){
 				header('Location:' . getUrl('index'));
@@ -165,17 +148,26 @@
 			{
 				switch ($page){
 					case 'mainapi':
-					{
-						require_once 'core/controllers/api/controller_mainapi.php';
-						break;
-					}
+						{
+							require_once 'core/controllers/api/controller_mainapi.php';
+							break;
+						}
 					case 'listapi':
-					{
-						require_once 'core/controllers/api/controller_listapi.php';
-						break;
-					}
+						{
+							require_once 'core/controllers/api/controller_listapi.php';
+							break;
+						}
+					case 'tokenapi':
+						{
+							require_once 'core/controllers/api/controller_tokenapi.php';
+							break;
+						}
 				}
-
+				break;
+			}
+		case 'evaluations':
+			{
+				require_once 'core/controllers/controller_evaluations.php';
 				break;
 			}
 		default:

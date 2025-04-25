@@ -1,6 +1,6 @@
 <?php
 
-	class AIImage extends AIFile {
+	class AppImage extends AppFile {
 		private string $miniatureFilePath;
 
 		public function getMiniatureFilePath(): string {

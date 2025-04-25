@@ -1,0 +1,17 @@
+<?php
+
+?>
+<main class="container" id="validEnvoiEvaluation">
+	<h2>Fichier envoyé</h2>
+	<div>
+		<p class="m-b-10">Votre fichier a bien été transmis !</p>
+		<p class="m-b-10">Un mail vous a également été envoyé pour confirmer l'envoi de votre fichier.</p>
+		<p class="m-b-10">Vous allez être redirigé automatiquement sur la page d'accueil au bout de 10 secondes, sinon cliquez <a href="<?= getUrl('main', 'index', 'view') ?>">ici</a>.</p>
+		<p class="m-b-10">Bonne journée</p>
+	</div>
+</main>
+<script>
+	setTimeout(function(){
+		document.location.href = '<?= getUrl('main', 'index', 'view') ?>'
+	}, 10000);
+</script>

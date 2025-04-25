@@ -1,0 +1,21 @@
+#formEvaluation {
+	form#formSendFile {
+		.field-formulaire{
+			fieldset{
+				select{
+					min-width: 20rem;
+				}
+
+				input{
+					&#champCodeConnexion{
+						text-align: center;
+						width: 8rem;
+					}
+					&.alert{
+						border: solid 1px red;
+					}
+				}
+			}
+		}
+	}
+}

@@ -25,6 +25,7 @@
 	const PHP_UPLOAD_DIR_USERS = PHP_UPLOAD_DIR . 'utilisateurs/';
 	const PHP_EMAIL_TPL = PHP_DIR . 'core/views/template/mails/';
 	const PHP_EMAIL_HTML_TPL = PHP_DIR . 'core/views/template/mails/html_templates/';
+
 	define("DEV_MODE", getenv('DEV_MODE') == 'true');
 
 	//Vérification de l'existence des répertoires et création si nécessaire

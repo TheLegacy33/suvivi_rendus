@@ -229,12 +229,21 @@ function updateRequirement(id, valid) {
 /**
  * Fonction de vidage d'une liste
  */
-function clearList(idList){
+function clearDataList(idList){
 	if (idList && idList.options.length > 1){
-		for (let idx = idList.options.length - 1; idx > 0; idx--){
-			let option = idList.options[idx];
+		idList.innerHTML = '';
+	}
+}
+
+/**
+ * Fonction de vidage d'une liste
+ */
+function clearSelect(idSelect){
+	if (idSelect && idSelect.options.length > 1){
+		for (let idx = idSelect.options.length - 1; idx > 0; idx--){
+			let option = idSelect.options[idx];
 			if (parseInt(option.value) !== 0){
-				idList.options.remove(idx);
+				idSelect.options.remove(idx);
 			}
 		}
 	}
@@ -492,6 +501,10 @@ document.addEventListener('DOMContentLoaded', async function () {
 				})
 
 				inputField.addEventListener('blur', function (){
+					getIdForValue(inputField, dataList);
+				})
+
+				inputField.addEventListener('change', function (){
 					getIdForValue(inputField, dataList);
 				})
 			}

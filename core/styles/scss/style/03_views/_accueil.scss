@@ -1,6 +1,12 @@
 #accueil {
-	form#formSendFile {
-
-
+	.buttons{
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+		align-items: center;
+		justify-content: flex-start;
+		a{
+			min-width: 20rem;
+		}
 	}
 }

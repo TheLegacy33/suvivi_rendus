@@ -928,4 +928,20 @@
 			// Mélanger le mot de passe pour éviter un ordre prévisible
 			return str_shuffle($motDePasse);
 		}
+
+		/**
+		 * fonction de génération d'un code chiffres
+		 * @return string
+		 */
+		public static function generateCode(int $maxlength = 6): string{
+			// Définitions des groupes de caractères
+			$chiffres = '0123456789';
+			// Prendre au moins un caractère de chaque groupe
+			$code = $chiffres[rand(0, strlen($chiffres) - 1)];
+			for ($i = 1; $i<$maxlength; $i++){
+				$code .= $chiffres[rand(0, strlen($chiffres) - 1)];
+			}
+			// Mélanger le mot de passe pour éviter un ordre prévisible
+			return str_shuffle($code);
+		}
 	}

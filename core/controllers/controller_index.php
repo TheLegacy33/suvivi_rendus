@@ -7,6 +7,8 @@
 	 *
 	 * Gestion des données de la page d'accueil
 	 */
+	 
+	
 	require_once 'core/views/template/header.phtml';
 	switch ($page){
 		case 'index':

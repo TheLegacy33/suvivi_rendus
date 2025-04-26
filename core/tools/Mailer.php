@@ -28,13 +28,13 @@
 				$this->Encoding = 'base64';
 				$this->Timeout = 30;
 				$this->isSMTP();                                        // Définir l'utilisation de SMTP
-				$this->Host = DAOParametres::getByLibelle('smtp-host')->getValeur(); //'mail.devatom.net';
-				$this->Port = DAOParametres::getByLibelle('smtp-port')->getValeur(); //'25';
-				$this->Helo = DAOParametres::getByLibelle('smtp-helo')->getValeur(); //'mail.devatom.net';
+				$this->Host = DAOParametres::getByLibelle('smtp-host')->getValeur();
+				$this->Port = DAOParametres::getByLibelle('smtp-port')->getValeur();
+				$this->Helo = DAOParametres::getByLibelle('smtp-helo')->getValeur();
 				if (DAOParametres::getByLibelle('smtp-auth')->getValeur() == '1'){
 					$this->SMTPAuth = DAOParametres::getByLibelle('smtp-auth')->getValeur() == '1'; //true;
-					$this->Username = DAOParametres::getByLibelle('smtp-user')->getValeur(); //'webmaster';
-					$this->Password = DAOParametres::getByLibelle('smtp-pass')->getValeur(); //'WeBm@steR';
+					$this->Username = decrypt_data(DAOParametres::getByLibelle('smtp-user')->getValeur());
+					$this->Password = decrypt_data(DAOParametres::getByLibelle('smtp-pass')->getValeur());
 					//					$this->SMTPSecure = 'ssl';                            // Active TLS, `ssl` également accepté
 					$this->SMTPSecure = DAOParametres::getByLibelle('smtp-secure')->getValeur(); //PHPMailer::ENCRYPTION_STARTTLS;
 					//$this->SMTPAutoTLS = true;

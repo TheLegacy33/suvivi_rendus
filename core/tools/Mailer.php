@@ -28,9 +28,9 @@
 				$this->Encoding = 'base64';
 				$this->Timeout = 30;
 				$this->isSMTP();                                        // Définir l'utilisation de SMTP
-				$this->Host = DAOParametres::getByLibelle('smtp-host')->getValeur();
+				$this->Host = decrypt_data(DAOParametres::getByLibelle('smtp-host')->getValeur());
 				$this->Port = DAOParametres::getByLibelle('smtp-port')->getValeur();
-				$this->Helo = DAOParametres::getByLibelle('smtp-helo')->getValeur();
+				$this->Helo = decrypt_data(DAOParametres::getByLibelle('smtp-helo')->getValeur());
 				if (DAOParametres::getByLibelle('smtp-auth')->getValeur() == '1'){
 					$this->SMTPAuth = DAOParametres::getByLibelle('smtp-auth')->getValeur() == '1'; //true;
 					$this->Username = decrypt_data(DAOParametres::getByLibelle('smtp-user')->getValeur());

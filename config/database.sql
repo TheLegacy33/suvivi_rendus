@@ -35,7 +35,8 @@ CREATE TABLE etudiant (
 )engine=InnoDB;
 
 INSERT INTO etudiant(nom, prenom, email, id_classe)
-VALUES 
+VALUES
+('GILLET','Michel','michel@devatom.net',1),
 ('KHATTABI','Romane','romane.khattabi@kedgebs.com',1),
 ('LAGARDERE','Maxime','maxime.lagardere@kedgebs.com',1),
 ('LE GOUAREGUER','Lenka','lenka.legouareguer@kedgebs.com',1),
@@ -133,9 +134,9 @@ CREATE TABLE parametre (
 ) ENGINE=InnoDB;
 
 INSERT INTO parametre (libelle,valeur,description,date_creation,date_modif) VALUES
-	 ('smtp-host','mail.devatom.net','Serveur SMTP','2024-02-21',NULL),
+	 ('smtp-host','fMBYbEhUURsv3v+Y4ntSWjkrL0dQR3RobDdkNGwwd1RsT1lsSUZDeVJkVW96THA1akJuZjUzcHFkMHc9','Serveur SMTP','2024-02-21',NULL),
 	 ('smtp-port','587','Port SMTP','2024-02-21',NULL),
-	 ('smtp-helo','michel@devatom.net','Helo SMTP','2024-02-21',NULL),
+	 ('smtp-helo','sjk39fFEcuDGBQB/IuelW2Nwek8yKzdwNlcvaWZVMm8xNnRTYmdzay9GRmJ0eDEzeGZtNjJZcDlXQlE9','Helo SMTP','2024-02-21',NULL),
 	 ('smtp-auth','1','SMTP Authentification','2024-02-21',NULL),
 	 ('smtp-user','0OP7ZZ37oUkbp7Fn/naz3W9IcWJBcVdYV3lYL3JMRTM5b21MaFE9PQ==','SMTP login','2024-02-21',NULL),
 	 ('smtp-pass','MtakKdpCeKOyNzmNSYTqHjBEMEwvR1RqUkhxTkRJTmdRM2J3NFE9PQ==','SMTP password','2024-02-21',NULL),

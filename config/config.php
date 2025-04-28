@@ -10,4 +10,12 @@
 	);
 
 	date_default_timezone_set('Europe/Paris');
-	
+
+	//	ini_set('memory_limit', '4096M');
+	$arr_cookie_options = array('lifetime' => 0, 'path' => '/', 'domain' => '', // leading dot for compatibility or use subdomain
+		'secure' => true,     // or false
+		'httponly' => true,    // or false
+		'samesite' => 'None' // None || Lax  || Strict
+	);
+
+	session_set_cookie_params($arr_cookie_options);

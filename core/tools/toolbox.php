@@ -1,7 +1,4 @@
 <?php
-//	$secret_key = bin2hex(random_bytes(32));
-//	debug($secret_key);
-
 	/**
 	 * // Autochargement des classes pour optimiser les temps d'inclusion des scripts
 	 */

@@ -14,19 +14,16 @@
 	require_once 'config/config.php';
 	require_once "core/globals.php";
 	require_once 'core/tools/toolbox.php';
+
+	session_name(APP_NAME);
+	session_start();
+	Session::initialise(APP_NAME);
+	CoreApplication::initialise();
+
 	$section = $_GET['section'] ?? 'main';
 	$page = $_GET['page'] ?? 'index';
 	$action = $_GET['action'] ?? 'view';
-	//	ini_set('memory_limit', '4096M');
-	$arr_cookie_options = array('lifetime' => 0, 'path' => '/', 'domain' => '', // leading dot for compatibility or use subdomain
-		'secure' => true,     // or false
-		'httponly' => true,    // or false
-		'samesite' => 'None' // None || Lax  || Strict
-	);
-	session_name(APP_NAME);
-	session_set_cookie_params($arr_cookie_options);
-	session_start();
-	Session::initialise(APP_NAME);
+
 	$userLogged = new User('User', 'Utilisateur');
 	$userLogged->setAuthentified(false);
 	$artisteLogged = null;
@@ -34,11 +31,7 @@
 		$userLogged = DAOUser::getById(Session::getActiveSession()->getUserId());
 		$userLogged->setAuthentified(true);
 	}
-	CoreApplication::initialise();
-	//	Session::destroy();
-	//	var_dump(password_hash('sat@niKm33', PASSWORD_BCRYPT)); // mot de passe michel
-	// $secret_key = bin2hex(random_bytes(32));
-	// echo "Votre clé secrète est : " . $secret_key;
+
 	/**
 	 * Vérification des droits d'accès
 	 */
@@ -73,7 +66,7 @@
 		}
 	}
 
-	function getUrl(string $section = 'main', string $page = 'index', string $action = 'view', array $otherParams = []): string{
+	function getUrl(string $section = '', string $page = '', string $action = '', array $otherParams = []): string{
 		$tabSections = ['auth', 'main', 'utilisateur', 'admin', 'api', 'evaluations'];
 		$url = '/';
 		if (!($section == 'index' and $page == 'main' and $action == 'view')){

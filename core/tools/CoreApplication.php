@@ -17,6 +17,8 @@
 
 		public static function initialise(): void{
 			self::$activeSections = [
+				'api' => true,
+				'utilisateur' => true,
 				'admin' => true,
 				'fileupload' => true
 			];

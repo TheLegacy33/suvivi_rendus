@@ -9,6 +9,10 @@
 	 */
 
 	require_once 'core/views/template/header.phtml';
+
+	$url = getUrl();
+	debug($url);
+
 	switch ($page){
 		case 'index':
 			{

@@ -1,7 +1,5 @@
 <?php
-	/**
-	 * @var array $config
-	 */
+
 	const APP_NAME = 'APP-ETUDIANTS';
 	const APP_VERSION = '0.0.1';
 	const URL_BASE = 'http://studentapp.local.net/';

@@ -15,14 +15,19 @@
 	require_once "core/globals.php";
 	require_once 'core/tools/toolbox.php';
 
+	$section = $_GET['section'] ?? 'main';
+	$page = $_GET['page'] ?? '';
+	$action = $_GET['action'] ?? '';
+
+	$tabSections = ['auth', 'main', 'utilisateur', 'admin', 'api', 'evaluations'];
+	if (!in_array($section, $tabSections, true)){
+		header('Location:' . getUrl('main'));
+	}
+
 	session_name(APP_NAME);
 	session_start();
 	Session::initialise(APP_NAME);
 	CoreApplication::initialise();
-
-	$section = $_GET['section'] ?? 'main';
-	$page = $_GET['page'] ?? 'index';
-	$action = $_GET['action'] ?? 'view';
 
 	$userLogged = new User('User', 'Utilisateur');
 	$userLogged->setAuthentified(false);
@@ -31,13 +36,11 @@
 		$userLogged = DAOUser::getById(Session::getActiveSession()->getUserId());
 		$userLogged->setAuthentified(true);
 	}
-
 	/**
 	 * Vérification des droits d'accès
 	 */
-	$pagesNeedAuth = ['main' => [], 'utilisateur' => ['dashboard', 'files'], 'auth' => [], 'admin' => ['*'], 'api' => [], 'evaluations' => []];
 	function authNeeded(string $section, string $page): bool{
-		global $pagesNeedAuth;
+		$pagesNeedAuth = ['main' => [], 'utilisateur' => ['dashboard', 'files'], 'auth' => [], 'admin' => ['*'], 'api' => [], 'evaluations' => []];
 		if (array_key_exists($section, $pagesNeedAuth)){
 			if (in_array($page, $pagesNeedAuth[$section]) || (isset($pagesNeedAuth[$section][0]) and $pagesNeedAuth[$section][0] == '*')){
 				return true;
@@ -67,27 +70,17 @@
 	}
 
 	function getUrl(string $section = '', string $page = '', string $action = '', array $otherParams = []): string{
-		$tabSections = ['auth', 'main', 'utilisateur', 'admin', 'api', 'evaluations'];
+		global $tabSections;
 		$url = '/';
-		if (!($section == 'index' and $page == 'main' and $action == 'view')){
+		if (!($section == 'main' and $page == 'index' and $action == 'view')){
 			if (!in_array($section, $tabSections, true)){
-				//				$url .= '?section=main&page=index&action=view';
 				$url .= 'main';
 			}else{
-				//				$url .= '?section=' . $section;
 				$url .= $section;
-				if (trim($page) === ''){
-					//					$url .= '&page=main';
-					$url .= '/main';
-				}else{
-					//					$url .= '&page=' . $page;
+				if (trim($page) !== ''){
 					$url .= '/' . $page;
 				}
-				if (trim($action) === ''){
-					//					$url .= '&action=view';
-					$url .= '/view';
-				}else{
-					//					$url .= '&action=' . $action;
+				if (trim($action) !== ''){
 					$url .= '/' . $action;
 				}
 				if (is_array($otherParams) and !empty($otherParams)){
@@ -105,7 +98,7 @@
 		error_reporting(E_ERROR & ~E_WARNING & ~E_NOTICE);
 		if (!userAuthValid($section, $page, $action)){
 			if ($section == 'admin' && !$userLogged->isAdmin()){
-				header('Location:' . getUrl('index'));
+				header('Location:' . getUrl('main'));
 			}else{
 				header('Location:' . getUrl('utilisateur', 'login'));
 			}

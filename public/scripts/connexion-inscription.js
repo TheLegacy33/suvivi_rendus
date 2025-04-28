@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
 					return false;
 				}
 
-				let checkKeep = document.querySelector('#keepConnection');
+				let checkKeep = document.querySelector('#keepConnexion');
 				if (checkKeep.checked) {
 					checkKeep.keepConnect(new Date(), champIdentifiant.value);
 				} else {
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			form.submit();
 		})
 
-		let checkKeep = document.querySelector('#keepConnection');
+		let checkKeep = document.querySelector('#keepConnexion');
 		checkKeep.addEventListener('click', function (eve) {
 			let keepOption = eve.currentTarget;
 			if (keepOption.checked) {
@@ -160,12 +160,12 @@ document.addEventListener('DOMContentLoaded', function () {
 	 */
 	let valRemember = parseInt(Cookies.get('remember', cookiesOptions));
 	if (valRemember === 1) {
-		document.querySelector('#keepConnection').setAttribute('checked', '');
+		document.querySelector('#keepConnexion').setAttribute('checked', '');
 		if (Cookies.get('identifiantlog', cookiesOptions) !== undefined) {
 			document.querySelector('input#identifiant').value = Cookies.get('identifiantlog', cookiesOptions)
 		}
 	} else {
-		document.querySelector('#keepConnection').removeAttribute('checked');
+		document.querySelector('#keepConnexion').removeAttribute('checked');
 		document.querySelector('input#identifiant').value = "";
 	}
 });

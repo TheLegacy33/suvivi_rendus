@@ -17,8 +17,8 @@
 				$idEcole = intval($_POST['idecole'] ?? 0);
 				$idClasse = intval($_POST['idclasse'] ?? 0);
 				$idEtudiant = intval($_POST['idetudiant'] ?? 0);
-				$idEvaluation = intval($_POST['idevaluation'] ?? 0);
-				if ($idEcole > 0 AND $idClasse > 0 AND $idEtudiant > 0 AND $idEvaluation > 0){
+				$idEvaluation = !isset($_POST['idevaluation']) ? 0 : (is_numeric($_POST['idevaluation']) ? intval($_POST['idevaluation']) : '*');
+				if ($idEcole > 0 AND $idClasse > 0 AND $idEtudiant > 0 AND ($idEvaluation > 0 OR $idEvaluation == '*')){
 					$etudiant = DAOEtudiants::getById($idEtudiant);
 
 					if (is_null($etudiant->getDateExpirationCodeConnexion()) OR $etudiant->getDateExpirationCodeConnexion() < date_create('now + 1 hour')){

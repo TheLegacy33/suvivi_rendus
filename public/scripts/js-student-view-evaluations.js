@@ -1,5 +1,5 @@
 /**
- * Gestion des actions de la page envoi d'un fichier
+ * Gestion des actions de la page de visualisation des évaluations par un étudiant
  */
 document.addEventListener('DOMContentLoaded', function (){
 	let champEcole = document.querySelector('#champEcole');
@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function (){
 	let champEvaluation = document.querySelector('#champEvaluation');
 	let btnAskForCode = document.querySelector('#btnAskForCode');
 	let champCodeConnexion = document.querySelector('#champCodeConnexion');
-	let champFichier = document.querySelector('#champFichier');
 
 	/**
 	 * Récupération des classes en fonction de l'école
@@ -23,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function (){
 				champCodeConnexion.classList.remove('alert');
 				champCodeConnexion.value = '';
 			}
-			if (champFichier) champFichier.setAttribute('disabled', '');
 
 			fetchData('api', 'listapi', 'getclasses', {idecole: this.value})
 				.then(function (response){
@@ -50,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function (){
 				champCodeConnexion.classList.remove('alert');
 				champCodeConnexion.value = '';
 			}
-			if (champFichier) champFichier.setAttribute('disabled', '');
 
 			fetchData('api', 'listapi', 'getetudiants', {idclasse: idClasse})
 				.then(function (response){
@@ -82,13 +79,11 @@ document.addEventListener('DOMContentLoaded', function (){
 			let champEcole = document.querySelector('#champEcole');
 			let champClasse = document.querySelector('#champClasse');
 			let champEtudiant = document.querySelector('#champEtudiant');
-			let champEvaluation = document.querySelector('#champEvaluation');
 			let idEcole = champEcole.value;
 			let idClasse = champClasse.value;
 			let idEtudiant = champEtudiant.value;
-			let idEvaluation = champEvaluation.value;
 
-			if (!(idEcole > 0 && idClasse > 0 && idEtudiant > 0 && idEvaluation > 0)){
+			if (!(idEcole > 0 && idClasse > 0 && idEtudiant > 0)){
 				alert(`Vous devez sélectionner votre école, votre classe, votre nom et l'évaluation pour laquelle vous souhaitez demander l'accès à la fonction de rendu !`);
 				champEcole.focus();
 				champEcole.scrollIntoView({block: "center"});
@@ -98,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function (){
 				formData.append('idecole', idEcole);
 				formData.append('idclasse', idClasse);
 				formData.append('idetudiant', idEtudiant);
-				formData.append('idevaluation', idEvaluation);
+				formData.append('idevaluation', '*');
 				postData('api', 'tokenapi', 'getconnexioncode', formData)
 					.then(function (response){
 						let dateHeureValidation = response.content;
@@ -106,14 +101,12 @@ document.addEventListener('DOMContentLoaded', function (){
 							alert(`Un email vient de vous être envoyé contenant le code de connexion <br>à utiliser avant le ${dateHeureValidation}`, 'Information', buttons.ok, false, function(){
 								champCodeConnexion.removeAttribute('disabled');
 								champCodeConnexion.classList.add('alert');
-								champFichier.removeAttribute('disabled');
 								champCodeConnexion.focus();
 							});
 						}else{
 							alert(`Un email vient de vous être envoyé contenant un nouveau code de connexion <br>à utiliser avant le ${dateHeureValidation}`, 'Information', buttons.ok, false, function(){
 								champCodeConnexion.removeAttribute('disabled');
 								champCodeConnexion.classList.add('alert');
-								champFichier.removeAttribute('disabled');
 								champCodeConnexion.focus();
 							});
 						}
@@ -126,12 +119,11 @@ document.addEventListener('DOMContentLoaded', function (){
 	/**
 	 * Gestion du formulaire
 	 */
-	let formSendFile = document.querySelector('#formSendFile');
-	// if (btnSubmitFile){
-	// 	btnSubmitFile.addEventListener('click', async function(){
-	if (formSendFile){
-		formSendFile.addEventListener('submit', async function(eve){
-			eve.preventDefault();
+	let formInfos = document.querySelector('#formInfos');
+	formInfos.addEventListener('submit', (eve) => {eve.preventDefault();})
+	let btnSbmitForm = document.querySelector('#btnSbmitForm');
+	if (btnSbmitForm){
+		btnSbmitForm.addEventListener('click', async function(){
 			if (champEcole.value === '0'){
 				alert('Vous devez sélectionner votre école !');
 				champEcole.focus();
@@ -153,13 +145,6 @@ document.addEventListener('DOMContentLoaded', function (){
 				return false;
 			}
 
-			if (champEvaluation.value === '0'){
-				alert('Vous devez sélectionner une évaluation !');
-				champEvaluation.focus();
-				champEvaluation.scrollIntoView({block: "center"});
-				return false;
-			}
-
 			if (champCodeConnexion.value.trim() === ''){
 				alert('Vous devez saisir votre code de connexion reçu par mail !');
 				champCodeConnexion.focus();
@@ -175,14 +160,46 @@ document.addEventListener('DOMContentLoaded', function (){
 				}
 			}
 
-			if (champFichier.files.length === 0){
-				alert('Vous devez sélectionner le fichier à transmettre !');
-				champFichier.focus();
-				champFichier.scrollIntoView({block: "center"});
-				return false;
-			}
+			fetchData('api', 'studentapi', 'view-evaluations', {idetudiant: champEtudiant.value, idevaluation: champEvaluation.value, code: champCodeConnexion.value.trim()})
+				.then(function (reponse){
+					let evaluations = reponse.content;
+					let tableauEvaluations = document.querySelector('#tableauEvaluations');
+					tableauEvaluations.classList.add('hidden');
+					tableauEvaluations.innerHTML = '';
+					let script = '';
+					for (let evaluationId in evaluations){
+						let evaluation = evaluations[evaluationId];
+						script += `<table><thead><tr><th>${evaluation.nomevaluation}</th></tr></thead><tbody><tr><td><table>`;
+						if (evaluation.fichiers && evaluation.fichiers.length > 0){
+							let numFichier = 1;
+							for (let fichier of evaluation.fichiers){
+								if (fichier.note === null) fichier.note = '-';
+								if (fichier.commentaire === null) fichier.commentaire = '-';
+								if (numFichier === 1){
+									fichier.note += ' / 20';
+									numFichier++;
+								}else{
+									fichier.note = '';
+									fichier.commentaire = '';
+								}
+								script += `
+									<tr>
+									<td>${formatDate(fichier.dateEnvoi.date)}</td>
+									<td><a href="${fichier.cheminPublic}" target="_blank">Télécharger</a></td>
+									<td>${fichier.note}</td>
+									<td>${fichier.commentaire}</td>
+									</tr>`;
+							}
+							}else{
+								script += `<tr><td>Aucun fichier envoyé</td></tr>`;
+							}
+						script += `</table></td></tr></tbody></table>`;
+					}
+					tableauEvaluations.innerHTML = script;
+					tableauEvaluations.classList.remove('hidden');
 
-			formSendFile.submit();
+				})
+				.catch((error) => {console.log(error)})
 		})
 	}
 })

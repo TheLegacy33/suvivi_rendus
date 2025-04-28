@@ -148,6 +148,18 @@
 							require_once 'core/controllers/api/controller_tokenapi.php';
 							break;
 						}
+					case 'studentapi':
+						{
+							require_once 'core/controllers/api/controller_studentapi.php';
+							break;
+						}
+					default:
+						{
+							http_response_code(404);
+							header('Content-Type: application/json; charset=utf-8');
+							print(json_encode(['erreur' => 'Action inconnue']));
+							break;
+						}
 				}
 				break;
 			}

@@ -1,7 +1,7 @@
 <?php
 	class Fichier implements JsonSerializable{
 		private int $id, $idEtudiant, $idEvaluation;
-		private string $nom, $chemin;
+		private string $nom, $chemin, $cheminPublic;
 		private DateTime $dateEnvoi;
 		private float|null $note;
 		private string|null $commentaire;
@@ -17,6 +17,7 @@
 			$this->idEvaluation = $evaluation->getId();
 			$this->nom = $nom;
 			$this->chemin = $chemin;
+			$this->cheminPublic = $this->getCheminPublicFile();
 			$this->dateEnvoi = date_create('now');
 			$this->note = null;
 			$this->commentaire = null;
@@ -61,6 +62,7 @@
 
 		public function setChemin(string $chemin): void{
 			$this->chemin = $chemin;
+			$this->cheminPublic = $this->getCheminPublicFile();
 		}
 
 		public function getDateEnvoi(): DateTime{
@@ -88,7 +90,8 @@
 		}
 
 		public function getCheminPublicFile(): string{
-			return str_replace(PHP_PUBLIC_DIR, '', $this->chemin);
+			$partiel = str_replace(PHP_PUBLIC_DIR, '', $this->chemin);
+			return EXTERNAL_URL.'/'.$partiel;
 		}
 
 		public function jsonSerialize(): array{

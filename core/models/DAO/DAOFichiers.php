@@ -20,25 +20,9 @@
 			$SQLStmt->bindValue(':id', $id, PDO::PARAM_INT);
 			$SQLStmt->execute();
 			$SQLRow = $SQLStmt->fetch(PDO::FETCH_ASSOC);
-			$ecole = self::parseRecord($SQLRow);
+			$fichier = self::parseRecord($SQLRow);
 			$SQLStmt->closeCursor();
-			return $ecole;
-		}
-
-		public static function getByName(string $nom): Fichier{
-			$conn = parent::getConnexion();
-			$SQLQuery = "
-				SELECT id_fichier, nom_fichier, chemin, date_envoi, id_etudiant, id_evaluation, note, correction_texte
-				FROM fichier
-				WHERE nom = :nom
-			";
-			$SQLStmt = $conn->prepare($SQLQuery);
-			$SQLStmt->bindValue(':nom', $nom, PDO::PARAM_STR);
-			$SQLStmt->execute();
-			$SQLRow = $SQLStmt->fetch(PDO::FETCH_ASSOC);
-			$ecole = self::parseRecord($SQLRow);
-			$SQLStmt->closeCursor();
-			return $ecole;
+			return $fichier;
 		}
 
 		public static function getAll(): array{
@@ -46,16 +30,16 @@
 			$SQLQuery = "
 				SELECT id_fichier, nom_fichier, chemin, date_envoi, id_etudiant, id_evaluation, note, correction_texte
 				FROM fichier
-				ORDER BY nom
+				ORDER BY nom_fichier
 			";
 			$SQLStmt = $conn->prepare($SQLQuery);
 			$SQLStmt->execute();
-			$listeEcoles = array();
+			$listeFichiers = array();
 			while ($SQLRow = $SQLStmt->fetch(PDO::FETCH_ASSOC)){
-				$listeEcoles[] = self::parseRecord($SQLRow);
+				$listeFichiers[] = self::parseRecord($SQLRow);
 			}
 			$SQLStmt->closeCursor();
-			return $listeEcoles;
+			return $listeFichiers;
 		}
 
 		public static function getAllByEtudiant(Etudiant $unEtudiant): array{
@@ -63,17 +47,38 @@
 			$SQLQuery = "
 				SELECT id_fichier, nom_fichier, chemin, date_envoi, id_etudiant, id_evaluation, note, correction_texte
 				FROM fichier 
-				ORDER BY nom
+				ORDER BY nom_fichier
 			";
 			$SQLStmt = $conn->prepare($SQLQuery);
 			$SQLStmt->bindValue(':id_classe', $unEtudiant->getId(), PDO::PARAM_INT);
 			$SQLStmt->execute();
-			$listeEcoles = array();
+			$listeFichiers = array();
 			while ($SQLRow = $SQLStmt->fetch(PDO::FETCH_ASSOC)){
-				$listeEcoles[] = self::parseRecord($SQLRow);
+				$listeFichiers[] = self::parseRecord($SQLRow);
 			}
 			$SQLStmt->closeCursor();
-			return $listeEcoles;
+			return $listeFichiers;
+		}
+
+		public static function getByEvaletEtudiant(Evaluation $uneEvaluation, Etudiant $unEtudiant): array{
+			$conn = parent::getConnexion();
+			$SQLQuery = "
+				SELECT id_fichier, nom_fichier, chemin, date_envoi, id_etudiant, id_evaluation, note, correction_texte
+				FROM fichier 
+				WHERE id_etudiant = :id_etudiant
+					AND id_evaluation = :id_evaluation
+				ORDER BY fichier.date_envoi DESC, nom_fichier
+			";
+			$SQLStmt = $conn->prepare($SQLQuery);
+			$SQLStmt->bindValue(':id_etudiant', $unEtudiant->getId(), PDO::PARAM_INT);
+			$SQLStmt->bindValue(':id_evaluation', $uneEvaluation->getId(), PDO::PARAM_INT);
+			$SQLStmt->execute();
+			$listeFichiers = array();
+			while ($SQLRow = $SQLStmt->fetch(PDO::FETCH_ASSOC)){
+				$listeFichiers[] = self::parseRecord($SQLRow);
+			}
+			$SQLStmt->closeCursor();
+			return $listeFichiers;
 		}
 
 		public static function insert(Fichier $unFichier): bool{

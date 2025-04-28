@@ -254,6 +254,21 @@ function checkEmail(email) {
 	return re.test(email);
 }
 
+/**
+ * Fonction pour formater la date au format français
+  */
+function formatDate(dateStr) {
+	const dateObj = new Date(dateStr);
+	const options = {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit'
+	};
+	return dateObj.toLocaleString('fr-FR', options);
+}
+
 document.addEventListener('DOMContentLoaded', async function () {
 	/**
 	 * Pour tous les liens / boutons vers des pages non terminées ou non mises en ligne

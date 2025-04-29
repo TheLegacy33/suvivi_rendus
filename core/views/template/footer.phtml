@@ -1,11 +1,17 @@
 <?php
-
+	global $userLogged;
 ?>
 	<footer id="main-footer">
 		<div>
 			<span>Copyright &copy; 2025</span>
 			<span>devatom.net &trade;</span>
-			<span><a href="<?= getUrl('utilisateur', 'login') ?>" title="Se connecter">Login</a></span>
+			<span>
+				<?php if ($userLogged->isAuthentified()): ?>
+					<a href="<?= getUrl('utilisateur', 'logout') ?>" title="Se déconnecter" data-action="logout">Logout</a>
+				<?php else: ?>
+					<a href="<?= getUrl('utilisateur', 'login') ?>" title="Se connecter">Login</a>
+				<?php endif; ?>
+			</span>
 		</div>
 	</footer>
 <?php

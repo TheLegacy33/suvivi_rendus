@@ -2,50 +2,35 @@
 
 	class User{
 		private int $id;
-		private string $email, $password, $pseudo;
-		private string $nom, $prenom;
-		private bool $admin, $authentified;
+		private string $email, $password, $loginidentifiant;
+		private bool $admin, $authentified, $active;
+		private array $roles;
 
 		/**
-		 * @param string $pseudo
+		 * @param string $loginidentifiant
 		 * @param string $email
 		 * @param string $password
-		 * @param string $nom
-		 * @param string $prenom
 		 * @param bool   $admin
+		 * @param bool   $active
 		 */
-		public function __construct(string $pseudo, string $email, string $password = '', string $nom = '', string $prenom = '', bool $admin = false){
+		public function __construct(string $loginidentifiant, string $email, string $password = '', bool $admin = false, bool $active = true){
 			$this->id = 0;
-			$this->pseudo = $pseudo;
+			$this->loginidentifiant = $loginidentifiant;
 			$this->email = $email;
 			$this->password = $password;
-			$this->nom = $nom;
-			$this->prenom = $prenom;
 			$this->admin = $admin;
 			$this->authentified = false;
+			$this->active = $active;
+			$this->roles = array();
 		}
 
-		/**
-		 * @return string
-		 */
-		public function getPseudo(): string{
-			return $this->pseudo;
+		public function getLoginidentifiant(): string{
+			return $this->loginidentifiant;
 		}
 
-		/**
-		 * @param string $pseudo
-		 */
-		public function setPseudo(string $pseudo): void{
-			$this->pseudo = $pseudo;
+		public function setLoginidentifiant(string $loginidentifiant): void{
+			$this->loginidentifiant = $loginidentifiant;
 		}
-
-		/**
-		 * @return string|null
-		 */
-		public function getPhoto(): ?string{
-			return $this->photo;
-		}
-
 
 		/**
 		 * @return int
@@ -89,39 +74,6 @@
 			$this->password = $password;
 		}
 
-		public function getNom(): string{
-			return $this->nom;
-		}
-
-		public function setNom(string $nom): void{
-			$this->nom = $nom;
-		}
-
-		public function getPrenom(): string{
-			return $this->prenom;
-		}
-
-		public function setPrenom(string $prenom): void{
-			$this->prenom = $prenom;
-		}
-
-		public function getFullName(bool $prenomPremier = true): string{
-			$retVal = '';
-			if ($prenomPremier){
-				$retVal = $this->prenom . ' ' . $this->nom;
-			}else{
-				$retVal = $this->nom . ' ' . $this->prenom;
-			}
-			return $retVal;
-		}
-
-		/**
-		 * @return string
-		 */
-		public function getHashedName(): string{
-			return md5($this->getNom() . '-' . $this->getPrenom());
-		}
-
 		/**
 		 * @return bool
 		 */
@@ -136,6 +88,14 @@
 			$this->admin = $admin;
 		}
 
+		public function isActive(): bool{
+			return $this->active;
+		}
+
+		public function setActive(bool $active): void{
+			$this->active = $active;
+		}
+
 		public function getPasswordHash(): string{
 			return password_hash($this->password, PASSWORD_BCRYPT);
 		}
@@ -146,5 +106,17 @@
 
 		public function setAuthentified(bool $authentified): void{
 			$this->authentified = $authentified;
+		}
+
+		public function getRoles(): array{
+			return $this->roles;
+		}
+
+		public function setRoles(array $roles): void{
+			$this->roles = $roles;
+		}
+
+		public function hasRole(Role $role): bool{
+			return in_array($role, $this->roles);
 		}
 	}

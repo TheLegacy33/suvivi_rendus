@@ -19,6 +19,14 @@
 	$page = $_GET['page'] ?? '';
 	$action = $_GET['action'] ?? '';
 
+	if (isset($_GET['params'])) {
+		$parts = explode('/', $_GET['params']);
+		for ($i = 0; $i < count($parts) - 1; $i += 2) {
+			$_GET[$parts[$i]] = $parts[$i + 1] ?? null;
+		}
+		unset($_GET['params']);
+	}
+
 	$tabSections = ['auth', 'main', 'utilisateur', 'admin', 'api', 'evaluations'];
 	if (!in_array($section, $tabSections, true)){
 		header('Location:' . getUrl('main'));
@@ -74,7 +82,7 @@
 		$url = '/';
 		if (!($section == 'main' and $page == 'index' and $action == 'view')){
 			if (!in_array($section, $tabSections, true)){
-				$url .= 'main';
+				$url .= 'main/';
 			}else{
 				$url .= $section;
 				if (trim($page) !== ''){
@@ -83,6 +91,7 @@
 				if (trim($action) !== ''){
 					$url .= '/' . $action;
 				}
+//				$url .= '/';
 				if (is_array($otherParams) and !empty($otherParams)){
 					foreach ($otherParams as $paramName => $paramValue){
 						$url .= '&' . $paramName . '=' . $paramValue;
@@ -136,6 +145,11 @@
 					case 'mainapi':
 						{
 							require_once 'core/controllers/api/controller_mainapi.php';
+							break;
+						}
+					case 'loginapi':
+						{
+							require_once 'core/controllers/api/controller_loginapi.php';
 							break;
 						}
 					case 'listapi':

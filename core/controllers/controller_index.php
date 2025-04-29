@@ -9,7 +9,6 @@
 	 */
 
 	require_once 'core/views/template/header.phtml';
-
 	switch ($page){
 		case 'index':
 			{

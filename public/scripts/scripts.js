@@ -9,7 +9,6 @@ function logout() {
 	return confirm("Etes-vous sûr de vouloir vous déconnecter ?",
 		"Déconnexion",
 		function () {
-			Cookies.remove('panier');
 			window.location.href = '/?section=auth&page=connexion&action=logout';
 		}, function () {
 			console.log("Annulé");
@@ -18,5 +17,10 @@ function logout() {
 }
 
 document.addEventListener('DOMContentLoaded', function (){
-
+	let logoutLinks = document.querySelectorAll('[data-action=logout]');
+	if (logoutLinks){
+		logoutLinks.forEach(function(link){
+			link.addEventListener('click', () => logout())
+		})
+	}
 })

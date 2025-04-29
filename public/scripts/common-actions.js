@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 			pRequirementSpecialCar.setAttribute('id', 'characters');
 			pRequirementSpecialCar.setAttribute('style', 'white-space: pre;')
 			pRequirementSpecialCar.textContent = "Au moins un caractère spécial :\n" +
-				"\t-?/!@#$%^&amp;*_+=.£~";
+				"\t-?/!@#$%^&*_+=.~";
 			divPasswordRequirements.appendChild(pRequirementSpecialCar);
 
 			let infoMdp = passField.parentElement.parentElement.querySelector('.legend-mdp button');

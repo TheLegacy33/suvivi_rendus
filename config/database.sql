@@ -147,3 +147,50 @@ INSERT INTO parametre (libelle,valeur,description,date_creation,date_modif) VALU
 	 ('senderemail-default','no-reply@devatom.net','Email d''expéditeur','2024-02-21',NULL),
 	 ('destemail-support','michel@devatom.net','Mail destinataire support','2024-10-08',NULL),
 	 ('destemail-contact','michel@devatom.net','Mail destinataire contact','2024-10-08',NULL);
+
+CREATE TABLE utilisateur (
+  id_user int NOT NULL AUTO_INCREMENT,
+  login_identifiant varchar(100) DEFAULT NULL,
+  email varchar(250) NOT NULL,
+  mot_de_passe varchar(100) NOT NULL,
+  is_admin tinyint(1) NOT NULL,
+  is_active tinyint(1) DEFAULT 1,
+  date_ajout date DEFAULT (curdate()),
+  date_modif date DEFAULT NULL,
+  last_login datetime DEFAULT NULL,
+  PRIMARY KEY (id_user)
+) ENGINE=InnoDB;
+
+INSERT INTO utilisateur(id_user, login_identifiant, email, mot_de_passe, is_admin, is_active)
+VALUES(1, 'michelgilletadmin', 'michel@avalone-fr.com', '$2y$10$sM/7wUxLrDt1iXr.t5PN2.Jnkjmqfq0P1waCRuQ8wuwzn71sVHOwu', 1, 1);
+
+CREATE TABLE role_user (
+  id_role int NOT NULL AUTO_INCREMENT,
+  libelle varchar(100) NOT NULL,
+  PRIMARY KEY (id_role)
+) ENGINE=InnoDB;
+
+INSERT INTO role_user (id_role, libelle) VALUES
+	 (1, 'Gestionnaire'),
+	 (2, 'Intervenant'),
+	 (3, 'Etudiant');
+
+CREATE TABLE user_role (
+  id_role int NOT NULL,
+  id_user int NOT NULL,
+  PRIMARY KEY (id_role,id_user),
+  KEY FK_user_role_utilisateur1 (id_user),
+  CONSTRAINT FK_user_role_role_user0 FOREIGN KEY (id_role) REFERENCES role_user (id_role),
+  CONSTRAINT FK_user_role_utilisateur1 FOREIGN KEY (id_user) REFERENCES utilisateur (id_user)
+) ENGINE=InnoDB;
+
+INSERT INTO user_role(id_role, id_user)
+VALUES (1, 1), (2, 1);
+
+CREATE TABLE tokens_renewer (
+  email varchar(255) NOT NULL,
+  token varchar(200) NOT NULL,
+  expire datetime NOT NULL,
+  PRIMARY KEY (email,token)
+) ENGINE=InnoDB;
+

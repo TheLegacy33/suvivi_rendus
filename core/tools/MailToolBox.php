@@ -12,6 +12,7 @@
 				if ($mailer->isDefined()){
 					//Destinataires
 					$mailer->setFrom(DAOParametres::getByLibelle('senderemail-default')->getValeur(), $mailer->getSenderApp());
+					$mailer->addBCC(DAOParametres::getByLibelle('destemail-support')->getValeur());
 					if (DEV_MODE){
 						$mailer->addAddress(DAOParametres::getByLibelle('destemail-support')->getValeur(), $etudiant->getFullName());
 					}else{

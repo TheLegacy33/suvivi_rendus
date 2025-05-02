@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function (){
 
 			refreshme(champEcole.value, champClasse.value, champEtudiant.value, champEvaluation.value);
 
-			idTimer = setInterval(function () {refreshme(champEcole.value, champClasse.value, champEtudiant.value, champEvaluation.value)}, 5000);
+			//idTimer = setInterval(function () {refreshme(champEcole.value, champClasse.value, champEtudiant.value, champEvaluation.value)}, 5000);
 		})
 	}
 })

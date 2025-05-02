@@ -78,6 +78,8 @@
 					height: 100%;
 					&.left{
 						flex-grow: 1;
+						width: 80%;
+						overflow-x: auto;
 						.nom{
 							font-family: $roboto-bold;
 							font-size: 1.2rem;

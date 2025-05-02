@@ -30,6 +30,7 @@
 										$ecole = DAOEcoles::getById($idEcole);
 										$classe = DAOClasses::getById($idClasse);
 										$evaluation = DAOEvaluations::getById($idEvaluation);
+
 										$file = $_FILES['chFichier'];
 										$fileSent = new AppFile(date_create('now')->format('Ymd-His') . '[' . $etudiant->getFullName(false) . ']' . $file['name'], $file['full_path'], $file['tmp_name'], $file['error'], $file['size'], $file['type']);
 										if ($fileSent->getSize()>0){
@@ -40,6 +41,7 @@
 												if (DAOFichiers::insert($fichier)){
 													BDD::commitTransaction();
 													MailToolBox::sendEmailConfirmationFichier($etudiant, $fichier);
+													MailToolBox::sendFileToRendu($etudiant, $fichier, $classe);
 													require_once 'core/views/view_valid_send_file.phtml';
 												}else{
 													BDD::rollbackTransaction();

@@ -27,7 +27,7 @@
 		unset($_GET['params']);
 	}
 
-	$tabSections = ['auth', 'main', 'utilisateur', 'admin', 'api', 'evaluations'];
+	$tabSections = ['auth', 'main', 'utilisateur', 'admin', 'api', 'evaluations', 'gestion'];
 	if (!in_array($section, $tabSections, true)){
 		header('Location:' . getUrl('main'));
 	}
@@ -48,7 +48,7 @@
 	 * Vérification des droits d'accès
 	 */
 	function authNeeded(string $section, string $page): bool{
-		$pagesNeedAuth = ['main' => [], 'utilisateur' => ['dashboard', 'files'], 'auth' => [], 'admin' => ['*'], 'api' => [], 'evaluations' => []];
+		$pagesNeedAuth = ['main' => [], 'utilisateur' => ['dashboard', 'files'], 'auth' => [], 'admin' => ['*'], 'api' => [], 'evaluations' => [], 'gestion' => ['*']];
 		if (array_key_exists($section, $pagesNeedAuth)){
 			if (in_array($page, $pagesNeedAuth[$section]) || (isset($pagesNeedAuth[$section][0]) and $pagesNeedAuth[$section][0] == '*')){
 				return true;
@@ -91,7 +91,6 @@
 				if (trim($action) !== ''){
 					$url .= '/' . $action;
 				}
-//				$url .= '/';
 				if (is_array($otherParams) and !empty($otherParams)){
 					foreach ($otherParams as $paramName => $paramValue){
 						$url .= '&' . $paramName . '=' . $paramValue;
@@ -167,6 +166,11 @@
 							require_once 'core/controllers/api/controller_studentapi.php';
 							break;
 						}
+					case 'gestionapi':
+						{
+							require_once 'core/controllers/api/controller_gestionapi.php';
+							break;
+						}
 					default:
 						{
 							http_response_code(404);
@@ -180,6 +184,11 @@
 		case 'evaluations':
 			{
 				require_once 'core/controllers/controller_evaluations.php';
+				break;
+			}
+		case 'gestion':
+			{
+				require_once 'core/controllers/controller_gestion.php';
 				break;
 			}
 		default:

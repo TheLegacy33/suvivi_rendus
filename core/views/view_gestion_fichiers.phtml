@@ -1,0 +1,70 @@
+<?php
+	/**
+	 * @var array $lstEcoles
+	 * @var Ecole $uneEcole
+	 */
+?>
+<main class="container" id="formViewGestionFichiers">
+	<h2>Suivi des envois de fichiers</h2>
+	<form id="formInfos" action="" method="post">
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Ecole</legend>
+				<div>
+					<label for="champEcole"></label>
+					<select id="champEcole" name="chEcole">
+						<option value="0">Sélectionner l'école</option>
+						<?php
+							$script = '';
+							foreach ($lstEcoles as $uneEcole) {
+								$script .= '<option value="'.$uneEcole->getId().'">'.$uneEcole->getNom().'</option>';
+							}
+							print($script);
+						?>
+					</select>
+				</div>
+			</fieldset>
+		</div>
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Classe / Section</legend>
+				<div>
+					<label for="champClasse"></label>
+					<select id="champClasse" name="chClasse">
+						<option value="0">Sélectionner la classe</option>
+					</select>
+				</div>
+			</fieldset>
+		</div>
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Etudiant</legend>
+				<div>
+					<label for="champEtudiant"></label>
+					<select id="champEtudiant" name="chEtudiant">
+						<option value="0">Tous les étudiants</option>
+					</select>
+				</div>
+			</fieldset>
+		</div>
+		<div class="field-formulaire">
+			<fieldset>
+				<legend>Evaluation</legend>
+				<div>
+					<label for="champEvaluation"></label>
+					<select id="champEvaluation" name="chEvaluation">
+						<option value="0">Sélectionner un évaluation</option>
+					</select>
+				</div>
+			</fieldset>
+		</div>
+		<div class="buttons">
+			<button type="button" class="btn-black-on-white" id="btnSbmitForm">Visualiser</button>
+		</div>
+	</form>
+	<div id="tableauEnvoisFichiers" class="container ">
+		<div class="cards">
+
+		</div>
+	</div>
+</main>

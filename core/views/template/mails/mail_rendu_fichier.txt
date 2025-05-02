@@ -1,0 +1,9 @@
+Réception d'un fichier sur {{nom_application}} de {{nom_etudiant}} !
+
+Bonjour, vous recevez cet email pour vous confirmer la réception d'un fichier de {{nom_etudiant}}.
+L'enregistrement de ce fichier est effectif au {{date_heure_envoi}}.
+
+{{nom_entreprise}}
+
+Vous recevez cet email automatiquement, si vous n'en êtes pas le demandeur, veuillez ne pas tenir compte de son contenu.
+&copy; {{annee}} {{nom_entreprise}}. Tous droits réservés.

@@ -3,6 +3,7 @@
 	abstract class DAOClasses extends BDD{
 		protected static function parseRecord(mixed $SQLRow): Classe{
 			$retVal = new Classe($SQLRow['nom']);
+			$retVal->setEmailRendu($SQLRow['email_rendu']);
 			$retVal->setId(intval($SQLRow['id_classe']));
 			$retVal->setIdEcole(intval($SQLRow['id_ecole']));
 			return $retVal;
@@ -11,7 +12,7 @@
 		public static function getById(int $id): Classe{
 			$conn = parent::getConnexion();
 			$SQLQuery = "
-				SELECT id_classe, nom, id_ecole
+				SELECT id_classe, nom, email_rendu, id_ecole
 				FROM classe
 				WHERE id_classe = :id
 			";
@@ -27,7 +28,7 @@
 		public static function getByName(string $nom): Classe{
 			$conn = parent::getConnexion();
 			$SQLQuery = "
-				SELECT id_classe, nom, id_ecole
+				SELECT id_classe, nom, email_rendu, id_ecole
 				FROM classe
 				WHERE nom = :nom
 			";
@@ -43,7 +44,7 @@
 		public static function getAll(): array{
 			$conn = parent::getConnexion();
 			$SQLQuery = "
-				SELECT id_classe, nom, id_ecole
+				SELECT id_classe, nom, email_rendu, id_ecole
 				FROM classe
 				ORDER BY nom
 			";
@@ -61,7 +62,7 @@
 		public static function getAllByEcole(Ecole $uneEcole): array{
 			$conn = parent::getConnexion();
 			$SQLQuery = "
-				SELECT id_classe, nom, id_ecole
+				SELECT id_classe, nom, email_rendu, id_ecole
 				FROM classe
 				WHERE id_ecole = :id_ecole
 				ORDER BY nom
@@ -80,9 +81,10 @@
 		public static function insert(Classe $uneClasse): bool{
 			// INSERT DANS LA BDD
 			$conn = parent::getConnexion();
-			$SQLQuery = "INSERT INTO classe(nom, id_ecole) VALUES (:nom, :id_ecole)";
+			$SQLQuery = "INSERT INTO classe(nom, email_rendu, id_ecole) VALUES (:nom, :email_rendu, :id_ecole)";
 			$SQLStmt = $conn->prepare($SQLQuery);
 			$SQLStmt->bindValue(':nom', $uneClasse->getNom(), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':email_rendu', $uneClasse->getEmailRendu(), PDO::PARAM_STR);
 			$SQLStmt->bindValue(':id_ecole', $uneClasse->getIdEcole(), PDO::PARAM_INT);
 			if (!$SQLStmt->execute()){
 				return false;
@@ -94,10 +96,11 @@
 
 		public static function update(Classe $uneClasse): bool{
 			$conn = parent::getConnexion();
-			$SQLQuery = "UPDATE classe SET nom = :nom WHERE id_classe = :id";
+			$SQLQuery = "UPDATE classe SET nom = :nom, email_rendu = :email_rendu WHERE id_classe = :id";
 			$SQLStmt = $conn->prepare($SQLQuery);
 			$SQLStmt->bindValue(':id', $uneClasse->getId(), PDO::PARAM_INT);
 			$SQLStmt->bindValue(':nom', $uneClasse->getNom(), PDO::PARAM_STR);
+			$SQLStmt->bindValue(':email_rendu', $uneClasse->getEmailRendu(), PDO::PARAM_STR);
 			if (!$SQLStmt->execute()){
 				return false;
 			}else{

@@ -14,12 +14,13 @@ VALUES (1, 'KEDGE'), (2, 'ECE'), (3, 'EPSI'), (4, 'EFREI'), (5, 'DORANCO'), (6, 
 CREATE TABLE classe (
     id_classe INT auto_increment PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
+    email_rendu VARCHAR(255) DEFAULT NULL,
     id_ecole INT,
     FOREIGN KEY (id_ecole) REFERENCES ecole(id_ecole)
 )engine=InnoDB;
 
-INSERT INTO classe(id_classe, nom, id_ecole)
-VALUES (1, 'EBP - S02', 1), (2, 'EBP - S04', 1), (3, 'EBP - S12', 1), (4, 'SIO1A - DEV', 6);
+INSERT INTO classe(id_classe, nom, email_rendu, id_ecole)
+VALUES (1, 'EBP - S02', 'rendu_ebp_s02@devatom.net', 1), (2, 'EBP - S04', 'rendu_ebp_s04@devatom.net', 1), (3, 'EBP - S12', 'rendu_ebp_s12@devatom.net', 1), (4, 'SIO1A - DEV', null, 6);
 
 
 CREATE TABLE etudiant (

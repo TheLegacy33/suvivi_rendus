@@ -142,4 +142,45 @@
 				$message = $mailer->ErrorInfo;
 			}
 		}
+
+		/**
+		 * Génération et envoi du mail contenant le fichier transmis à l'adresse de rendu
+		 * @param Etudiant $etudiant
+		 * @param Fichier  $fichier
+		 * @param Classe   $classe
+		 * @return void
+		 */
+		public static function sendFileToRendu(Etudiant $etudiant, Fichier $fichier, Classe $classe): void{
+			$mailer = new Mailer();
+			try{
+				if ($mailer->isDefined()){
+					//Destinataires
+					$mailer->setFrom(DAOParametres::getByLibelle('senderemail-default')->getValeur(), $mailer->getSenderApp());
+					$mailer->addAddress($classe->getEmailRendu(), $etudiant->getFullName());
+					//Content
+					$mailer->isHTML(); // Défini le mail au format HTML
+					$mailer->Subject = "Fichier envoyé sur " . $mailer->getSenderApp() . ' par ' . $etudiant->getFullName();
+
+					$mailer->setVariables([
+						'url_image_logo' => 'cid:studentapp_logo',
+						'nom_application' => APP_NAME,
+						'url_application' => EXTERNAL_URL,
+						'senderapp' => $mailer->getSenderApp(),
+						'nom_etudiant' => $etudiant->getFullName(),
+						'date_heure_envoi' => $fichier->getDateEnvoi()->format('d/m/Y H:i:s'),
+						'annee' => date('Y'),
+						'nom_entreprise' => $mailer->getSenderApp(),
+					]);
+					$mailer->addEmbeddedImage(PHP_PUBLIC_IMAGES_DIR.'logo.png', 'studentapp_logo');
+					$mailer->setTemplateHtml("core/views/template/mails/mail_rendu_fichier.phtml");
+					$mailer->Body = $mailer->compileHTML();
+					$mailer->setTemplateText("core/views/template/mails/mail_rendu_fichier.txt");
+					$mailer->AltBody = $mailer->compileText();
+					$mailer->addAttachment($fichier->getChemin());
+					$mailer->send();
+				}
+			}catch (Exception $e){
+				$message = $mailer->ErrorInfo;
+			}
+		}
 	}

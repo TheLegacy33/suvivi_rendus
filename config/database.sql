@@ -37,7 +37,7 @@ CREATE TABLE etudiant (
 
 INSERT INTO etudiant(nom, prenom, email, id_classe)
 VALUES
-('GILLET','Michel','michel@devatom.net',1),
+('GILLET','Michel','michel@avalone-fr.com',1),
 ('KHATTABI','Romane','romane.khattabi@kedgebs.com',1),
 ('LAGARDERE','Maxime','maxime.lagardere@kedgebs.com',1),
 ('LE GOUAREGUER','Lenka','lenka.legouareguer@kedgebs.com',1),

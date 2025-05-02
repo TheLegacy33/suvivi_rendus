@@ -4,9 +4,9 @@
 <main class="container" id="accueil">
 	<div class="buttons">
 		<?php if ($userLogged->hasRole(DAORoles::getById(3)) OR !$userLogged->isAuthentified()): ?>
-			<a href="<?= getUrl('evaluations', 'student', 'view') ?>" class="btn btn-black-on-white">Voire mes évaluations</a>
-			<a href="<?= getUrl('evaluations', 'files', 'send') ?>" class="btn btn-black-on-white">Envoyer un fichier</a>
-			<a href="<?= HTML_PUBLIC_ASSETS_DIR.'GESTION_NOTES.zip' ?>" download="" class="btn btn-black-on-white">Télécharger le sujet pour ACCESS / BDD</a>
+			<a href="<?= getUrl('evaluations', 'student', 'view') ?>" class="btn btn-black-on-white">Voir mes évaluations</a>
+			<a href="<?= getUrl('evaluations', 'files', 'send') ?>" class="btn btn-black-on-white hidden">Envoyer un fichier</a>
+			<a href="<?= HTML_PUBLIC_ASSETS_DIR.'GESTION_NOTES.mdb' ?>" download="" class="btn btn-black-on-white">Télécharger le sujet pour ACCESS / BDD</a>
 		<?php endif; ?>
 
 		<?php if ($userLogged->isAuthentified() AND ($userLogged->isAdmin() OR $userLogged->hasRole(DAORoles::getById(1)) OR $userLogged->hasRole(DAORoles::getById(3)))): ?>

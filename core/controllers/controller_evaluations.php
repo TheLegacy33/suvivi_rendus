@@ -30,33 +30,37 @@
 										$ecole = DAOEcoles::getById($idEcole);
 										$classe = DAOClasses::getById($idClasse);
 										$evaluation = DAOEvaluations::getById($idEvaluation);
-
-										$file = $_FILES['chFichier'];
-										$fileSent = new AppFile(date_create('now')->format('Ymd-His') . '[' . $etudiant->getFullName(false) . ']' . $file['name'], $file['full_path'], $file['tmp_name'], $file['error'], $file['size'], $file['type']);
-										if ($fileSent->getSize()>0){
-											$fileSent->setLocalFilePath(PHP_UPLOAD_DIR . 'rendus/' . $ecole->getNom() . '/' . $evaluation->getNom() . '/' . $classe->getNom() . '/');
-											if ($fileSent->moveFile(includeDateTime: false)){
-												BDD::openTransaction();
-												$fichier = new Fichier($fileSent->getName(), $fileSent->getFullPath(), $etudiant, $evaluation);
-												if (DAOFichiers::insert($fichier)){
-													BDD::commitTransaction();
-													MailToolBox::sendEmailConfirmationFichier($etudiant, $fichier);
-													if (!is_null($classe->getEmailRendu())){
-														MailToolBox::sendFileToRendu($etudiant, $fichier, $classe);
+										if (count(DAOFichiers::getByEvaletEtudiant($evaluation, $etudiant)) > 0){
+											$message = "Vous avez déjà transmis votre fichier !";
+											require_once 'core/views/view_invalid_send_file.phtml';
+										}else{
+											$file = $_FILES['chFichier'];
+											$fileSent = new AppFile(date_create('now')->format('Ymd-His') . '[' . $etudiant->getFullName(false) . ']' . $file['name'], $file['full_path'], $file['tmp_name'], $file['error'], $file['size'], $file['type']);
+											if ($fileSent->getSize()>0){
+												$fileSent->setLocalFilePath(PHP_UPLOAD_DIR . 'rendus/' . $ecole->getNom() . '/' . $evaluation->getNom() . '/' . $classe->getNom() . '/');
+												if ($fileSent->moveFile(includeDateTime: false)){
+													BDD::openTransaction();
+													$fichier = new Fichier($fileSent->getName(), $fileSent->getFullPath(), $etudiant, $evaluation);
+													if (DAOFichiers::insert($fichier)){
+														BDD::commitTransaction();
+														MailToolBox::sendEmailConfirmationFichier($etudiant, $fichier);
+														if (!is_null($classe->getEmailRendu())){
+															MailToolBox::sendFileToRendu($etudiant, $fichier, $classe);
+														}
+														require_once 'core/views/view_valid_send_file.phtml';
+													}else{
+														BDD::rollbackTransaction();
+														$message = "Erreur d'enregistrement du fichier !";
+														require_once 'core/views/view_invalid_send_file.phtml';
 													}
-													require_once 'core/views/view_valid_send_file.phtml';
 												}else{
-													BDD::rollbackTransaction();
 													$message = "Erreur d'enregistrement du fichier !";
 													require_once 'core/views/view_invalid_send_file.phtml';
 												}
 											}else{
-												$message = "Erreur d'enregistrement du fichier !";
+												$message = 'Taille de fichier non valide !';
 												require_once 'core/views/view_invalid_send_file.phtml';
 											}
-										}else{
-											$message = 'Taille de fichier non valide !';
-											require_once 'core/views/view_invalid_send_file.phtml';
 										}
 									}else{
 										$message = 'Code saisi non valide !';

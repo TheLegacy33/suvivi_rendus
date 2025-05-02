@@ -5,7 +5,7 @@
 	<div class="buttons">
 		<?php if ($userLogged->hasRole(DAORoles::getById(3)) OR !$userLogged->isAuthentified()): ?>
 			<a href="<?= getUrl('evaluations', 'student', 'view') ?>" class="btn btn-black-on-white">Voir mes évaluations</a>
-			<a href="<?= getUrl('evaluations', 'files', 'send') ?>" class="btn btn-black-on-white hidden">Envoyer un fichier</a>
+			<a href="<?= getUrl('evaluations', 'files', 'send') ?>" class="btn btn-black-on-white">Envoyer un fichier</a>
 			<a href="<?= HTML_PUBLIC_ASSETS_DIR.'GESTION_NOTES.mdb' ?>" download="" class="btn btn-black-on-white">Télécharger le fichier pour ACCESS / BDD</a>
 		<?php endif; ?>
 

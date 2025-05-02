@@ -41,7 +41,9 @@
 												if (DAOFichiers::insert($fichier)){
 													BDD::commitTransaction();
 													MailToolBox::sendEmailConfirmationFichier($etudiant, $fichier);
-													MailToolBox::sendFileToRendu($etudiant, $fichier, $classe);
+													if (!is_null($classe->getEmailRendu())){
+														MailToolBox::sendFileToRendu($etudiant, $fichier, $classe);
+													}
 													require_once 'core/views/view_valid_send_file.phtml';
 												}else{
 													BDD::rollbackTransaction();

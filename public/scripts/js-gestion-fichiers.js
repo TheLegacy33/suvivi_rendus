@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function (){
 
 			refreshme(champEcole.value, champClasse.value, champEtudiant.value, champEvaluation.value);
 
-			//idTimer = setInterval(function () {refreshme(champEcole.value, champClasse.value, champEtudiant.value, champEvaluation.value)}, 5000);
+			idTimer = setInterval(function () {refreshme(champEcole.value, champClasse.value, champEtudiant.value, champEvaluation.value)}, 5000);
 		})
 	}
 })
@@ -127,8 +127,8 @@ function refreshme(idecole, idclasse, idetudiant, idevaluation){
 			for (let etudiantId in envois){
 				let envoi = envois[etudiantId];
 				let etudiant = envoi.etudiant;
-				let evaluation = envoi.evaluation;
-				let nbFichiers = envoi.fichiers;
+				let fichiers = envoi.fichiers;
+				let nbFichiers = envoi.fichiers.length;
 				let icon = envoi.icone;
 
 				let couleur = (nbFichiers === 0 ? 'red' : 'green');
@@ -138,9 +138,15 @@ function refreshme(idecole, idclasse, idetudiant, idevaluation){
 				script += `<div class="nom">${etudiant.nom} ${etudiant.prenom}</div>`;
 				script += `<div class="email">${etudiant.email}</div>`;
 				script += `</div>`;
-				script += `<div class="right">`;
-				script += `${icon}`;
-				script += `</div>`;
+				if (nbFichiers > 0){
+					script += `<div class="right">`;
+					script += `<a title="Télécharger le fichier" href="${fichiers[0].cheminPublic}" download="">${icon}</a>`;
+					script += `</div>`;
+				}else{
+					script += `<div class="right">`;
+					script += `${icon}`;
+					script += `</div>`;
+				}
 				script += `</div>`;
 			}
 			tableauEnvoisFichiers.innerHTML = script;

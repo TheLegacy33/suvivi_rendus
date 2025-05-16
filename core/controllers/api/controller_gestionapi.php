@@ -68,8 +68,7 @@
 						$fichiers = DAOFichiers::getByEvaletEtudiant($evaluation, $etudiant);
 						$retVal[$etudiant->getId()] = [
 							'etudiant' => $etudiant,
-							'evaluation' => $evaluation,
-							'fichiers' => count($fichiers),
+							'fichiers' => $fichiers,
 							'icone' => file_get_contents(PHP_PUBLIC_IMAGES_DIR.(count($fichiers) == 0 ? 'pictos/picto-non-valid.svg' : 'pictos/picto-valid.svg'))
 						];
 					}

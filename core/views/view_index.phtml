@@ -10,8 +10,8 @@
 		<?php endif; ?>
 
 		<?php if ($userLogged->isAuthentified() AND ($userLogged->isAdmin() OR $userLogged->hasRole(DAORoles::getById(1)) OR $userLogged->hasRole(DAORoles::getById(3)))): ?>
-			<a href="<?= getUrl('gestion', 'evaluations', 'view') ?>" class="btn btn-black-on-white">Voir les évaluations</a>
-			<a href="<?= getUrl('gestion', 'files', 'view') ?>" class="btn btn-black-on-white">Voir les envois</a>
+<!--			<a href="--><?php //= getUrl('gestion', 'evaluations', 'view') ?><!--" class="btn btn-black-on-white">Voir les évaluations</a>-->
+			<a href="<?= getUrl('gestion', 'files', 'view') ?>" class="btn btn-black-on-white">Suivre les envois</a>
 		<?php endif; ?>
 	</div>
 </main>
